@@ -1,0 +1,1015 @@
+#featured-professionals, #featured-professionals22 {
+    padding: 8px;
+    background-color: none;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding-top: 16px;
+}
+
+
+
+#featured-professionals, #featured-professionals22 p2 {
+    margin-top: 4px;
+    margin-bottom: 2px;
+    font-size: 14px;
+    color: #28a745;
+    text-align: center;
+    font-weight: bold;
+}
+
+#featured-professionals, #featured-professionals22 p {
+    margin-top: 2px;
+    margin-bottom: 4px;
+    color: black;
+    text-align: center;
+}
+
+.profiles-container, .profiles-container22 {
+    display: flex;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    padding-bottom: 5px; /* Add some space for scrollbar */
+    text-align: center;
+}
+
+.profile-card, .profile-card22 {
+    background-color: white;
+    border-radius: 8px;
+    min-width: 150px; /* Adjust as needed */
+    text-align: center; 
+    padding: 8px;
+    margin: 8px;
+    filter: drop-shadow(0 0 7px #90A4AE);
+}
+
+.profile-card:last-child {
+    margin-right: 0; /* Remove margin from the last card */
+}
+
+.profile-card img {
+    width: 100px;
+    height: 100px;
+    background-color: #00BCD4;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 0px;
+    overflow: hidden;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profile-card h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 1.2em;
+}
+
+.profile-card p2 {
+    margin-top: 8px;
+    color: #28a745;
+}
+
+.profile-card p {
+    margin-bottom: 10px;
+    font-size: 0.75em;
+    color: #6c757d;
+}
+
+.profile-card a:hover {
+    background-color: #0056b3;
+}
+
+#view-more-profile {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;    
+    width: 80%;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    filter: drop-shadow(0 0 7px #90A4AE);
+}
+
+#view-more-profile:hover {
+    background-color: #1e7e34;
+}
+
+
+@media (min-width: 768px) {
+ .profile-card {
+    border-radius: 10px;
+    min-width: 200px; /* Adjust as needed */ 
+    padding: 8px;
+    margin: 8px;
+}
+
+.profile-card img {
+    width: 150px;
+    height: 150px;
+}
+
+.profile-card h3 {
+    font-size: 1.7em;
+}
+
+.profile-card p {
+    margin-bottom: 12px;
+    font-size: 0.8em;
+}
+
+#view-more-profile {
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 2em; 
+    width: 65%;
+}
+    }
+
+
+@media (min-width: 992px) {
+    .profile-card img {
+    height: 200px;
+    width: 200px;
+    margin-bottom: 10px;
+    }
+    
+    #view-more-profile {
+    font-size: 2em;
+    width: 60%;
+    border-radius: 10px;
+    }
+    
+    #featured-professionals, #featured-professionals22 p2 {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    font-size: 18px;
+    }
+
+    #featured-professionals, #featured-professionals22 p {
+    margin-top: 2px;
+    margin-bottom: 4px;
+    font-size: 14px;
+    }
+    
+    .profile-card {
+  min-width: 250px;
+  margin-right: 10px;
+  border-radius: 15px;
+    }
+
+}
+
+
+@media (min-width: 1200px) {
+     .profile-card img {
+    height: 250px;
+    width: 250px;
+    margin-bottom: 10px;
+    }
+    
+    #view-more-profile {
+    font-size: 3em;
+    width: 60%;
+    border-radius: 15px;
+    }
+    
+    #featured-professionals,       #featured-professionals22 p2 {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    font-size: 21px;
+    }
+
+    #featured-professionals, #featured-professionals22 p {
+    margin-top: 4px;
+    margin-bottom: 6px;
+    font-size: 17px;
+    }
+    
+    .profile-card {
+    min-width: 300px;
+    margin-right: 15px;
+    border-radius: 20px;
+    }
+
+}
+
+
+
+
+/* Featured Products Section */
+#featured-products {
+    padding: 20px;
+    background-color: none;
+    margin-bottom: 20px;
+    margin-top: 20px;   
+    text-align: center; /* Center the main heading and button */
+}
+
+#featured-products h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.products-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Responsive 2-column layout */
+    gap: 20px;
+    padding: 20px;
+}
+
+.product-card img {
+    width: 100%;
+    height: 100px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+
+
+.product-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 8px;
+    text-align: center;
+    filter: drop-shadow(0 0 7px #90A4AE);
+}
+
+
+
+.product-card p2 {
+    margin-top: 0;
+    margin-bottom: 3px;
+    font-size: 0.85em;
+}
+
+.product-card p {
+    margin-bottom: 10px;
+    font-size: 0.9em;
+    color: #6c757d;
+    font-weight: bold;
+}
+
+.product-card button.view-product {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+.product-card button.view-product:hover {
+    background-color: #0056b3;
+}
+
+.view-more-container {
+    margin-top: 20px;
+}
+
+#view-more-products {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;    
+    width: 80%;
+    transition: background-color 0.3s ease;
+}
+
+#view-more-products:hover {
+    background-color: #1e7e34;
+}
+
+@media (min-width: 768px) {
+    .products-container {
+        grid-template-columns: repeat(4, 1fr); /* Force 2 columns on larger screens */
+    }
+    .product-card img {
+    width: 100%;
+    height: 150px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    }
+    
+    #view-more-products {
+    font-size: 2em;
+    width: 60%;
+    }
+}
+
+@media (min-width: 992px) {
+    .product-card img {
+    height: 200px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    }
+    
+    #view-more-products {
+    font-size: 2em;
+    width: 60%;
+    }
+    
+    .product-card p2 {
+  margin: 10px 0 5px;
+  font-size: 1.65em;
+    }
+
+    .product-card p {
+  font-size: 1.1em;
+  margin-bottom: 10px;
+    }
+}
+
+
+@media (min-width: 1200px) {
+    .product-card img {
+    height: 350px;
+    border-radius: 20px;
+    }
+    
+    #view-more-products {
+    font-size: 4em;
+    width: 50%;
+    }
+    
+    .product-card p2 {
+  margin: 10px 0 5px;
+  font-size: 1.9em;
+    }
+
+    .product-card p {
+  font-size: 1.8em;
+  margin-bottom: 10px;
+    }
+    
+  .product-card{
+      max-width: 400px;
+      margin-right: 15px;
+  }
+}
+
+
+
+#blog-section, #center-section {
+  padding: 20px;
+  background-color: none;
+  text-align: center;
+}
+
+.centers-container, .blogs-container{
+  display: flex;
+  overflow-x: auto;
+  padding-bottom: 15px;
+  gap: 15px;
+}
+
+.blog-card, .center-card {
+  width: 80%;
+  max-width: 250px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 8px;
+  flex-shrink: 0;
+  justify-content: center;
+}
+
+.blog-card img, .center-card img{
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.blog-card h3, .center-card h3 {
+  margin: 2px 0 5px;
+}
+
+.blog-card p, .center-card p {
+  font-size: 0.9em;
+  color: #6c757d;
+  margin-bottom: 4px;
+}
+
+.blog-card a, .center-card a{
+  color: white;
+  background-color: #00BCD4;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 0.85em;
+  text-decoration: none;
+}
+
+.blog-card a:hover, .center-card a:hover{
+  background-color: #1e7e34;
+}
+
+.hidden {
+  display: none;
+}
+
+#view-more-blogs {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  margin-top: 10px;
+  width: 85%;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: bold;
+}
+
+#view-more-blogs:hover {
+  background-color: #1e7e34;
+}
+
+@media (min-width: 768px) {
+    .blog-card img, .center-card img{
+    width: 100%;
+    height: 170px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    }
+    
+    
+    #view-more-blogs {
+    font-size: 2em;
+    width: 60%;
+    border-radius: 8px;
+    }
+    
+    .blog-card, .center-card {
+  max-width: 280px;
+  margin-right: 10px;
+  border-radius: 15px;
+    }
+}
+
+@media (min-width: 992px) {
+    .blog-card img {
+    height: 200px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    }
+    
+    #view-more-blogs {
+    font-size: 2em;
+    width: 60%;
+    border-radius: 10px;
+    }
+    
+    .blog-card h3, .center-card h3{
+  margin: 10px 0 5px;
+  font-size: 1.5em;
+    }
+
+    .blog-card p, .center-card p {
+  font-size: 1.1em;
+  margin-bottom: 10px;
+    }
+    
+    .blog-card a, .center-card a {
+  border-radius: 8px;
+  font-size: 1em;
+    }
+    
+    .blog-card, .center-card {
+  max-width: 350px;
+  margin-right: 10px;
+  border-radius: 15px;
+    }
+
+}
+
+
+@media (min-width: 1200px) {
+    .blog-card img, .center-card img {
+    height: 250px;
+    border-radius: 20px;
+    }
+    
+    #view-more-blogs {
+    font-size: 4em;
+    width: 50%;
+border-radius: 15px;5px;
+    }
+    
+    .blog-card h3, .center-card h3{
+  margin: 12px 0 7px;
+  font-size: 1.7em;
+    }
+
+    .blog-card p, .center-card p {
+  font-size: 1.3em;
+  margin-bottom: 12px;
+    }
+    
+    .blog-card a, .center-card a {
+  border-radius: 10px;
+  font-size: 1.4em;
+    }
+    
+    .blog-card, .center-card {
+  max-width: 400px;
+  margin-right: 15px;
+  border-radius: 20px;
+    }
+}
+
+
+footer {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 0.9em;
+}
+
+
+
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background: white;
+    margin: 5% auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 8px;
+}
+
+.close {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Courses and Tools sections */
+#courses-section, #tools-section {
+    padding: 20px;
+    background-color: none;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.courses-container, .tools-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.course-card, .tool-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    filter: drop-shadow(0 0 7px #90A4AE);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.course-card:hover, .tool-card:hover {
+    transform: translateY(-5px);
+}
+
+.course-card img, .tool-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.course-card h3, .tool-card h3 {
+    margin: 10px 0 5px;
+    font-size: 1.1em;
+}
+
+.course-card p, .tool-card p {
+    margin-bottom: 10px;
+    font-size: 0.9em;
+    color: #6c757d;
+}
+
+#view-more-courses, #view-more-tools {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    width: 80%;
+    display: block;
+    margin: 20px auto 0;
+    transition: background-color 0.3s ease;
+    filter: drop-shadow(0 0 7px #90A4AE);
+}
+
+#view-more-courses:hover, #view-more-tools:hover {
+    background-color: #1e7e34;
+}
+
+@media (min-width: 768px) {
+    .courses-container, .tools-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .course-card img, .tool-card img {
+        height: 170px;
+    }
+    
+    #view-more-courses, #view-more-tools {
+        font-size: 1.5em;
+        width: 60%;
+    }
+}
+
+@media (min-width: 992px) {
+    .course-card img, .tool-card img {
+        height: 200px;
+    }
+    
+    .course-card h3, .tool-card h3 {
+        font-size: 1.5em;
+    }
+    
+    .course-card p, .tool-card p {
+        font-size: 1.1em;
+    }
+    
+    #view-more-courses, #view-more-tools {
+        font-size: 2em;
+    }
+}
+
+@media (min-width: 1200px) {
+    .course-card img, .tool-card img {
+        height: 250px;
+    }
+    
+    .course-card h3, .tool-card h3 {
+        font-size: 1.7em;
+    }
+    
+    .course-card p, .tool-card p {
+        font-size: 1.3em;
+    }
+    
+    #view-more-courses, #view-more-tools {
+        font-size: 2.5em;
+        width: 50%;
+    }
+}
+
+.btn-primary {
+  background: #00BCD4;
+  color: black;
+  margin-bottom: 10px;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+.btn-secondary {
+  background: #28a745;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.btn-secondary:hover {
+  background: #e68a00;
+}
+
+
+
+/* Add these styles for the new sections */
+/* Registration Sections Container */
+.reg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 20px 20px 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Individual Registration Section Styles */
+.join-practitioner, 
+.my-center, 
+.become-supplier {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    width: 100%;
+    max-width: 350px;
+    transition: transform 0.3s ease;
+}
+
+.join-practitioner {
+    border-top: 5px solid #00BCD4;
+}
+
+.my-center {
+    border-top: 5px solid #28a745;
+}
+
+.become-supplier {
+    border-top: 5px solid #9C27B0;
+}
+
+/* Icon Circle */
+.icon-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2.5rem;
+}
+
+.join-practitioner .icon-circle {
+    background: rgba(0, 188, 212, 0.1);
+    color: #00BCD4;
+}
+
+.my-center .icon-circle {
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+}
+
+.become-supplier .icon-circle {
+    background: rgba(156, 39, 176, 0.1);
+    color: #9C27B0;
+}
+
+/* Button Styles */
+.whatsapp-button {
+    background: #00BCD4;
+    width: 80%;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    margin-top: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
+}
+
+.my-center .whatsapp-button {
+    background: #28a745;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.become-supplier .whatsapp-button {
+    background: #9C27B0;
+    box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
+}
+
+.whatsapp-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+/* Desktop Layout */
+@media (min-width: 992px) {
+    .reg {
+        flex-direction: row;
+        justify-content: center;
+        align-items: stretch;
+        padding: 150px 20px 80px;
+    }
+    
+    .join-practitioner,
+    .my-center,
+    .become-supplier {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .join-practitioner:hover,
+    .my-center:hover,
+    .become-supplier:hover {
+        transform: translateY(-10px);
+    }
+}
+
+/* Add decorative elements */
+.join-practitioner::before, 
+.my-center::before, 
+.become-supplier::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+}
+
+.join-practitioner::before {
+    background: linear-gradient(90deg, #00BCD4, #80DEEA);
+}
+
+.my-center::before {
+    background: linear-gradient(90deg, #28a745, #28a745);
+}
+
+.become-supplier::before {
+    background: linear-gradient(90deg, #9C27B0, #9C27B0);
+}
+
+/* Center modal specific styles */
+#center-modal .modal-content {
+    max-width: 700px;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+    -webkit-appearance: none; /* Remove default arrow on WebKit browsers */
+    -moz-appearance: none; /* Remove default arrow on Firefox */
+    appearance: none; /* Remove default arrow */
+    background-color: #fff;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000%22%20d%3D%22M287%20164.7c-4.7%204.7-12.3%204.7-17%200L146.2%2031.5%2022.4%20164.7c-4.7%204.7-12.3%204.7-17%200-4.7-4.7-4.7-12.3%200-17l132.8-132.8c4.7-4.7%2012.3-4.7%2017%200l132.8%20132.8c4.7%204.7%204.7%2012.3%200%2017z%22%2F%3E%3C%2Fsvg%3E'); /* Custom arrow */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+}
+
+@media (min-width: 768px) {
+    .join-practitioner, .my-center, .become-supplier {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Add to styles.css */
+.regular-user {
+    padding: 3rem 1rem;
+    text-align: center;
+    margin: 2rem;
+    max-width: 800px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #00000 0%, #ffffff 100%);
+    border-top: 5px solid linear-gradient(135deg, #00BCD4, #4CAF50);
+    margin-top: 6rem;
+}
+
+
+.auth-switch {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.auth-switch a {
+    color: #00BCD4;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-switch a:hover {
+    text-decoration: underline;
+}
+
+        /* Basic styling for the message container - highly recommend moving to styles.css */
+        #registration-status-message {
+            margin-top: 6rem;
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-bottom: 6rem;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            text-align: center;
+            font-family: Arial, sans-serif; /* Or your preferred font */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 90%; /* Limit width for better readability */
+            min-height: 300px;
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box; /* Include padding/border in element's total width/height */
+        }
+
+        #registration-status-message p {
+            font-size: 1.6em; /* Slightly larger for prominence */
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        #registration-status-message .whatsapp-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #28a745; /* Green color for email button */
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+            cursor: pointer; /* Ensure cursor shows it's clickable */
+            border: none; /* Remove default button border */
+        }
+
+        #registration-status-message .whatsapp-button:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+
+
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
