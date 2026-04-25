@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Professionals</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="assets/css/styles.css"> 
+    <link rel="stylesheet" href="assets/css/professionals.css"> 
+</head>
+<body>
+    <main class="l-main">
+        <section class="search-filter-section">
+            <div class="search-container">
+                <div class="nav__search">
+                    <i class='bx bx-search nav__search-icon' id="search-icon"></i>
+                    <input type="search" class="nav__search-input" id="search-input" placeholder="Search professionals...">
+                </div>
+            </div>
+            <div class="filter-container">
+                <div class="filter-dropdown">
+                    <select id="category-filter" class="filter-select">
+                        <option value="All">All Categories</option>
+                        <option value="Consultant">Consultant</option>
+                        <option value="Doctor">Doctor</option>
+                        <option value="Nurses">Nurses</option>
+                        <option value="Occupational">Occupational Therapist</option>
+                        <option value="Psychologist">Psychologist</option>
+                        <option value="Physiotherapist">Physiotherapist</option>
+                        <option value="Speech">Speech Therapist</option>
+                        <option value="Prosthesis and Orthosis">Prosthesis and Orthosis</option>
+                    </select>
+                    <i class='bx bx-chevron-down filter-icon'></i>
+                </div>
+            </div>
+        </section>
+        
+        <section class="professional-list section bd-grid">
+            <a href="https://wa.me/2348132912880?text=Hello! I would love you to recommend the best healthcare professional to suit my need." class="recommend">
+                <i class='bx bx-compass'></i>Begin Your Care Journey
+            </a>
+            <div class="professional-grid"></div>
+        </section>
+    </main>
+
+    <a href="https://wa.me/2348132912880?text=Hello! I would love you to recommend the best healthcare professional to suit my need." class="floating-help-button">
+        <i class='bx bx-compass'></i>
+        Get our Official Recommendations
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
+    <script src="assets/js/configuration.js"></script>
+    <script src="assets/js/navmodal.js"></script>
+    <script src="assets/js/mainload.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/main.js"></script> 
+    <script src="assets/js/db.js"></script>
+    <script src="assets/js/professionals.js"></script> 
+    <script src="assets/js/track.js"></script>
+</body>
+</html>

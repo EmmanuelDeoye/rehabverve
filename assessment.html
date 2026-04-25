@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rehabverve | Quick Assessment</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/assessment.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <header class="l-header">
+        <nav class="nav bd-grid">
+            <div>
+                <h2><span class="home__title-color">REHAB</span>VERVE</h2>
+            </div>
+            <div class="nav__menu" id="nav-menu">
+    <ul class="nav__list">
+        <li class="nav__item"><a href="index.html" onclick="saveAppState()" class="nav__link">Home</a></li>
+        <li class="nav__item"><a href="professionals.html?category=All" onclick="saveAppState()" class="nav__link">Professionals</a></li>
+        <li class="nav__item"><a href="centers.html" onclick="saveAppState()" class="nav__link">Centers</a></li>
+        <li class="nav__item"><a href="marketplace.html" onclick="saveAppState()" class="nav__link">Marketplace</a></li>
+        <li class="nav__item"><a href="blogs.html" onclick="saveAppState()" class="nav__link">Blogs</a></li>
+        <li class="nav__item"><a href="design.html" onclick="saveAppState()" class="nav__link">Designs</a></li>
+        <li class="nav__item" id="my-profile-nav-item" style="display: none;"><a href="users.html?id=${user.uid}" onclick="saveAppState()" class="nav__link">My Profile</a></li>
+        
+        <div class="auth-buttons">
+            <li class="nav_item"> <button id="login-btn" class="nav__link">Login</button></li>
+            
+        </div>
+    </ul>
+</div>
+<div class="nav__toggle" id="nav-toggle" style="display:none">
+    <i class='bx bx-menu'></i>
+</div>
+<div class="profile-image-nav" id="nav-toggle" style="display: none;">
+    <img src="" alt="" class="nav-profile-img">
+</div>
+        </nav>
+    </header>
+
+    <div class="ai-therapist-container">
+        <div class="ai-sidebar" id="aiSidebar">
+            <div class="sidebar-header">
+                <h2>Saved Assessments</h2>
+                <button id="closeDrawerBtn" class="drawer-close-btn"><i class='bx bx-x'></i></button>
+            </div>
+            
+            <button class="new-conversation-btn" id="newAssessmentBtn">
+                <i class="fas fa-plus-circle"></i>
+                Create New Form
+            </button>
+            
+            <div class="history-title">Recent Files</div>
+            <div class="history-list" id="savedList">
+                </div>
+        </div>
+        
+        <div class="ai-main">
+            <div class="tool-header">
+                <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-history"></i>
+    </button>
+                
+                <div class="action-buttons" id="actionButtons" style="display: none;">
+                    <button class="btn-secondary" id="saveBtn"><i class="fas fa-save"></i> Save</button>
+                    <button class="btn-primary" id="printBtn"><i class="fas fa-print"></i> Print/PDF</button>
+                </div>
+            </div>
+            
+            <div class="generator-container">
+                <div class="config-panel" id="configPanel">
+                    <div class="form-card">
+                        <h3>1. Patient Biodata</h3>
+                        <div class="form-group">
+                            <label>Patient Name (or Initials)</label>
+                            <input type="text" id="patientName" class="form-input" placeholder="e.g. John Doe">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Age</label>
+                                <input type="number" id="patientAge" class="form-input" placeholder="Age">
+                            </div>
+                            <div class="form-group">
+                                <label>Gender</label>
+                                <select id="patientGender" class="form-input">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Diagnosis/Chief Complaint</label>
+                            <input type="text" id="patientDiagnosis" class="form-input" placeholder="e.g. Stroke, Autism, fracture...">
+                        </div>
+                    </div>
+
+                    <div class="form-card">
+                        <h3>2. Assessment Details</h3>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="categorySelect" class="form-input">
+                                <option value="General Health">General Health</option>
+                                <option value="Mental Health">Mental health</option>
+                <option value="Physical Health">Physical health</option>
+                <option value="Emotional Well-being">Emotional Well-being</option>
+                <option value="Cognitive Function">Cognitive Function</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Choose your Examiner</label>
+                            <select id="deptSelect" class="form-input">
+                                <option value="General consultant">General consultant</option>
+                                <option value="Occupational Therapy">Occupational Therapist</option>
+                                <option value="Physiotherapy">Physiotherapist</option>
+                                <option value="Speech Therapy">Speech Therapist</option>
+                                <option value="Nursing">Nurse</option>
+                                <option value="Psychology">Psychologist</option>
+                            </select>
+                        </div>
+                        <!-- Replace the existing "Est. Length (Pages)" section with: -->
+<div class="form-group">
+    <label>Number of Questions</label>
+    <div class="range-slider">
+        <input type="range" id="questionCount" min="10" max="30" value="15" 
+               oninput="document.getElementById('questionVal').innerText = this.value">
+        <span id="questionVal">15</span> Questions
+    </div>
+</div>
+                    </div>
+
+                    <button id="generateBtn" class="generate-btn">
+                        <i class="fas fa-magic"></i> Generate Assessment Form
+                    </button>
+                    <p class="disclaimer">
+                                By generating an assessment, you agree to our 
+                                <a href="terms.html">Terms of Service</a> and 
+                                <a href="privacy.html">Privacy Policy</a>
+                            </p>
+                </div>
+
+
+                <div class="document-preview" id="documentPreview" style="display: none; flex-direction: column; align-items: center;">
+    
+    <div class="paper" id="printableArea"></div>
+        
+    <div id="evaluationControls" style="width: 100%; max-width: 210mm; margin-top: 24px; display: none;">
+        
+        <button id="evaluateBtn" class="generate-btn" style="background: var(--secondary-gradient);">
+            <i class="fas fa-user-md"></i> Generate Clinical Report & Referrals
+        </button>
+
+        <div id="evalLoading" style="display: none; text-align: center; padding: 20px;">
+            <div class="spinner" style="margin: 0 auto;"></div>
+            <p>Analyzing clinical data and finding specialists...</p>
+        </div>
+
+        <div id="evaluationReport" class="paper" style="margin-top: 24px; display: none; border-top: 4px solid #28a745;">
+            </div>
+    </div>
+</div>   
+
+                <div class="loading-state" id="loadingState" style="display: none;">
+                    <div class="spinner"></div>
+                    <h3>Generating Clinical Assessment...</h3>
+                    <p>Analyzing parameters and structuring standardized tools.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="status-indicator" id="statusIndicator" style="display: none;"></div>
+    
+    <!-- Add this to your HTML -->
+<div id="auth-modal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close">&times;</span>
+        <div class="auth-tabs">
+            <div class="auth-tab active" data-form="login">Login</div>
+            <div class="auth-tab" data-form="register">Register</div>
+        </div>
+
+        <form id="login-form" class="auth-form active">
+            <div class="error-message" id="login-error"></div>
+            <div class="form-group">
+                <input type="email" id="login-email" placeholder="Email" required>
+            </div>
+            <div class="form-group password-group">
+                <input type="password" id="login-password" placeholder="Password" required>
+                <span class="password-toggle" id="login-password-toggle">
+                    <i class='bx bx-hide'></i>
+                </span>
+            </div>
+            
+            <!-- Forgot password link -->
+            <div class="forgot-password">
+                <a href="forgot-password.html">Forgot your password?</a>
+            </div>
+            
+            <!-- Terms agreement -->
+            <div class="form-group terms-agreement">
+                <label for="login-terms">By clicking the login button, you agree to our <a href="terms.html" target="_blank">Terms</a> and <a href="privacy.html" target="_blank">Privacy policy</a></label>
+            </div>
+            
+            <button type="submit">Login</button>
+            <div class="auth-switch">
+                Don't have an account? <a href="#" id="show-register">Register</a>
+            </div>
+        </form>
+
+        <form id="register-form" class="auth-form">
+            <div class="error-message" id="register-error"></div>
+            <div class="form-group">
+                <input type="name" id="register-name" placeholder="Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" id="register-email" placeholder="Email" required>
+            </div>
+            <div class="form-group password-group">
+                <input type="password" id="register-password" placeholder="Password (min. 6 characters)" required>
+                <span class="password-toggle" id="register-password-toggle">
+                    <i class='bx bx-hide'></i>
+                </span>
+            </div>
+            
+            <!-- Terms agreement -->
+            <div class="form-group terms-agreement">
+                <label for="login-terms">By clicking the register button, you agree to our <a href="terms.html" target="_blank">Terms</a> and <a href="privacy.html" target="_blank">Privacy policy</a></label>
+            </div>
+            
+            <button type="submit">Create Account</button>
+            <div class="auth-switch">
+                Already have an account? <a href="#" id="show-login">Login</a>
+            </div>
+            <div id="auth-spinner" class="spinner" style="display: none;"></div>
+        </form>
+    </div>
+</div>
+
+
+
+    <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
+    <script src="assets/js/configuration.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/assessment.js"></script>
+    <script src="assets/js/track.js"></script>
+</body>
+</html>

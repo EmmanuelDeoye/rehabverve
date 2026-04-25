@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rehabverve</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/styleload.css">
+    <link rel="icon" href="assets/img/logo.png">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1e88e5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Rehabverve">
+</head>
+<body>
+    <!-- Hero Slider Section -->
+    <section class="hero-slider section" id="hero-slider">
+        <div class="slider-container" id="slider-container">
+            <!-- Slides will be loaded dynamically from Firebase -->
+        </div>
+        <div class="slider-controls">
+            <button class="slider-prev"><i class='bx bx-chevron-left'></i></button>
+            <div class="slider-dots"></div>
+            <button class="slider-next"><i class='bx bx-chevron-right'></i></button>
+        </div>
+    </section>
+
+    <!-- Install App Button -->
+    <button id="installAppBtn" style="display:none; position:fixed; bottom:80px; right:20px; z-index:9999; background:#28a745; color:#fff; border:none; padding:12px 18px; border-radius:30px; font-size:14px; margin-bottom:10px;">
+        📲 Install Rehabverve App
+    </button>
+
+    <!-- Featured Professionals Section -->
+    <section id="featured-professionals">
+        <h4>Featured Professionals</h4>
+        <div class="profiles-container"></div>
+        <div class="view-more-container">
+            <a href="professionals.html?category=All"><button id="view-more-profile">Find More Professional</button></a>
+        </div>
+    </section>
+    
+    <!-- Teletherapy CTA Section -->
+    <section class="teletherapy-cta">
+        <div class="floating-icons">
+            <i class='bx bx-video'></i>
+            <i class='bx bx-message-detail'></i>
+            <i class='bx bx-brain'></i>
+            <i class='bx bx-heart-circle'></i>
+            <i class='bx bx-group'></i>
+            <i class='bx bx-child'></i>
+        </div>
+        <div class="join-container22">
+            <h2>Online Teletherapy</h2>
+            <p>Connect with licensed therapists from the comfort of your home. Individual, family, and child sessions available.</p>
+            <a href="teletherapy.html"><button class="whatsapp-button22 pulse-animation">Explore Teletherapy</button></a>
+        </div>
+    </section>
+   
+    <!-- Centers Section -->
+    <section id="center-section">
+        <h4>Find a Center</h4>
+        <div class="centers-container"></div>
+        <a href="centers.html" onclick="saveAppState()"><button id="view-more-blogs">View More Centers</button></a>
+    </section>
+    
+    <!-- Courses Section (Hidden) -->
+    <section id="courses-section" style="display:none;">
+        <h4>Online Courses</h4>
+        <div class="courses-container"></div>
+        <a href="courses.html"><button id="view-more-courses">View More Courses</button></a>
+    </section>
+
+    <!-- Latest Members Section -->
+    <section id="featured-professionals22">
+        <h4>Latest Members</h4>
+        <div class="profiles-container22"></div>
+        <div class="view-more-container">
+            <a href="professionals.html?category=All"><button id="view-more-profile">View More Professional</button></a>
+        </div>
+    </section>
+    
+    <!-- AI Quick Assessment Section -->
+    <section class="ai-therapists">
+        <div class="join-container22">
+            <h2>Quick Assessment</h2>
+            <p>Get instant assessment format generated to suit your desired need from our AI-powered therapists</p>
+            <a href="assessment.html"><button id="therapists-button" class="therapists-button">Go for it!</button></a>
+        </div>
+    </section>
+
+    <!-- Trending News Section -->
+    <section id="blog-section">
+        <h4>Trending News</h4>
+        <div class="blogs-container"></div>
+        <a href="blogs.html" onclick="saveAppState()"><button id="view-more-blogs">View More</button></a>
+    </section>
+
+    <!-- Join Network Section -->
+    <section class="join-practitioner22">
+        <div class="join-container22">
+            <h2>Join our Network</h2>
+            <p>Join our network of healthcare professionals, suppliers or centers and reach more patients</p>
+            <a href="registration.html"><button id="join-button22" class="whatsapp-button22">Register now</button></a>
+        </div>
+    </section>
+
+    <!-- Floating Action Buttons -->
+    <a href="ai.html" class="floating-ai-button" style="display: none;">
+        <i class='bx bx-brain'></i>
+        <span class="ai-button-text">AI Assistant</span>
+    </a>
+
+    <a href="assessment.html" class="floating-ai-button22" style="display: none;">
+        <i class='bx bx-bot'></i>
+        <span class="ai-button-text">Quick Assessment</span>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/docx@latest/build/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
+    
+    <script src="assets/js/configuration.js"></script>
+    <script src="assets/js/navmodal.js"></script>
+    <script src="assets/js/mainload.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/track.js"></script>
+</body>
+</html>

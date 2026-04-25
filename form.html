@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Prayers Academy | Faith & Financial Growth Quiz</title>
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/form.css">
+</head>
+<body>
+    <!-- Header (same as index.html) -->
+    <header class="l-header">
+        <!-- copy your existing nav from index.html -->
+        <nav class="nav bd-grid">
+            <div>
+                <h2><span class="home__title-color">REHAB</span>VERVE</h2>
+            </div>
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="index.html" class="nav__link">Home</a></li>
+                    <li class="nav__item"><a href="professionals.html?category=All" class="nav__link">Professionals</a></li>
+                    <li class="nav__item"><a href="centers.html" class="nav__link">Centers</a></li>
+                    <li class="nav__item"><a href="marketplace.html" class="nav__link">Marketplace</a></li>
+                    <li class="nav__item"><a href="blogs.html" class="nav__link">Blogs</a></li>
+                    <li class="nav__item"><a href="design.html" class="nav__link">Designs</a></li>
+                    <li class="nav__item" id="my-profile-nav-item" style="display: none;"><a href="users.html?id=${user.uid}" class="nav__link">My Profile</a></li>
+                    <div class="auth-buttons">
+                        <li class="nav_item"><button id="login-btn" class="nav__link">Login</button></li>
+                    </div>
+                </ul>
+            </div>
+            <div class="nav__toggle" id="nav-toggle" style="display:none">
+                <i class='bx bx-menu'></i>
+            </div>
+            <div class="profile-image-nav" id="nav-toggle" style="display: none;">
+                <img src="" alt="" class="nav-profile-img">
+            </div>
+        </nav>
+    </header>
+    
+    <div class="form-app">
+        <!-- header (minimal, matching prayers academy style) -->
+        <div class="form-header">
+            
+            <div class="urgency-badge" id="globalUrgencyBadge">
+                <i class='bx bx-time-five'></i> <span id="globalTimerLabel">Limited discount</span>
+            </div>
+        </div>
+
+        <!-- progress bar + step counter -->
+        <div class="progress-wrapper">
+            <div class="step-progress-bar" id="stepProgressFill"></div>
+            <div class="step-counter" id="stepCounter">Step 1 / 7</div>
+        </div>
+
+        <!-- dynamic steps container -->
+        <div id="stepsContainer" class="steps-container"></div>
+
+        <!-- navigation buttons (next/prev) dynamically inserted inside steps? we'll place global buttons -->
+        <div class="nav-buttons" id="navButtons">
+            <button class="btn-prev" id="prevBtn" style="display: none;"><i class='bx bx-chevron-left'></i> Back</button>
+            <button class="btn-next" id="nextBtn">Continue <i class='bx bx-chevron-right'></i></button>
+        </div>
+    </div>
+    
+    
+     <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
+    <script src="assets/js/configuration.js"></script>
+    
+    <script src="assets/js/auth.js"></script>   <!-- if needed for login -->
+    <script src="assets/js/main.js"></script> 
+    <script src="assets/js/form.js"></script>
+</body>
+</html>

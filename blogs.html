@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trending News and Blogs | REHABVERVE</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+   <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/blogs.css">
+</head>
+<body>
+    <header class="l-header">
+        <nav class="nav bd-grid">
+            <div>
+                <h2><span class="home__title-color">REHAB</span>VERVE</h2>
+            </div>
+
+            <div class="nav__menu" id="nav-menu">
+    <ul class="nav__list">
+        <li class="nav__item"><a href="#home" class="nav__link active-link" id="active">Home</a></li>
+        <li class="nav__item"><a href="professionals.html?category=All" onclick="saveAppState()" class="nav__link">Professionals</a></li>
+        <li class="nav__item"><a href="marketplace.html" onclick="saveAppState()" class="nav__link">Marketplace</a></li>
+        <li class="nav__item"><a href="blogs.html" onclick="saveAppState()" class="nav__link">Blogs</a></li>
+        <li class="nav__item" id="my-profile-nav-item" style="display: none;"><a href="" class="nav__link">My Profile</a></li>
+        
+        <div class="auth-buttons">
+            <li class="nav_item"> <button id="login-btn" class="nav__link">Login</button></li>
+            <li class="nav_item"><button id="logout-btn">Logout</button></li>
+        </div>
+    </ul>
+</div>
+<div class="nav__toggle" id="nav-toggle">
+    <i class='bx bx-menu'></i>
+</div>
+<div class="profile-image-nav" style="display: none;">
+    <img src="" alt="Profile" class="nav-profile-img">
+</div>
+        </nav>
+    </header>
+
+    <main class="l-main">
+        <section class="blog-section">
+            <div class="blog-search-container">
+                <div class="nav__search">
+                    <i class='bx bx-search nav__search-icon' id="search-icon"></i>
+                    <input type="search" class="nav__search-input" id="blog-search-input" placeholder="Search blog posts...">
+                </div>
+                <div class="filter-dropdown">
+                    <select id="category-filter" class="filter-select">
+                        <option value="All">All Categories</option>
+                        <option value="Rehabilitation">Rehabilitation</option>
+                        <option value="Therapy">Therapy</option>
+                        <option value="Healthcare">Healthcare</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Physiotherapy">Physiotherapy</option>
+                    </select>
+                    <i class='bx bx-chevron-down filter-icon'></i>
+                </div>
+            </div>
+
+            <h2 class="section-title">Latest Gist</h2>
+            <div class="blogs-container" id="blogs-container">
+                <!-- Blog posts will be loaded here -->
+                <div class="loading-overlay">
+                    <div class="spinner"></div>
+                    <p>Loading blog posts...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Add this to your HTML -->
+<div id="auth-modal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close">&times;</span>
+        <div class="auth-tabs">
+            <div class="auth-tab active" data-form="login">Login</div>
+            <div class="auth-tab" data-form="register">Register</div>
+        </div>
+
+        <!-- Login Form -->
+        <form id="login-form" class="auth-form active">
+            <div class="error-message" id="login-error"></div>
+            <div class="form-group">
+                <input type="email" id="login-email" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="login-password" placeholder="Password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+
+        <!-- Registration Form -->
+        <form id="register-form" class="auth-form">
+            <div class="error-message" id="register-error"></div>
+            <div class="form-group">
+                <input type="email" id="register-email" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="register-password" 
+                       placeholder="Password (min. 6 characters)" required>
+            </div>
+            <button type="submit">Create Account</button>
+        </form>
+    </div>
+</div>
+
+    <!-- Updated Footer -->
+<footer class="modern-footer">
+    <div class="footer-grid">
+        <!-- Column 1: Brand Info -->
+        <div class="footer-column">
+            <h3>REHABCONNECT</h3>
+            <p>Connecting patients with top healthcare professionals</p>
+            <div class="social-links">
+                <a href="#"><i class='bx bxl-facebook'></i></a>
+                <a href="#"><i class='bx bxl-twitter'></i></a>
+                <a href="#"><i class='bx bxl-instagram'></i></a>
+                <a href="#"><i class='bx bxl-linkedin'></i></a>
+            </div>
+        </div>
+        
+        <!-- Column 2: Quick Links -->
+        <div class="footer-column">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="professionals.html">Our Professionals</a></li>
+                <li><a href="marketplace.html">Marketplace</a></li>
+                <li><a href="blog.html">Blogs</a></li>
+            </ul>
+        </div>
+        
+        <!-- Column 3: Contact Info -->
+        <div class="footer-column">
+            <h4>Contact Us</h4>
+            <div class="contact-info">
+                <p><i class='bx bx-map'></i> 123 Health Street, Medical City</p>
+                <p><i class='bx bx-phone'></i> +1 (234) 567-8900</p>
+                <p><i class='bx bx-envelope'></i> info@rehabconnect.com</p>
+            </div>
+        </div>
+        
+        <!-- Column 4: Newsletter -->
+        <div class="footer-column">
+            <h4>Newsletter</h4>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Your email address" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2025 REHABCONNECT. All rights reserved.</p>
+        <div class="legal-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Cookie Policy</a>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
+    <script src="assets/js/configuration.js"></script>
+    <script src="assets/js/mainload.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/blogs.js"></script>
+</body>
+</html>

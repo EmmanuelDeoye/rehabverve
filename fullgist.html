@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post | REHABVERVE</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/fullgist.css">
+</head>
+<body>
+    <header class="l-header">
+        <nav class="nav bd-grid">
+            <div>
+                <h2><span class="home__title-color">REHAB</span>VERVE</h2>
+            </div>
+
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="index.html" class="nav__link">Home</a></li>
+                    <li class="nav__item"><a href="professionals.html" class="nav__link">Professionals</a></li>
+                    <li class="nav__item"><a href="marketplace.html" class="nav__link">Marketplace</a></li>
+                    <li class="nav__item"><a href="blogs.html" class="nav__link">Blogs</a></li>
+                    <li class="nav__item" id="my-profile-nav-item" style="display: none;"><a href="" class="nav__link">My Profile</a></li>
+                    
+                    <div class="auth-buttons">
+                        <li class="nav_item"> <button id="login-btn" class="nav__link">Login</button></li>
+                        <li class="nav_item"><button id="logout-btn">Logout</button></li>
+                    </div>
+                </ul>
+            </div>
+            <div class="nav__toggle" id="nav-toggle">
+                <i class='bx bx-menu'></i>
+            </div>
+            <div class="profile-image-nav" style="display: none;">
+                <img src="" alt="Profile" class="nav-profile-img">
+            </div>
+        </nav>
+    </header>
+
+    <main class="l-main">
+        <section class="blog-details-section">
+            <!-- Strategic Ad Placement 1: Above Content -->
+           
+            
+
+            <div class="blog-details-container" id="blog-details-container">
+                <div class="loading-overlay">
+                    <div class="spinner"></div>
+                    <p>Loading blog post...</p>
+                </div>
+            </div>
+
+            <!-- Strategic Ad Placement 2: After Content -->
+           
+
+            <div class="related-posts" id="related-posts">
+                <h3>Related Articles</h3>
+                <div class="related-posts-grid" id="related-posts-grid">
+                    <!-- Related posts will be loaded here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Social Share Bar -->
+    <div class="social-share-bar">
+        <div class="social-share-label">Share:</div>
+        <div class="social-share-icons">
+            <a href="#" class="social-share-btn facebook" title="Share on Facebook">
+                <i class='bx bxl-facebook'></i>
+            </a>
+            <a href="#" class="social-share-btn twitter" title="Share on Twitter">
+                <i class='bx bxl-twitter'></i>
+            </a>
+            <a href="#" class="social-share-btn linkedin" title="Share on LinkedIn">
+                <i class='bx bxl-linkedin'></i>
+            </a>
+            <a href="#" class="social-share-btn whatsapp" title="Share on WhatsApp">
+                <i class='bx bxl-whatsapp'></i>
+            </a>
+        </div>
+    </div>
+    
+    
+
+    <!-- Auth Modal -->
+   <div id="auth-modal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close">&times;</span>
+        <div class="auth-tabs">
+            <div class="auth-tab active" data-form="login">Login</div>
+            <div class="auth-tab" data-form="register">Register</div>
+        </div>
+
+        <form id="login-form" class="auth-form active">
+            <div class="error-message" id="login-error"></div>
+            <div class="form-group">
+                <input type="email" id="login-email" placeholder="Email" required>
+            </div>
+            <div class="form-group password-group">
+                <input type="password" id="login-password" placeholder="Password" required>
+                <span class="password-toggle" id="login-password-toggle">
+                    <i class='bx bx-hide'></i>
+                </span>
+            </div>
+            
+            <!-- Forgot password link -->
+            <div class="forgot-password">
+                <a href="forgot-password.html">Forgot your password?</a>
+            </div>
+            
+            <!-- Terms agreement -->
+            <div class="form-group terms-agreement">
+                <label for="login-terms">By clicking the login button, you agree to our <a href="terms.html" target="_blank">Terms</a> and <a href="privacy.html" target="_blank">Privacy policy</a></label>
+            </div>
+            
+            <button type="submit">Login</button>
+            <div class="auth-switch">
+                Don't have an account? <a href="#" id="show-register">Register</a>
+            </div>
+        </form>
+
+        <form id="register-form" class="auth-form">
+            <div class="error-message" id="register-error"></div>
+            <div class="form-group">
+                <input type="name" id="register-name" placeholder="Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" id="register-email" placeholder="Email" required>
+            </div>
+            <div class="form-group password-group">
+                <input type="password" id="register-password" placeholder="Password (min. 6 characters)" required>
+                <span class="password-toggle" id="register-password-toggle">
+                    <i class='bx bx-hide'></i>
+                </span>
+            </div>
+            
+            <!-- Terms agreement -->
+            <div class="form-group terms-agreement">
+                <label for="login-terms">By clicking the register button, you agree to our <a href="terms.html" target="_blank">Terms</a> and <a href="privacy.html" target="_blank">Privacy policy</a></label>
+            </div>
+            
+            <button type="submit">Create Account</button>
+            <div class="auth-switch">
+                Already have an account? <a href="#" id="show-login">Login</a>
+            </div>
+            <div id="auth-spinner" class="spinner" style="display: none;"></div>
+        </form>
+    </div>
+</div>
+
+    <footer class="modern-footer">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>REHABVERVE</h3>
+                <p>Connecting patients with top healthcare professionals</p>
+                <div class="social-links">
+                    <a href="#"><i class='bx bxl-facebook'></i></a>
+                    <a href="#"><i class='bx bxl-twitter'></i></a>
+                    <a href="#"><i class='bx bxl-instagram'></i></a>
+                    <a href="#"><i class='bx bxl-linkedin'></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="professionals.html">Our Professionals</a></li>
+                    <li><a href="marketplace.html">Marketplace</a></li>
+                    <li><a href="blogs.html">Blogs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Contact Us</h4>
+                <div class="contact-info">
+                    <p><i class='bx bx-map'></i> 123 Health Street, Medical City</p>
+                    <p><i class='bx bx-phone'></i> +234-813-2912-880</p>
+                    <p><i class='bx bx-envelope'></i> rehabverve@gmail.com</p>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Newsletter</h4>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 REHABVERVE. All rights reserved.</p>
+            <div class="legal-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Cookie Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
+    <script src="assets/js/configuration.js"></script>
+    <script src="assets/js/mainload.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/fullgist.js"></script>
+</body>
+</html>

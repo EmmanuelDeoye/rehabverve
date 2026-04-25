@@ -1,0 +1,395 @@
+<!-- users.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile | Rehabverve</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/users.css">
+</head>
+<body>
+    <header class="l-header">
+        <nav class="nav bd-grid">
+            <div>
+                <h2><span class="home__title-color">REHAB</span>VERVE</h2>
+            </div>
+            
+            <div class="edit-profile-icon" id="edit-icon" style="display: none;">
+                <i class='bx bx-edit'></i>
+            </div>
+            
+        </nav>
+    </header>
+    
+    <div class="user-profile-container">
+        <!-- Profile Header Section -->
+        <div class="profile-header">
+            
+            <div class="profile-image-container">
+                <img src="assets/img/profile.png" class="profile-image" alt="Profile" id="profile-image">
+                <div class="online-status"></div>
+            </div>
+            <h1 class="user-name">Loading...</h1>
+            <p class="user-title">Loading title...</p>
+            
+            <!-- Contact Icons -->
+            <div class="contact-icons">
+                <a href="#" class="contact-icon whatsapp" id="whatsapp-link">
+                    <i class='bx bxl-whatsapp'></i>
+                </a>
+                <a href="#" class="contact-icon email" id="email-link">
+                    <i class='bx bx-envelope'></i>
+                </a>
+                <a href="#" class="contact-icon phone" id="phone-link">
+                    <i class='bx bx-phone'></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Profile Details Section -->
+        <div class="profile-details">
+            <!-- Contact Information Card -->
+            <div class="detail-card">
+                <h2 class="section-title">Contact Information</h2>
+                <div class="info-item">
+                    <i class='bx bx-envelope'></i>
+                    <div>
+                        <p class="info-label">Email</p>
+                        <p class="info-value" id="email-value">Loading...</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class='bx bx-phone'></i>
+                    <div>
+                        <p class="info-label">Phone</p>
+                        <p class="info-value" id="phone-value">Loading...</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class='bx bx-map'></i>
+                    <div>
+                        <p class="info-label">Location</p>
+                        <p class="info-value" id="location-value">Loading...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Professional Details Card -->
+            <div class="detail-card professional" id="professional-details" style="display: none;">
+                <h2 class="section-title">Professional Details</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <i class='bx bx-briefcase'></i>
+                        <div>
+                            <p class="info-label">Experience</p>
+                            <p class="info-value" id="experience-value">Loading...</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class='bx bx-star'></i>
+                        <div>
+                            <p class="info-label">Rating</p>
+                            <p class="info-value" id="rating-value">Loading...</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class='bx bx-graduation'></i>
+                        <div>
+                            <p class="info-label">Qualification(s)</p>
+                            <p class="info-value" id="education-value">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bio-section">
+                    <h3>Professional Bio</h3>
+                    <p class="bio-text" id="bio-text">Loading bio...</p>
+                </div>
+            </div>
+
+            <!-- Supplier Details Card -->
+            <div class="detail-card supplier" id="supplier-details" style="display: none;">
+                <h2 class="section-title">Supplier Details</h2>
+                <div class="info-item">
+                    <i class='bx bx-buildings'></i>
+                    <div>
+                        <p class="info-label">Organization</p>
+                        <p class="info-value" id="supplier-org">Loading...</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class='bx bx-category'></i>
+                    <div>
+                        <p class="info-label">Products/Services</p>
+                        <p class="info-value" id="supplier-products">Loading...</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class='bx bx-certification'></i>
+                    <div>
+                        <p class="info-label">Certifications</p>
+                        <p class="info-value" id="supplier-certifications">Loading...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center Details Card -->
+            <div class="detail-card center" id="center-details" style="display: none;">
+                <h2 class="section-title">Center Details</h2>
+                <div class="info-item">
+                    <i class='bx bx-clinic'></i>
+                    <div>
+                        <p class="info-label">Center Type</p>
+                        <p class="info-value" id="center-type">Loading...</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class='bx bx-map-pin'></i>
+                    <div>
+                        <p class="info-label">Address</p>
+                        <p class="info-value" id="center-address">Loading...</p>
+                    </div>
+                </div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <i class='bx bx-time-five'></i>
+                        <div>
+                            <p class="info-label">Operating Hours</p>
+                            <p class="info-value" id="center-hours">Loading...</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class='bx bx-certification'></i>
+                        <div>
+                            <p class="info-label">Accreditations</p>
+                            <p class="info-value" id="center-accreditations">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bio-section">
+                    <h3>Center Description</h3>
+                    <p class="bio-text" id="center-description">Loading...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rating Section -->
+    <div class="rating-section" id="rating-section" style="display: none;">
+        <div class="rating-controls">
+            <div class="stars" id="stars">
+                <i class='bx bx-star' data-rating="1"></i>
+                <i class='bx bx-star' data-rating="2"></i>
+                <i class='bx bx-star' data-rating="3"></i>
+                <i class='bx bx-star' data-rating="4"></i>
+                <i class='bx bx-star' data-rating="5"></i>
+            </div>
+            <textarea id="rating-comment" placeholder="Add your review comment..." style="display: none;"></textarea>
+            <button id="submit-rating" style="display: none;">Submit Rating</button>
+        </div>
+    </div>
+    
+    
+   <!-- Add this before the closing </div> of user-profile-container -->
+<div class="settings-section">
+    <button id="settings-btn" class="settings-btn">
+        <i class='bx bx-cog'></i> Settings
+    </button>
+</div>
+
+    <!-- Add this at the bottom of the user-profile-container div -->
+<div class="profile-footer" id="profile-footer" style="display: none;">
+    <div class="profile-views">
+        <i class='bx bx-show'></i>
+        <span>Profile Views: <span id="view-count">0</span></span>
+    </div>
+    
+</div>
+
+<!-- Add this before the closing </body> tag -->
+<div id="edit-profile-modal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close">&times;</span>
+        <h2>Edit Profile</h2>
+        
+        <!-- Profile Image Upload -->
+        <div class="form-group">
+            <label for="edit-profile-image">Profile Image</label>
+            <input type="file" id="edit-profile-image" accept="image/*">
+            <div class="upload-progress" id="image-upload-progress" style="display: none;">
+                <div class="progress-bar"></div>
+                <span class="progress-text">Uploading: 0%</span>
+            </div>
+        </div>
+        
+        <!-- Add this inside the edit-profile-modal div, after the profile image upload section -->
+
+<!-- Image Preview Section -->
+<div class="image-preview-container" id="image-preview-container" style="display: none;">
+    <img src="" alt="Profile Preview" class="image-preview" id="edit-image-preview">
+    <div class="image-actions">
+        <button type="button" id="change-image-btn" class="image-action-btn">
+            <i class='bx bx-image-add'></i> Change Image
+        </button>
+    </div>
+</div>
+
+<!-- CV Upload Section (only for professionals) -->
+<div class="cv-upload-section" id="cv-upload-section" style="display: none;">
+    <h4><i class='bx bx-file-pdf'></i> Curriculum Vitae</h4>
+    <div id="current-cv-preview">
+        <p>No CV uploaded</p>
+    </div>
+    <div class="form-group">
+        <label for="edit-cv">Upload New CV</label>
+        <input type="file" id="edit-cv" accept=".pdf,.doc,.docx,.txt">
+        <div class="upload-progress" id="cv-upload-progress" style="display: none;">
+            <div class="progress-bar"></div>
+            <span class="progress-text">Uploading: 0%</span>
+        </div>
+        <small>Supported formats: PDF, DOC, DOCX, TXT (Max 5MB)</small>
+    </div>
+</div>
+        
+        <!-- Common Fields -->
+        <div class="form-group">
+            <label for="edit-name">Full Name</label>
+            <input type="text" id="edit-name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="edit-phone">Phone</label>
+            <input type="tel" id="edit-phone" required>
+        </div>
+        
+        <!-- Professional Fields -->
+        <div id="professional-fields" style="display: none;">
+            <div class="form-group">
+                <label for="edit-title">Professional Title</label>
+                <input type="text" id="edit-title">
+            </div>
+            <div class="form-group">
+                <label for="edit-specialty">Qualifications</label>
+                <input type="text" id="edit-specialty">
+            </div>
+            <div class="form-group">
+                <label for="edit-experience">Experience (years)</label>
+                <input type="number" id="edit-experience" min="0">
+            </div>
+            <div class="form-group">
+                <label for="edit-bio">Professional Bio</label>
+                <textarea id="edit-bio" rows="4"></textarea>
+            </div>
+        </div>
+        
+        <!-- Supplier Fields -->
+        <div id="supplier-fields" style="display: none;">
+            <div class="form-group">
+                <label for="edit-org">Organization Name</label>
+                <input type="text" id="edit-org">
+            </div>
+            <div class="form-group">
+                <label for="edit-products">Products/Services</label>
+                <textarea id="edit-products" rows="3"></textarea>
+            </div>
+        </div>
+        
+        <!-- Center Fields -->
+        <div id="center-fields" style="display: none;">
+            <div class="form-group">
+                <label for="edit-center-name">Center Name</label>
+                <input type="text" id="edit-center-name">
+            </div>
+            <div class="form-group">
+                <label for="edit-center-type">Center Type</label>
+                <input type="text" id="edit-center-type">
+            </div>
+            <div class="form-group">
+                <label for="edit-address">Address</label>
+                <textarea id="edit-address" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="edit-description">Description</label>
+                <textarea id="edit-description" rows="4"></textarea>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <button id="save-profile-btn">Save Changes</button>
+            <div id="edit-error" class="error-message"></div>
+            <div id="edit-success" class="success-message" style="display: none;">
+                Profile updated successfully!
+            </div>
+        </div>
+    </div>
+</div>
+    
+    <!-- Add this to your HTML -->
+<div id="auth-modal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close">&times;</span>
+        <div class="auth-tabs">
+            <div class="auth-tab active" data-form="login">Login</div>
+            <div class="auth-tab" data-form="register">Register</div>
+        </div>
+
+        <form id="login-form" class="auth-form active">
+            <div class="error-message" id="login-error"></div>
+            <div class="form-group">
+                <input type="email" id="login-email" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="login-password" placeholder="Password" required>
+            </div>
+            
+              <!-- Terms agreement -->
+            <div class="form-group terms-agreement">
+                
+                <label for="login-terms">By clicking the login button, you agree to our <a href="terms.html" target="_blank">Terms</a> and <a href="privacy.html" target="_blank">Privacy policy</a></label>
+            </div>
+            
+            <button type="submit">Login</button>
+            <div class="auth-switch">
+        Don't have an account? <a href="#" id="show-register">Register</a>
+    </div>
+        </form>
+
+        <form id="register-form" class="auth-form">
+            <div class="error-message" id="register-error"></div>
+            <div class="form-group">
+                <input type="name" id="register-name" placeholder="Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" id="register-email" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="register-password" 
+                       placeholder="Password (min. 6 characters)" required>
+            </div>
+            
+              <!-- Terms agreement -->
+            <div class="form-group terms-agreement">
+                
+                <label for="login-terms">By clicking the register button, you agree to our <a href="terms.html" target="_blank">Terms</a> and <a href="privacy.html" target="_blank">Privacy policy</a></label>
+            </div>
+            
+            <button type="submit">Create Account</button>
+            <div class="auth-switch">
+        Already have an account? <a href="#" id="show-login">Login</a>
+    </div>
+    <div id="auth-spinner" class="spinner" style="display: none;"></div>
+        </form>
+    </div>
+</div>
+    
+  
+    
+    <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
+    <script src="assets/js/configuration.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/users.js"></script>
+    
+</body>
+</html>

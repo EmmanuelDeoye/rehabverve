@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Our Network | Rehabverve</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/create.css">
+    <link rel="icon" href="assets/img/logo.png">
+</head>
+<body>
+    <header class="l-header">
+        <nav class="nav bd-grid">
+            <div>
+                <h2><span class="home__title-color">REHAB</span>VERVE</h2>
+            </div>
+        </nav>
+    </header>
+
+    <main class="registration-container">
+        <div class="registration-header">
+            <h1>Join Our Network</h1>
+            <p>Choose your role and start connecting with the rehabilitation community</p>
+        </div>
+
+        <div class="role-selection">
+            <div class="role-card" data-role="practitioner">
+                <div class="role-icon">
+                    <i class='bx bx-user-plus'></i>
+                </div>
+                <h3>Healthcare Practitioner</h3>
+                <p>Join as a healthcare professional to offer your services and connect with patients</p>
+                <button class="role-select-btn">Select Role</button>
+            </div>
+
+            <div class="role-card" data-role="center">
+                <div class="role-icon">
+                    <i class='bx bx-building'></i>
+                </div>
+                <h3>Center/Organization</h3>
+                <p>Register your rehabilitation center, hospital, or healthcare organization</p>
+                <button class="role-select-btn">Select Role</button>
+            </div>
+
+            <div class="role-card" data-role="supplier">
+                <div class="role-icon">
+                    <i class='bx bx-package'></i>
+                </div>
+                <h3>Supplier/Merchant</h3>
+                <p>Join as a supplier to showcase and sell your healthcare products</p>
+                <button class="role-select-btn">Select Role</button>
+            </div>
+        </div>
+
+        <!-- Practitioner Form -->
+        <div id="practitioner-form-section" class="form-section" style="display: none;">
+            <div class="form-header">
+                <button class="back-to-roles"><i class='bx bx-arrow-back'></i> Back to Roles</button>
+                <h2>Healthcare Practitioner Registration</h2>
+                <p>Please fill in your professional details</p>
+            </div>
+            
+            <form id="practitioner-form" class="registration-form">
+                <div class="form-steps">
+                    <div class="step-indicator active" data-step="1">1</div>
+                    <div class="step-indicator" data-step="2">2</div>
+                    <div class="step-indicator" data-step="3">3</div>
+                </div>
+
+                <div class="step-content active" data-step="1">
+                    <h3>Basic Information</h3>
+                    <div class="form-group">
+                        <label for="prof-name">Full Name *</label>
+                        <input type="text" id="prof-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="prof-email">Contact Email *</label>
+                        <input type="email" id="prof-email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="prof-password">Password *</label>
+                        <input type="password" id="prof-password" placeholder="Password (min. 6 characters)" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prof-phone">Phone Number *</label>
+                        <input type="tel" id="prof-phone" required>
+                    </div>
+
+                    <button type="button" class="next-step">Next <i class='bx bx-chevron-right'></i></button>
+                </div>
+
+                <div class="step-content" data-step="2">
+                    <h3>Professional Details</h3>
+                    <div class="form-group">
+                        <label for="prof-specialty">Department *</label>
+                        <select id="prof-specialty" required>
+                            <option value="">Select Department</option>
+                            <option value="Consultant">Consultant</option>
+                            <option value="Doctor">Doctor</option>
+                            <option value="Nurses">Nurses</option>
+                            <option value="Occupational Therapist">Occupational Therapist</option>
+                            <option value="Physiotherapist">Physiotherapist</option>
+                            <option value="Psychologist">Psychologist</option>
+                            <option value="Pharmacist">Pharmacist</option>
+                            <option value="Speech Therapist">Speech Therapist</option>
+                            <option value="Prosthesis and Orthosis">Prosthesis and Orthosis</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="prof-job">Professional title*</label>
+                        <input type="text" id="prof-job" placeholder="e.g Occupational therapist, clinical psychologists etc." required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="prof-experience">Years of Experience *</label>
+                        <input type="number" id="prof-experience" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prof-bio">Short Professional Bio *</label>
+                        <textarea id="prof-bio" rows="4" placeholder="Tell us about your experience and approach" required></textarea>
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="button" class="prev-step"><i class='bx bx-chevron-left'></i> Previous</button>
+                        <button type="button" class="next-step">Next <i class='bx bx-chevron-right'></i></button>
+                    </div>
+                </div>
+
+                <div class="step-content" data-step="3">
+                    <h3>Documents & Verification</h3>
+                    <div class="form-group">
+                        <label for="prof-license">Upload Professional License/Curriculum Vitae*</label>
+                        <input type="file" id="prof-license" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx" required>
+                        <small>Max file size: 5MB. JPG, PNG, GIF, PDF, DOCX allowed.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prof-picture">Upload Profile Picture</label>
+                        <input type="file" id="prof-picture" accept="image/*">
+                        <small>Max file size: 2MB. JPG, PNG, GIF allowed.</small>
+                    </div>
+
+                    <div class="form-group terms-agreement">
+                        <input type="checkbox" id="prof-terms" required>
+                        <label for="prof-terms">I agree to the <a href="terms.html" target="_blank">Terms of Service</a> and <a href="privacy.html" target="_blank">Privacy Policy</a></label>
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="button" class="prev-step"><i class='bx bx-chevron-left'></i> Previous</button>
+                        <button type="submit" class="submit-btn">Apply to Join</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Center Form -->
+        <div id="center-form-section" class="form-section" style="display: none;">
+            <div class="form-header">
+                <button class="back-to-roles"><i class='bx bx-arrow-back'></i> Back to Roles</button>
+                <h2>Center Registration</h2>
+                <p>Register your healthcare facility</p>
+            </div>
+            
+            <form id="center-form" class="registration-form">
+                <div class="form-steps">
+                    <div class="step-indicator active" data-step="1">1</div>
+                    <div class="step-indicator" data-step="2">2</div>
+                    <div class="step-indicator" data-step="3">3</div>
+                </div>
+
+                <div class="step-content active" data-step="1">
+                    <h3>Center Information</h3>
+                    <div class="form-group">
+                        <label for="center-name">Center Name *</label>
+                        <input type="text" id="center-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="center-type">Center Type *</label>
+                        <select id="center-type" required>
+                            <option value="">Select Type</option>
+                            <option value="Rehabilitation Center">Rehabilitation Center</option>
+                            <option value="Hospital">Hospital</option>
+                            <option value="School">School</option>
+                            <option value="Home Care">Home Care</option>
+                            <option value="Non-governmental Organisation">Non-governmental Organisation</option>
+                            <option value="Technology Initiatives">Technology Initiatives</option>
+                            <option value="Mobile Services">Mobile Services</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="center-address">Full Address *</label>
+                        <textarea id="center-address" rows="3" required></textarea>
+                    </div>
+
+                    <button type="button" class="next-step">Next <i class='bx bx-chevron-right'></i></button>
+                </div>
+
+                <div class="step-content" data-step="2">
+                    <h3>Contact Details</h3>
+                    <div class="form-group">
+                        <label for="center-phone">Phone Number *</label>
+                        <input type="tel" id="center-phone" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="center-email">Email *</label>
+                        <input type="email" id="center-email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="center-password">Password *</label>
+                        <input type="password" id="center-password" placeholder="Password (min. 6 characters)" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="center-website">Website (optional)</label>
+                        <input type="url" id="center-website">
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="button" class="prev-step"><i class='bx bx-chevron-left'></i> Previous</button>
+                        <button type="button" class="next-step">Next <i class='bx bx-chevron-right'></i></button>
+                    </div>
+                </div>
+
+                <div class="step-content" data-step="3">
+                    <h3>Additional Information</h3>
+                    <div class="form-group">
+                        <label for="center-description">Description *</label>
+                        <textarea id="center-description" rows="4" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="center-logo">Upload Center Logo</label>
+                        <input type="file" id="center-logo" accept="image/*">
+                        <small>Max file size: 2MB. JPG, PNG, GIF allowed.</small>
+                    </div>
+
+                    <div class="form-group terms-agreement">
+                        <input type="checkbox" id="center-terms" required>
+                        <label for="center-terms">I agree to the <a href="terms.html" target="_blank">Terms of Service</a> and <a href="privacy.html" target="_blank">Privacy Policy</a></label>
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="button" class="prev-step"><i class='bx bx-chevron-left'></i> Previous</button>
+                        <button type="submit" class="submit-btn">Submit Registration</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Supplier Form -->
+        <div id="supplier-form-section" class="form-section" style="display: none;">
+            <div class="form-header">
+                <button class="back-to-roles"><i class='bx bx-arrow-back'></i> Back to Roles</button>
+                <h2>Supplier Application</h2>
+                <p>Join as a healthcare products supplier</p>
+            </div>
+            
+            <form id="supplier-form" class="registration-form">
+                <div class="form-steps">
+                    <div class="step-indicator active" data-step="1">1</div>
+                    <div class="step-indicator" data-step="2">2</div>
+                </div>
+
+                <div class="step-content active" data-step="1">
+                    <h3>Organization Details</h3>
+                    <div class="form-group">
+                        <label for="org-name">Organization Name *</label>
+                        <input type="text" id="org-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-email">Contact Email *</label>
+                        <input type="email" id="contact-email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="supplier-password">Password *</label>
+                        <input type="password" id="supplier-password" placeholder="Password (min. 6 characters)" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-phone">Phone Number *</label>
+                        <input type="tel" id="contact-phone" required>
+                    </div>
+
+                    <button type="button" class="next-step">Next <i class='bx bx-chevron-right'></i></button>
+                </div>
+
+                <div class="step-content" data-step="2">
+                    <h3>Products & Services</h3>
+                    <div class="form-group">
+                        <label for="products-offered">Products Offered *</label>
+                        <textarea id="products-offered" rows="3" placeholder="Describe the products or services you offer" required></textarea>
+                    </div>
+
+                    <div class="form-group terms-agreement">
+                        <input type="checkbox" id="supplier-terms" required>
+                        <label for="supplier-terms">I agree to the <a href="terms.html" target="_blank">Terms of Service</a> and <a href="privacy.html" target="_blank">Privacy Policy</a></label>
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="button" class="prev-step"><i class='bx bx-chevron-left'></i> Previous</button>
+                        <button type="submit" class="submit-btn">Submit Application</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Loading Animation -->
+        <div id="loading-overlay" class="loading-overlay" style="display: none;">
+            <div class="loading-content">
+                <div class="spinner-animation">
+                    <div class="spinner-circle"></div>
+                    <div class="spinner-circle"></div>
+                    <div class="spinner-circle"></div>
+                </div>
+                <h3>Processing Your Registration</h3>
+                <p>Please wait while we set up your account...</p>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div id="success-modal" class="modal" style="display: none;">
+            <div class="modal-content success-modal">
+                <div class="success-animation">
+                    <div class="success-checkmark">
+                        <div class="check-icon">
+                            <span class="icon-line line-tip"></span>
+                            <span class="icon-line line-long"></span>
+                            <div class="icon-circle"></div>
+                            <div class="icon-fix"></div>
+                        </div>
+                    </div>
+                </div>
+                <h3>Registration Successful!</h3>
+                <p>Your application has been submitted successfully. We'll review your details and get back to you soon.</p>
+                <button id="success-ok-btn" class="success-btn">Continue to Homepage</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
+    <script src="assets/js/configuration.js"></script>
+    <script src="assets/js/create.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+# Jekyll Configuration for Clean URLs
+permalink: pretty  # This removes .html from generated URLs
+timezone: UTC
+title: REHABVERVE
+description: Connect with Healthcare Professionals
+baseurl: "" 
+url: "https://rehabverve.com.ng" # or your custom domain
+
+# Enable these plugins (GitHub Pages supports these by default)
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Defaults for pages
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+      permalink: /:title/
+
+# Exclude these from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - node_modules
