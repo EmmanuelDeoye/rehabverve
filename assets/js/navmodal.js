@@ -44,11 +44,11 @@
                 </div>
                 <div class="nav__menu" id="nav-menu">
                     <ul class="nav__list">
-                        <li class="nav__item"><a href="/" class="nav__link ${currentPage === 'home' ? 'active-link' : ''}" data-nav="home">Home</a></li>
-                        <li class="nav__item"><a href="/professionals.html?category=All" onclick="saveAppState()" class="nav__link ${currentPage === 'professionals' ? 'active-link' : ''}" data-nav="professionals">Professionals</a></li>
-                        <li class="nav__item"><a href="/centers.html" onclick="saveAppState()" class="nav__link ${currentPage === 'centers' ? 'active-link' : ''}" data-nav="centers">Centers</a></li>
+                        <li class="nav__item"><a href="index.html" class="nav__link ${currentPage === 'home' ? 'active-link' : ''}" data-nav="home">Home</a></li>
+                        <li class="nav__item"><a href="professionals.html?category=All" onclick="saveAppState()" class="nav__link ${currentPage === 'professionals' ? 'active-link' : ''}" data-nav="professionals">Professionals</a></li>
+                        <li class="nav__item"><a href="centers.html" onclick="saveAppState()" class="nav__link ${currentPage === 'centers' ? 'active-link' : ''}" data-nav="centers">Centers</a></li>
                         
-                        <li class="nav__item"><a href="/blogs.html" onclick="saveAppState()" class="nav__link ${currentPage === 'blogs' ? 'active-link' : ''}" data-nav="blogs">Blogs</a></li>
+                        <li class="nav__item"><a href="blogs.html" onclick="saveAppState()" class="nav__link ${currentPage === 'blogs' ? 'active-link' : ''}" data-nav="blogs">Blogs</a></li>
                         <li class="nav__item" id="my-profile-nav-item" style="display: none;">
                             <a href="/users.html" onclick="saveAppState()" class="nav__link" data-nav="profile">My Profile</a>
                         </li>

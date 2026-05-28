@@ -103,17 +103,6 @@ function setupEventListeners() {
         });
     }
 
-    // Nav toggle
-    const navToggle = document.getElementById('nav-toggle');
-    if (navToggle) {
-        navToggle.addEventListener('click', () => {
-            const navMenu = document.getElementById('nav-menu');
-            if (navMenu) {
-                navMenu.classList.toggle('show');
-            }
-        });
-    }
-
     // --- UPDATED NAVIGATION LOGIC ---
     
     // "Don't have an account? Register" link
