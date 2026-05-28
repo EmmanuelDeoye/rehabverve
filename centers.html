@@ -10,33 +10,7 @@
 </head>
 <body>
     <header class="l-header">
-         <nav class="nav bd-grid">
-            <div>
-                <h2><span class="home__title-color">REHAB</span>VERVE</h2>
-            </div>
-
-            <div class="nav__menu" id="nav-menu">
-    <ul class="nav__list">
-        <li class="nav__item"><a href="index.html" class="nav__link">Home</a></li>
-        <li class="nav__item"><a href="professionals.html?category=All" onclick="saveAppState()" class="nav__link">Professionals</a></li>
-        <li class="nav__item"><a href="#" class="nav__link active-link" id="active">Centers</a></li>
-        <li class="nav__item"><a href="marketplace.html" onclick="saveAppState()" class="nav__link">Marketplace</a></li>
-        <li class="nav__item"><a href="tools.html" onclick="saveAppState()" class="nav__link">Tools</a></li>
-        <li class="nav__item" id="my-profile-nav-item" style="display: none;"><a href="users.html?id=${user.uid}" onclick="saveAppState()" class="nav__link">My Profile</a></li>
-        
-        <div class="auth-buttons">
-            <li class="nav_item"> <button id="login-btn" class="nav__link">Login</button></li>
-            <li class="nav_item"><button id="logout-btn">Logout</button></li>
-        </div>
-    </ul>
-</div>
-<div class="nav__toggle" id="nav-toggle">
-    <i class='bx bx-menu'></i>
-</div>
-<div class="profile-image-nav" style="display: none;">
-    <img src="" alt="Profile" class="nav-profile-img">
-</div>
-        </nav>
+         
     </header>
 
     <main class="l-main">
@@ -205,6 +179,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
     <script src="assets/js/configuration.js"></script>
+    <script src="assets/js/navmodal.js"></script>
     <script src="assets/js/mainload.js"></script>
     <script src="assets/js/auth.js"></script>
     <script src="assets/js/main.js"></script>
