@@ -2,61 +2,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Healthcare Professionals</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Professionals — RehabVerve</title>
+    <meta name="description" content="Search verified physiotherapists, speech and occupational therapists, psychologists and more on RehabVerve.">
+    <meta name="theme-color" content="#050816">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="assets/css/styles.css"> 
-    <link rel="stylesheet" href="assets/css/professionals.css"> 
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/directory.css">
+    <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
 </head>
-<body>
+<body class="page-directory">
     <main class="l-main">
-        <section class="search-filter-section">
-            <div class="search-container">
-                <div class="nav__search">
-                    <i class='bx bx-search nav__search-icon' id="search-icon"></i>
-                    <input type="search" class="nav__search-input" id="search-input" placeholder="Search professionals...">
+        <section class="dir-hero">
+            <div class="vv-container">
+                <span class="vv-eyebrow" data-reveal>The network</span>
+                <h1 class="vv-title" data-split>Find the right <span class="vv-gradient-text">specialist.</span></h1>
+                <p class="vv-lead" data-reveal>Licensed, verified professionals across every rehabilitation discipline — message them directly or view their full profile.</p>
+
+                <div class="dir-search" role="search" data-reveal>
+                    <i class='bx bx-search'></i>
+                    <input type="search" id="search-input" placeholder="Search by name, specialty or location" aria-label="Search professionals" autocomplete="off">
                 </div>
-            </div>
-            <div class="filter-container">
-                <div class="filter-dropdown">
-                    <select id="category-filter" class="filter-select">
-                        <option value="All">All Categories</option>
-                        <option value="Consultant">Consultant</option>
-                        <option value="Doctor">Doctor</option>
-                        <option value="Nurses">Nurses</option>
-                        <option value="Occupational">Occupational Therapist</option>
-                        <option value="Psychologist">Psychologist</option>
-                        <option value="Physiotherapist">Physiotherapist</option>
-                        <option value="Speech">Speech Therapist</option>
-                        <option value="Prosthesis and Orthosis">Prosthesis and Orthosis</option>
-                    </select>
-                    <i class='bx bx-chevron-down filter-icon'></i>
-                </div>
+                <div class="dir-chips" id="category-chips" role="toolbar" aria-label="Filter by discipline"></div>
             </div>
         </section>
-        
-        <section class="professional-list section bd-grid">
-            <a href="https://wa.me/2348132912880?text=Hello! I would love you to recommend the best healthcare professional to suit my need." class="recommend">
-                <i class='bx bx-compass'></i>Begin Your Care Journey
-            </a>
-            <div class="professional-grid"></div>
+
+        <section class="vv-container">
+            <div class="dir-toolbar">
+                <p class="dir-count" id="category-title" aria-live="polite">Loading specialists…</p>
+            </div>
+            <div class="dir-grid professional-grid" id="pro-grid">
+                <div class="profile-skel vv-skel" style="height:330px"></div><div class="profile-skel vv-skel" style="height:330px"></div><div class="profile-skel vv-skel" style="height:330px"></div><div class="profile-skel vv-skel" style="height:330px"></div>
+            </div>
+
+            <div class="dir-cta" data-reveal>
+                <div>
+                    <h3>Not sure who you need?</h3>
+                    <p>Tell us what’s going on — we’ll recommend the right professional for you.</p>
+                </div>
+                <a class="vv-btn vv-btn--whatsapp" target="_blank" rel="noopener" href="https://wa.me/2348132912880?text=Hello!%20I%20would%20love%20you%20to%20recommend%20the%20best%20healthcare%20professional%20to%20suit%20my%20need."><i class='bx bxl-whatsapp'></i> Get a recommendation</a>
+            </div>
         </section>
     </main>
 
-    <a href="https://wa.me/2348132912880?text=Hello! I would love you to recommend the best healthcare professional to suit my need." class="floating-help-button">
-        <i class='bx bx-compass'></i>
-        Get our Official Recommendations
-    </a>
-
-    <!-- Scripts -->
+    <script src="assets/js/navmodal.js"></script>
+    <script src="assets/js/verve.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
     <script src="assets/js/configuration.js"></script>
-    <script src="assets/js/navmodal.js"></script>
-    <script src="assets/js/mainload.js"></script>
     <script src="assets/js/auth.js"></script>
-    <script src="assets/js/main.js"></script> 
-    <script src="assets/js/db.js"></script>
-    <script src="assets/js/professionals.js"></script> 
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/professionals.js"></script>
     <script src="assets/js/track.js"></script>
 </body>
 </html>

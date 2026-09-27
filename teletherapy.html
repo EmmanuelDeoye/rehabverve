@@ -2,648 +2,479 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teletherapy – RehabVerve</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Teletherapy — RehabVerve</title>
+    <meta name="description" content="Secure online therapy with licensed professionals — speech, occupational, physiotherapy, counseling and family therapy. Book a session in minutes.">
+    <meta name="theme-color" content="#050816">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/tele.css">   <!-- new -->
-    <link rel="icon" href="assets/img/logo.png">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
+    <link rel="stylesheet" href="assets/css/tele.css">
+    <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
 </head>
-<body>
-    <!-- Header (same as index.html) -->
-    <header class="l-header">
-        <!-- copy your existing nav from index.html -->
-        <nav class="nav bd-grid">
-            <div>
-                <h2><span class="home__title-color">REHAB</span>VERVE</h2>
-            </div>
-            <div class="nav__menu" id="nav-menu">
-                <ul class="nav__list">
-                    <li class="nav__item"><a href="index.html" class="nav__link">Home</a></li>
-                    <li class="nav__item"><a href="professionals.html?category=All" class="nav__link">Professionals</a></li>
-                    <li class="nav__item"><a href="centers.html" class="nav__link">Centers</a></li>
-                    <li class="nav__item"><a href="marketplace.html" class="nav__link">Marketplace</a></li>
-                    <li class="nav__item"><a href="blogs.html" class="nav__link">Blogs</a></li>
-                    <li class="nav__item"><a href="design.html" class="nav__link">Designs</a></li>
-                    <li class="nav__item" id="my-profile-nav-item" style="display: none;"><a href="users.html?id=${user.uid}" class="nav__link">My Profile</a></li>
-                    <div class="auth-buttons">
-                        <li class="nav_item"><button id="login-btn" class="nav__link">Login</button></li>
+<body class="page-tele">
+
+<main id="main">
+
+    <!-- ===================== HERO ===================== -->
+    <section class="th-hero">
+        <div class="vv-container th-hero-grid">
+            <div class="th-hero-copy">
+                <span class="vv-eyebrow" data-reveal>Online teletherapy · Same‑week appointments</span>
+                <h1 class="th-title" data-split>Don’t let distance delay the help <span class="vv-gradient-text">you deserve.</span></h1>
+                <p class="vv-lead" data-reveal>Licensed therapists for individuals, couples, families and children — in secure video sessions from your phone, tablet or computer.</p>
+
+                <div class="th-actions" data-reveal>
+                    <button type="button" class="vv-btn vv-btn--primary vv-btn--lg vv-magnetic" data-book><i class='bx bx-calendar-plus'></i> Book a session</button>
+                    <a class="vv-btn vv-btn--lg vv-magnetic" data-wa="Hello RehabVerve! I'd like to speak with a specialist about teletherapy." href="#"><i class='bx bxl-whatsapp'></i> Talk to a specialist</a>
+                </div>
+
+                <div class="th-proof" data-reveal>
+                    <div class="th-avatars" aria-hidden="true">
+                        <span><i class='bx bx-user'></i></span><span><i class='bx bx-happy'></i></span><span><i class='bx bx-child'></i></span><span>+</span>
                     </div>
-                </ul>
-            </div>
-            <div class="nav__toggle" id="nav-toggle" style="display:none">
-                <i class='bx bx-menu'></i>
-            </div>
-            <div class="profile-image-nav" id="nav-toggle" style="display: none;">
-                <img src="" alt="" class="nav-profile-img">
-            </div>
-        </nav>
-    </header>
-
-    <!-- Hero Section -->
-<section class="tele-hero">
-    <div class="tele-hero__container">
-        <!-- Left Column: Headline, CTA, Trust Bar -->
-        <div class="tele-hero__content">
-            <h1 class="tele-hero__title">
-                Don’t Let Distance Delay the Help You Deserve.
-            </h1>
-            <p class="tele-hero__urgency">Same‑week appointments available.</p>
-        </div>
-
-        <!-- Right Column: Lottie Animation (replaces carousel) -->
-        <div class="tele-hero__animation">
-            <div id="hero-lottie" class="hero-lottie-container"></div>
-        </div>
-    </div>
-</section>
-    
-    
-    <section class="tele-hero">
-        <div class="tele-hero__container">
-        
-
-                <!-- Trust Bar -->
-                <ul class="tele-trust">
-                    <li>✔ Licensed & Verified Professionals</li>
-                    <li>✔ Confidential & Secure Platform</li>
-                    <li>✔ Flexible Scheduling</li>
-                    <li>✔ Nationwide Access</li>
-                    <li>✔ Serving Individuals, Couples & Families</li>
-                </ul>
-
-                <!-- Visual Credibility Badges -->
-                <div class="tele-badges">
-                    <span class="tele-badge">⭐⭐⭐⭐⭐ 5‑Star Rating</span>
-                    <span class="tele-badge">📊 1,000+ Sessions Delivered</span>
-                    <span class="tele-badge">🇳🇬 Trusted by Families Across Nigeria</span>
+                    <div>
+                        <div class="th-stars"><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><b>5.0</b></div>
+                        <small>1,000+ sessions delivered · Trusted by families across Nigeria</small>
+                    </div>
                 </div>
             </div>
 
-            
+            <!-- Live session console -->
+            <div class="th-console" data-reveal="zoom" aria-label="Choose a preferred day">
+                <div class="th-call vv-card" data-flat>
+                    <div class="th-call-top">
+                        <span class="rec"></span> Secure session
+                        <span class="enc"><i class='bx bx-lock-alt'></i> Encrypted</span>
+                    </div>
+                    <div class="th-call-stage" aria-hidden="true">
+                        <div class="th-halo"></div>
+                        <div class="th-therapist"><i class='bx bx-user-voice'></i></div>
+                        <div class="th-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                        <div class="th-pip"><i class='bx bx-happy-alt'></i></div>
+                        <div class="th-caption">“Let’s look at this week’s progress together.”</div>
+                    </div>
+                    <div class="th-slots">
+                        <div class="th-slots-head">
+                            <strong>Pick a preferred day</strong>
+                            <small>We confirm your exact time on WhatsApp</small>
+                        </div>
+                        <div class="th-days" id="heroDays"></div>
+                        <button type="button" class="vv-btn vv-btn--primary vv-btn--block" data-book id="heroDayBtn"><i class='bx bx-right-arrow-alt'></i> Continue booking</button>
+                    </div>
+                </div>
+                <div class="th-float th-float--a"><i class='bx bx-shield-quarter'></i> Private &amp; confidential</div>
+                <div class="th-float th-float--b"><i class='bx bxs-badge-check'></i> Licensed &amp; verified</div>
+            </div>
+        </div>
+
+        <!-- Trust strip -->
+        <div class="vv-container">
+            <ul class="th-trust" data-stagger>
+                <li><i class='bx bxs-badge-check'></i> Licensed &amp; verified professionals</li>
+                <li><i class='bx bx-lock-alt'></i> Confidential &amp; secure platform</li>
+                <li><i class='bx bx-calendar'></i> Flexible scheduling</li>
+                <li><i class='bx bx-map-alt'></i> Nationwide access</li>
+                <li><i class='bx bx-group'></i> Individuals, couples &amp; families</li>
+            </ul>
         </div>
     </section>
-    
-    <!-- How It Works Section -->
-<section class="how-it-works">
-    <div class="how-container">
-        <h2 class="how-title">How RehabVerve Works</h2>
-        <p class="how-subtitle">Structured. Personalized. Professional.</p>
 
-        <div class="how-steps">
+    <!-- ===================== WHO IT'S FOR ===================== -->
+    <section class="vv-section" id="for-you">
+        <div class="vv-container">
+            <div class="vv-head vv-head--center" data-reveal>
+                <span class="vv-eyebrow">Care for every stage of life</span>
+                <h2 class="vv-title">Who is teletherapy for?</h2>
+                <p class="vv-lead">Choose who needs support — we’ll show what we help with and match the right specialist.</p>
+            </div>
+
+            <div class="th-tabs" role="tablist" aria-label="Who needs support" data-reveal>
+                <button role="tab" class="th-tab is-active" aria-selected="true" data-aud="individual"><i class='bx bx-user'></i> Individuals</button>
+                <button role="tab" class="th-tab" aria-selected="false" data-aud="couple"><i class='bx bx-heart'></i> Couples</button>
+                <button role="tab" class="th-tab" aria-selected="false" data-aud="family"><i class='bx bx-home-heart'></i> Families</button>
+                <button role="tab" class="th-tab" aria-selected="false" data-aud="child"><i class='bx bx-child'></i> Children</button>
+                <span class="th-tab-ink" aria-hidden="true"></span>
+            </div>
+
+            <div class="th-aud vv-card" data-reveal data-flat>
+                <div class="th-aud-copy">
+                    <h3 id="audTitle">Support that fits your life</h3>
+                    <p id="audText"></p>
+                    <ul class="th-aud-list" id="audList"></ul>
+                    <button type="button" class="vv-btn vv-btn--primary" id="audBtn" data-book><i class='bx bx-calendar-plus'></i> <span>Book for myself</span></button>
+                </div>
+                <div class="th-aud-visual" aria-hidden="true">
+                    <div class="th-aud-orb"><i class='bx bx-user' id="audIcon"></i></div>
+                    <span class="ring r1"></span><span class="ring r2"></span><span class="ring r3"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== HOW IT WORKS ===================== -->
+    <section class="vv-section how-it-works" id="how">
+        <div class="vv-container">
+            <div class="vv-head vv-head--center" data-reveal>
+                <span class="vv-eyebrow">How RehabVerve works</span>
+                <h2 class="vv-title">Structured. Personalized. Professional.</h2>
+                <p class="vv-lead">From first message to measurable progress in four clear steps.</p>
+            </div>
+
+            <ol class="th-steps" id="thSteps">
+                <li class="th-step vv-card" data-reveal>
+                    <span class="th-step-num">01</span>
+                    <span class="th-step-icon"><i class='bx bx-file'></i></span>
+                    <h3>Complete your intake</h3>
+                    <p>Share your goals, concerns and relevant history in a short, secure form.</p>
+                </li>
+                <li class="th-step vv-card" data-reveal>
+                    <span class="th-step-num">02</span>
+                    <span class="th-step-icon"><i class='bx bx-user-check'></i></span>
+                    <h3>We review &amp; match you</h3>
+                    <p>Our clinical team matches you with the right specialist — or a multidisciplinary team.</p>
+                </li>
+                <li class="th-step vv-card" data-reveal>
+                    <span class="th-step-num">03</span>
+                    <span class="th-step-icon"><i class='bx bx-video'></i></span>
+                    <h3>Begin online sessions</h3>
+                    <p>Attend secure, scheduled sessions from home on any device.</p>
+                </li>
+                <li class="th-step vv-card" data-reveal>
+                    <span class="th-step-num">04</span>
+                    <span class="th-step-icon"><i class='bx bx-line-chart'></i></span>
+                    <h3>Track your progress</h3>
+                    <p>Structured therapy plans, follow‑up guidance and continuous support.</p>
+                </li>
+                <span class="th-steps-line" aria-hidden="true"><i></i></span>
+            </ol>
+
+            <p class="th-note" data-reveal><i class='bx bx-lock-alt'></i> All information is confidential and handled by licensed professionals.</p>
+            <div class="th-center-actions" data-reveal>
+                <a href="form.html" class="vv-btn vv-btn--primary vv-btn--lg"><i class='bx bx-file'></i> Start your intake</a>
+                <a href="#" class="vv-btn vv-btn--lg" data-wa="Hello RehabVerve! I'd like to book a free consultation call about teletherapy."><i class='bx bx-phone-call'></i> Book a consultation call</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== SERVICES ===================== -->
+    <section class="vv-section services" id="services">
+        <div class="vv-container">
+            <div class="vv-head vv-head--row" data-reveal>
+                <div>
+                    <span class="vv-eyebrow">Services</span>
+                    <h2 class="vv-title">Teletherapy &amp; rehabilitation services</h2>
+                    <p class="vv-lead">Comprehensive support for individuals, families and communities — from home.</p>
+                </div>
+            </div>
+
+            <div class="th-services" data-stagger>
+                <article class="th-service vv-card vv-tilt" data-service="Instant Consultation">
+                    <span class="th-service-icon"><i class='bx bx-chat'></i></span>
+                    <span class="th-pill">15 min</span>
+                    <h3>Instant Consultation</h3>
+                    <p>A quick call to discuss your needs and connect you with the right specialist.</p>
+                    <button type="button" class="th-service-cta" data-book>Book this <i class='bx bx-right-arrow-alt'></i></button>
+                </article>
+                <article class="th-service vv-card vv-tilt" data-service="Speech Therapy">
+                    <span class="th-service-icon"><i class='bx bx-message-rounded-dots'></i></span>
+                    <h3>Speech Therapy</h3>
+                    <p>Improve communication, speech and language skills with licensed specialists.</p>
+                    <button type="button" class="th-service-cta" data-book>Book this <i class='bx bx-right-arrow-alt'></i></button>
+                </article>
+                <article class="th-service vv-card vv-tilt" data-service="Occupational Therapy">
+                    <span class="th-service-icon"><i class='bx bx-brush'></i></span>
+                    <h3>Occupational Therapy</h3>
+                    <p>Build daily living skills and independence for all ages.</p>
+                    <button type="button" class="th-service-cta" data-book>Book this <i class='bx bx-right-arrow-alt'></i></button>
+                </article>
+                <article class="th-service vv-card vv-tilt" data-service="Physiotherapy & Rehab">
+                    <span class="th-service-icon"><i class='bx bx-body'></i></span>
+                    <h3>Physiotherapy &amp; Rehab</h3>
+                    <p>Recover mobility and strength through guided virtual sessions.</p>
+                    <button type="button" class="th-service-cta" data-book>Book this <i class='bx bx-right-arrow-alt'></i></button>
+                </article>
+                <article class="th-service vv-card vv-tilt" data-service="Mental Health Counseling">
+                    <span class="th-service-icon"><i class='bx bx-heart-circle'></i></span>
+                    <h3>Mental Health Counseling</h3>
+                    <p>Support for stress, anxiety, depression and personal growth.</p>
+                    <button type="button" class="th-service-cta" data-book>Book this <i class='bx bx-right-arrow-alt'></i></button>
+                </article>
+                <article class="th-service vv-card vv-tilt" data-service="Family & Couples Therapy">
+                    <span class="th-service-icon"><i class='bx bx-group'></i></span>
+                    <h3>Family &amp; Couples Therapy</h3>
+                    <p>Strengthen relationships and resolve conflict with expert guidance.</p>
+                    <button type="button" class="th-service-cta" data-book>Book this <i class='bx bx-right-arrow-alt'></i></button>
+                </article>
+                <article class="th-service vv-card vv-tilt" data-service="Special Education Support">
+                    <span class="th-service-icon"><i class='bx bx-book-open'></i></span>
+                    <h3>Special Education Support</h3>
+                    <p>Personalized interventions for learning differences and developmental needs.</p>
+                    <button type="button" class="th-service-cta" data-book>Book this <i class='bx bx-right-arrow-alt'></i></button>
+                </article>
+                <article class="th-service vv-card vv-tilt" data-service="Behavioral Therapy">
+                    <span class="th-service-icon"><i class='bx bx-brain'></i></span>
+                    <h3>Behavioral Therapy</h3>
+                    <p>Targeted interventions for children and adults with autism and other challenges.</p>
+                    <button type="button" class="th-service-cta" data-book>Book this <i class='bx bx-right-arrow-alt'></i></button>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== PRICING ===================== -->
+    <section class="vv-section pricing" id="pricing">
+        <div class="vv-container">
+            <div class="vv-head vv-head--center" data-reveal>
+                <span class="vv-eyebrow">Plans</span>
+                <h2 class="vv-title">Choose your plan — start this week</h2>
+                <p class="vv-lead">Professional therapy, personalized for your needs. Limited spots each week.</p>
+            </div>
+
+            <div class="th-plans" data-stagger>
+                <article class="th-plan vv-card vv-tilt" data-plan="Starter Session">
+                    <h3>Starter Session</h3>
+                    <p class="th-plan-sub">Ideal for first‑time clients</p>
+                    <div class="th-price"><span class="amt">₦15,000</span><span class="per">/ session</span></div>
+                    <ul>
+                        <li><i class='bx bx-check'></i> 1 assessment + 1 therapy session</li>
+                        <li><i class='bx bx-check'></i> Personalized therapy plan</li>
+                        <li><i class='bx bx-check'></i> Secure video session</li>
+                    </ul>
+                    <p class="th-urgency"><i class='bx bxs-bolt'></i> Only a few slots available this week</p>
+                    <button type="button" class="vv-btn vv-btn--block" data-book>Book starter</button>
+                </article>
+
+                <article class="th-plan th-plan--hot vv-card vv-tilt" data-plan="Standard Package">
+                    <span class="th-plan-badge">Best value</span>
+                    <h3>Standard Package</h3>
+                    <p class="th-plan-sub">Ideal for ongoing therapy</p>
+                    <div class="th-price"><span class="amt">₦48,000</span><span class="per">/ month</span></div>
+                    <p class="th-save">₦12,000 per session</p>
+                    <ul>
+                        <li><i class='bx bx-check'></i> 4 sessions per month</li>
+                        <li><i class='bx bx-check'></i> Progress tracking &amp; follow‑up</li>
+                        <li><i class='bx bx-check'></i> Personalized therapy plan</li>
+                    </ul>
+                    <p class="th-urgency"><i class='bx bxs-bell-ring'></i> Secure your spot — starting this week</p>
+                    <button type="button" class="vv-btn vv-btn--primary vv-btn--block" data-book>Book standard</button>
+                </article>
+
+                <article class="th-plan vv-card vv-tilt" data-plan="Comprehensive Package">
+                    <h3>Comprehensive Package</h3>
+                    <p class="th-plan-sub">Holistic, multidisciplinary care</p>
+                    <div class="th-price"><span class="amt">₦135,000</span><span class="per">/ month</span></div>
+                    <p class="th-save">₦11,250 per session</p>
+                    <ul>
+                        <li><i class='bx bx-check'></i> 12 sessions per month (3/week)</li>
+                        <li><i class='bx bx-check'></i> Multidisciplinary support</li>
+                        <li><i class='bx bx-check'></i> Progress reports &amp; priority scheduling</li>
+                    </ul>
+                    <p class="th-urgency"><i class='bx bxs-star'></i> Limited openings — reserve your team</p>
+                    <button type="button" class="vv-btn vv-btn--block" data-book>Book comprehensive</button>
+                </article>
+            </div>
+
+            <div class="th-plan-foot" data-reveal>
+                <span><i class='bx bxs-badge-check'></i> Licensed professionals</span>
+                <span><i class='bx bx-lock-alt'></i> Secure &amp; confidential</span>
+                <span><i class='bx bx-gift'></i> Discounts for long‑term &amp; family plans — ask during consultation</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== TESTIMONIALS ===================== -->
+    <section class="vv-section testimonials" id="stories">
+        <div class="vv-container">
+            <div class="vv-head vv-head--row" data-reveal>
+                <div>
+                    <span class="vv-eyebrow">Real stories</span>
+                    <h2 class="vv-title">Real stories. Real transformation.</h2>
+                    <p class="vv-lead">Families, individuals and couples whose lives changed with RehabVerve.</p>
+                </div>
+                <div class="th-carousel-nav">
+                    <button type="button" class="th-nav-btn" id="tPrev" aria-label="Previous story"><i class='bx bx-chevron-left'></i></button>
+                    <button type="button" class="th-nav-btn" id="tNext" aria-label="Next story"><i class='bx bx-chevron-right'></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="th-stories" id="tTrack" tabindex="0" aria-label="Client stories">
+            <figure class="th-story vv-card">
+                <div class="th-story-stars"><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i></div>
+                <blockquote>“I finally feel supported and understood. The therapist matched with us truly listens and cares.”</blockquote>
+                <figcaption><span class="th-initials">AM</span><span><strong>A.M.</strong><small>Parent of 6‑year‑old</small></span></figcaption>
+            </figure>
+            <figure class="th-story vv-card">
+                <div class="th-story-stars"><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i></div>
+                <blockquote>“Our child’s progress has been amazing — we finally see results. Thank you, RehabVerve!”</blockquote>
+                <figcaption><span class="th-initials">TK</span><span><strong>T.K.</strong><small>Parent of 4‑year‑old</small></span></figcaption>
+            </figure>
+            <figure class="th-story vv-card">
+                <div class="th-story-stars"><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i></div>
+                <blockquote>“Professional, caring, and always available. I didn’t have to travel — the sessions came to us.”</blockquote>
+                <figcaption><span class="th-initials">RJ</span><span><strong>R.J.</strong><small>Adult client</small></span></figcaption>
+            </figure>
+            <figure class="th-story vv-card">
+                <div class="th-story-stars"><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star-half'></i></div>
+                <blockquote>“As a couple, we were struggling. Now we communicate better and feel closer than ever.”</blockquote>
+                <figcaption><span class="th-initials">LD</span><span><strong>L. &amp; D.</strong><small>Couple</small></span></figcaption>
+            </figure>
+            <figure class="th-story vv-card">
+                <div class="th-story-stars"><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i></div>
+                <blockquote>“The multidisciplinary team approach made all the difference. We finally have hope.”</blockquote>
+                <figcaption><span class="th-initials">MN</span><span><strong>M.N.</strong><small>Family caregiver</small></span></figcaption>
+            </figure>
+        </div>
+        <div class="th-dots" id="tDots" aria-hidden="true"></div>
+
+        <div class="vv-container">
+            <div class="th-stats" data-stagger>
+                <div><strong data-count="500" data-suffix="+">0</strong><span>Families served</span></div>
+                <div><strong data-count="2500" data-suffix="+">0</strong><span>Sessions completed</span></div>
+                <div><strong data-count="30" data-suffix="+">0</strong><span>Licensed professionals</span></div>
+            </div>
+            <p class="th-note" data-reveal><i class='bx bx-info-circle'></i> All testimonials reflect real clients who received licensed, professional care.</p>
+        </div>
+    </section>
+
+    <!-- ===================== FAQ ===================== -->
+    <section class="vv-section faq" id="faq">
+        <div class="vv-container th-faq-grid">
+            <div class="th-faq-intro" data-reveal="left">
+                <span class="vv-eyebrow">FAQ</span>
+                <h2 class="vv-title">Your questions, answered</h2>
+                <p class="vv-lead">Everything you need to start your teletherapy journey with confidence.</p>
+                <a href="#" class="vv-btn vv-btn--whatsapp" data-wa="Hello RehabVerve! I have a question about teletherapy."><i class='bx bxl-whatsapp'></i> Ask us on WhatsApp</a>
+            </div>
+            <div class="th-faq" data-stagger>
+                <details class="th-q"><summary><span>Is teletherapy as effective as in‑person sessions?</span><i class='bx bx-plus'></i></summary><div class="th-a"><p>Yes. Our licensed professionals use structured, personalized plans that deliver measurable results — all from the comfort of your home.</p></div></details>
+                <details class="th-q"><summary><span>Who will I be matched with?</span><i class='bx bx-plus'></i></summary><div class="th-a"><p>Our clinical team reviews your intake form and assigns the most suitable specialist — or a multidisciplinary team for holistic support.</p></div></details>
+                <details class="th-q"><summary><span>How do I know the professionals are qualified?</span><i class='bx bx-plus'></i></summary><div class="th-a"><p>All therapists are licensed, verified and experienced in their fields — from speech therapy to mental health counseling.</p></div></details>
+                <details class="th-q"><summary><span>Is my information safe and confidential?</span><i class='bx bx-plus'></i></summary><div class="th-a"><p>Absolutely. Your data and session details are handled with the highest confidentiality standards.</p></div></details>
+                <details class="th-q"><summary><span>Can I schedule sessions around my availability?</span><i class='bx bx-plus'></i></summary><div class="th-a"><p>Yes. Flexible scheduling means you can access therapy at times that work for you — including evenings and weekends.</p></div></details>
+                <details class="th-q"><summary><span>What if I need multiple types of therapy?</span><i class='bx bx-plus'></i></summary><div class="th-a"><p>We coordinate multiple specialists when needed, so your therapy plan is fully personalized.</p></div></details>
+                <details class="th-q"><summary><span>How do payments work?</span><i class='bx bx-plus'></i></summary><div class="th-a"><p>Transparent pricing with no hidden fees. Pay per session or choose a monthly package that fits your needs.</p></div></details>
+                <details class="th-q"><summary><span>What if I need to reschedule?</span><i class='bx bx-plus'></i></summary><div class="th-a"><p>Just message us — your continuity of care is our priority.</p></div></details>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== FINAL CTA ===================== -->
+    <section class="vv-section final-cta">
+        <div class="vv-container">
+            <div class="th-final" data-reveal="zoom">
+                <div class="th-final-glow" aria-hidden="true"></div>
+                <span class="vv-eyebrow">Limited weekly slots</span>
+                <h2 class="vv-title" data-split>Start your journey to better health — <span class="vv-gradient-text">today.</span></h2>
+                <p class="vv-lead">Licensed professionals are ready to support you, your family or your child with personalized therapy — securely online.</p>
+                <div class="th-center-actions">
+                    <button type="button" class="vv-btn vv-btn--primary vv-btn--lg vv-magnetic" data-book><i class='bx bx-calendar-plus'></i> Book a session</button>
+                    <a href="form.html" class="vv-btn vv-btn--lg vv-magnetic"><i class='bx bx-file'></i> Start your assessment</a>
+                </div>
+                <p class="th-final-micro"><i class='bx bx-time-five'></i> Book now to secure a same‑week session.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Sticky action bar -->
+<div class="th-dock" id="thDock" aria-label="Quick booking">
+    <a href="#" class="th-dock-wa" data-wa="Hello RehabVerve! I'd like to ask about teletherapy." aria-label="Chat on WhatsApp"><i class='bx bxl-whatsapp'></i></a>
+    <div class="th-dock-text"><strong>Same‑week sessions</strong><small>From ₦15,000</small></div>
+    <button type="button" class="vv-btn vv-btn--primary" data-book>Book now</button>
+</div>
+
+<!-- ===================== BOOKING SHEET ===================== -->
+<div class="th-sheet" id="bookSheet" role="dialog" aria-modal="true" aria-labelledby="bookTitle" hidden>
+    <div class="th-sheet-scrim" data-close></div>
+    <div class="th-sheet-panel">
+        <div class="th-sheet-grip" aria-hidden="true"></div>
+        <button type="button" class="th-sheet-close" data-close aria-label="Close"><i class='bx bx-x'></i></button>
+        <div class="th-sheet-head">
+            <span class="vv-eyebrow">Book teletherapy</span>
+            <h3 id="bookTitle">Let’s find your specialist</h3>
+            <div class="th-progress" aria-hidden="true"><i id="bookBar"></i></div>
+            <ol class="th-progress-labels"><li class="is-on">Care</li><li>Schedule</li><li>Details</li></ol>
+        </div>
+
+        <form id="bookForm" novalidate>
             <!-- Step 1 -->
-            <div class="how-step">
-                <div class="step-number">01</div>
-                <div class="step-icon"><i class='bx bx-file'></i></div>
-                <h3 class="step-title">Complete Your Intake Form</h3>
-                <p class="step-desc">Tell us about your needs by filling out a secure assessment form. Share your goals, concerns, and relevant information.</p>
-            </div>
+            <fieldset class="th-stepper is-active" data-step="1">
+                <legend>Who is the session for?</legend>
+                <div class="th-options" data-group="audience">
+                    <label><input type="radio" name="audience" value="Myself" checked><span><i class='bx bx-user'></i>Myself</span></label>
+                    <label><input type="radio" name="audience" value="My child"><span><i class='bx bx-child'></i>My child</span></label>
+                    <label><input type="radio" name="audience" value="Couple"><span><i class='bx bx-heart'></i>Couple</span></label>
+                    <label><input type="radio" name="audience" value="Family"><span><i class='bx bx-home-heart'></i>Family</span></label>
+                </div>
+                <label class="th-field">
+                    <span>Service</span>
+                    <select name="service" id="bookService">
+                        <option>Not sure — help me choose</option>
+                        <option>Instant Consultation</option>
+                        <option>Speech Therapy</option>
+                        <option>Occupational Therapy</option>
+                        <option>Physiotherapy &amp; Rehab</option>
+                        <option>Mental Health Counseling</option>
+                        <option>Family &amp; Couples Therapy</option>
+                        <option>Special Education Support</option>
+                        <option>Behavioral Therapy</option>
+                    </select>
+                </label>
+            </fieldset>
+
             <!-- Step 2 -->
-            <div class="how-step">
-                <div class="step-number">02</div>
-                <div class="step-icon"><i class='bx bx-user-check'></i></div>
-                <h3 class="step-title">We Review & Match You</h3>
-                <p class="step-desc">Our clinical team carefully reviews your information and matches you with the most suitable specialist — or a multidisciplinary team if needed.</p>
-            </div>
+            <fieldset class="th-stepper" data-step="2">
+                <legend>Plan &amp; preferred time</legend>
+                <div class="th-options th-options--plans" data-group="plan">
+                    <label><input type="radio" name="plan" value="Starter Session" checked><span><b>Starter</b><small>₦15,000 / session</small></span></label>
+                    <label><input type="radio" name="plan" value="Standard Package"><span><b>Standard</b><small>₦48,000 / month</small></span></label>
+                    <label><input type="radio" name="plan" value="Comprehensive Package"><span><b>Comprehensive</b><small>₦135,000 / month</small></span></label>
+                </div>
+                <span class="th-field-label">Preferred day</span>
+                <div class="th-days th-days--sheet" id="sheetDays"></div>
+                <span class="th-field-label">Time of day</span>
+                <div class="th-options th-options--time" data-group="time">
+                    <label><input type="radio" name="time" value="Morning" checked><span><i class='bx bx-sun'></i>Morning</span></label>
+                    <label><input type="radio" name="time" value="Afternoon"><span><i class='bx bx-cloud-light-rain'></i>Afternoon</span></label>
+                    <label><input type="radio" name="time" value="Evening"><span><i class='bx bx-moon'></i>Evening</span></label>
+                </div>
+            </fieldset>
+
             <!-- Step 3 -->
-            <div class="how-step">
-                <div class="step-number">03</div>
-                <div class="step-icon"><i class='bx bx-video'></i></div>
-                <h3 class="step-title">Begin Your Online Sessions</h3>
-                <p class="step-desc">Attend secure, scheduled sessions from the comfort of your home using your phone, tablet, or computer.</p>
-            </div>
-            <!-- Step 4 -->
-            <div class="how-step">
-                <div class="step-number">04</div>
-                <div class="step-icon"><i class='bx bx-line-chart'></i></div>
-                <h3 class="step-title">Ongoing Support & Progress Tracking</h3>
-                <p class="step-desc">Receive structured therapy plans, follow-up guidance, and continuous professional support.</p>
-            </div>
-        </div>
+            <fieldset class="th-stepper" data-step="3">
+                <legend>Your details</legend>
+                <label class="th-field"><span>Full name *</span><input type="text" name="name" autocomplete="name" required placeholder="e.g. Ada Okafor"></label>
+                <label class="th-field"><span>Phone / WhatsApp *</span><input type="tel" name="phone" autocomplete="tel" required placeholder="e.g. 0801 234 5678"></label>
+                <label class="th-field"><span>Anything we should know? <em>(optional)</em></span><textarea name="notes" rows="3" placeholder="Goals, concerns, or questions"></textarea></label>
+                <div class="th-summary" id="bookSummary"></div>
+            </fieldset>
 
-        <p class="how-reassurance">All information is confidential and handled by licensed professionals.</p>
-
-        <div class="how-cta">
-            <a href="#" class="how-btn how-btn-primary">Start Your Assessment</a>
-            <a href="#" class="how-btn how-btn-secondary">Book a Consultation Call</a>
-        </div>
-    </div>
-</section>
-
-
-<!-- Services Section -->
-<section class="services">
-    <div class="services-container">
-        <h2 class="services-title">Our Teletherapy & Rehabilitation Services</h2>
-        <p class="services-subtitle">Comprehensive support for individuals, families, and communities — all from the comfort of your home.</p>
-
-        <div class="services-grid">
-            <!-- Service Card 1: Instant Consultation -->
-            <div class="service-card">
-                <div class="service-icon"><i class='bx bx-chat'></i></div>
-                <h3 class="service-name">Instant Consultation</h3>
-                <p class="service-desc">Quick 15‑min consultation to discuss your needs and connect you with the right specialist.</p>
-                <a href="#" class="service-link">Learn More <i class='bx bx-right-arrow-alt'></i></a>
-            </div>
-            <!-- Service Card 2: Speech Therapy -->
-            <div class="service-card">
-                <div class="service-icon"><i class='bx bx-message-detail'></i></div>
-                <h3 class="service-name">Speech Therapy</h3>
-                <p class="service-desc">Improve communication, speech, and language skills with licensed specialists.</p>
-                <a href="#" class="service-link">Learn More <i class='bx bx-right-arrow-alt'></i></a>
-            </div>
-            <!-- Service Card 3: Occupational Therapy -->
-            <div class="service-card">
-                <div class="service-icon"><i class='bx bx-brush'></i></div>
-                <h3 class="service-name">Occupational Therapy</h3>
-                <p class="service-desc">Develop daily living skills and enhance independence for all ages.</p>
-                <a href="#" class="service-link">Learn More <i class='bx bx-right-arrow-alt'></i></a>
-            </div>
-            <!-- Service Card 4: Physiotherapy & Rehab -->
-            <div class="service-card">
-                <div class="service-icon"><i class='bx bx-body'></i></div>
-                <h3 class="service-name">Physiotherapy & Rehab</h3>
-                <p class="service-desc">Recover mobility and strength through guided virtual sessions.</p>
-                <a href="#" class="service-link">Learn More <i class='bx bx-right-arrow-alt'></i></a>
-            </div>
-            <!-- Service Card 5: Mental Health Counseling -->
-            <div class="service-card">
-                <div class="service-icon"><i class='bx bx-heart-circle'></i></div>
-                <h3 class="service-name">Mental Health Counseling</h3>
-                <p class="service-desc">Professional support for stress, anxiety, depression, and personal growth.</p>
-                <a href="#" class="service-link">Learn More <i class='bx bx-right-arrow-alt'></i></a>
-            </div>
-            <!-- Service Card 6: Family & Couples Therapy -->
-            <div class="service-card">
-                <div class="service-icon"><i class='bx bx-group'></i></div>
-                <h3 class="service-name">Family & Couples Therapy</h3>
-                <p class="service-desc">Strengthen relationships and resolve conflicts with expert guidance.</p>
-                <a href="#" class="service-link">Learn More <i class='bx bx-right-arrow-alt'></i></a>
-            </div>
-            <!-- Service Card 7: Special Education Support -->
-            <div class="service-card">
-                <div class="service-icon"><i class='bx bx-book-open'></i></div>
-                <h3 class="service-name">Special Education Support</h3>
-                <p class="service-desc">Personalized interventions for children with learning differences or developmental needs.</p>
-                <a href="#" class="service-link">Learn More <i class='bx bx-right-arrow-alt'></i></a>
-            </div>
-            <!-- Service Card 8: Behavioral Therapy -->
-            <div class="service-card">
-                <div class="service-icon"><i class='bx bx-brain'></i></div>
-                <h3 class="service-name">Behavioral Therapy</h3>
-                <p class="service-desc">Targeted interventions for children and adults with autism or other challenges.</p>
-                <a href="#" class="service-link">Learn More <i class='bx bx-right-arrow-alt'></i></a>
-            </div>
-        </div>
-
-        <div class="services-cta">
-            <a href="#" class="services-btn services-btn-primary">Book a Session</a>
-            <a href="#" class="services-btn services-btn-secondary">View All Services</a>
-        </div>
-    </div>
-</section>
-
-
-<!-- Pricing & Packages Section -->
-<section class="pricing">
-    <div class="pricing-container">
-        <h2 class="pricing-title">Choose Your Teletherapy Plan — Start Today</h2>
-        <p class="pricing-subtitle">Professional therapy, personalized for your needs. Limited spots available each week — secure your sessions now.</p>
-
-        <div class="pricing-grid">
-            <!-- Starter Package -->
-            <div class="pricing-card">
-                <div class="pricing-card__header">
-                    <h3 class="pricing-card__title">Starter Session</h3>
-                    <div class="pricing-card__price">
-                        <span class="pricing-card__amount">₦15,000</span>
-                        <span class="pricing-card__period">per session</span>
-                    </div>
-                </div>
-                <ul class="pricing-card__features">
-                    <li>1 assessment + 1 therapy session</li>
-                    <li>Personalized therapy plan</li>
-                    <li>Ideal for first‑time clients</li>
-                </ul>
-                <p class="pricing-card__urgency">⚡ Only a few slots available this week</p>
-                <a href="#" class="pricing-card__btn">Book Now</a>
-            </div>
-
-            <!-- Standard Package (Most Popular) -->
-            <div class="pricing-card pricing-card--popular">
-                <div class="pricing-card__badge">Best Value</div>
-                <div class="pricing-card__header">
-                    <h3 class="pricing-card__title">Standard Package</h3>
-                    <div class="pricing-card__price">
-                        <span class="pricing-card__amount">₦48,000</span>
-                        <span class="pricing-card__period">per month</span>
-                    </div>
-                    <div class="pricing-card__session-price">(₦12,000 per session)</div>
-                </div>
-                <ul class="pricing-card__features">
-                    <li>4 sessions per month</li>
-                    <li>Progress tracking & follow‑up</li>
-                    <li>Ideal for ongoing therapy</li>
-                </ul>
-                <p class="pricing-card__urgency">🔔 Secure your spot — starting this week</p>
-                <a href="#" class="pricing-card__btn pricing-card__btn--popular">Book Now</a>
-            </div>
-
-            <!-- Comprehensive Package -->
-            <div class="pricing-card">
-                <div class="pricing-card__header">
-                    <h3 class="pricing-card__title">Comprehensive Package</h3>
-                    <div class="pricing-card__price">
-                        <span class="pricing-card__amount">₦135,000</span>
-                        <span class="pricing-card__period">per month</span>
-                    </div>
-                    <div class="pricing-card__session-price">(₦11,250 per session)</div>
-                </div>
-                <ul class="pricing-card__features">
-                    <li>12 sessions per month (3/week)</li>
-                    <li>Multidisciplinary support for holistic care</li>
-                    <li>Progress reports & priority scheduling</li>
-                </ul>
-                <p class="pricing-card__urgency">🌟 Limited openings — book now to reserve your team</p>
-                <a href="#" class="pricing-card__btn">Book Now</a>
-            </div>
-        </div>
-
-        <div class="pricing-footer">
-            <p>Licensed professionals • Secure & confidential sessions</p>
-            <p class="pricing-footer__discount">💡 Discounts available for long‑term and family plans — ask during consultation</p>
-        </div>
-    </div>
-</section>
-
-
-<!-- Testimonials / Success Stories Section -->
-<section class="testimonials">
-    <div class="testimonials-container">
-        <h2 class="testimonials-title">Real Stories. Real Transformation.</h2>
-        <p class="testimonials-subtitle">Hear from families, individuals, and couples whose lives have changed with RehabVerve.</p>
-
-        <!-- Testimonial Carousel -->
-        <div class="testimonials-carousel">
-            <div class="testimonials-track" id="testimonialsTrack">
-                <!-- Testimonial Card 1 -->
-                <div class="testimonial-card">
-                    <div class="testimonial-rating">
-                        <i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i>
-                        <span>5.0</span>
-                    </div>
-                    <p class="testimonial-quote">“I finally feel supported and understood. The therapist matched with us truly listens and cares.”</p>
-                    <div class="testimonial-author">
-                        <strong>A.M.</strong> <span>• Parent of 6‑year‑old</span>
-                    </div>
-                </div>
-                <!-- Testimonial Card 2 -->
-                <div class="testimonial-card">
-                    <div class="testimonial-rating">
-                        <i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i>
-                        <span>5.0</span>
-                    </div>
-                    <p class="testimonial-quote">“Our child’s progress has been amazing — we finally see results. Thank you, RehabVerve!”</p>
-                    <div class="testimonial-author">
-                        <strong>T.K.</strong> <span>• Parent of 4‑year‑old</span>
-                    </div>
-                </div>
-                <!-- Testimonial Card 3 -->
-                <div class="testimonial-card">
-                    <div class="testimonial-rating">
-                        <i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i>
-                        <span>5.0</span>
-                    </div>
-                    <p class="testimonial-quote">“Professional, caring, and always available. I didn’t have to travel — the sessions came to us.”</p>
-                    <div class="testimonial-author">
-                        <strong>R.J.</strong> <span>• Adult client</span>
-                    </div>
-                </div>
-                <!-- Testimonial Card 4 -->
-                <div class="testimonial-card">
-                    <div class="testimonial-rating">
-                        <i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star-half'></i>
-                        <span>4.8</span>
-                    </div>
-                    <p class="testimonial-quote">“As a couple, we were struggling. Now we communicate better and feel closer than ever.”</p>
-                    <div class="testimonial-author">
-                        <strong>L. & D.</strong> <span>• Couple</span>
-                    </div>
-                </div>
-                <!-- Testimonial Card 5 -->
-                <div class="testimonial-card">
-                    <div class="testimonial-rating">
-                        <i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i>
-                        <span>5.0</span>
-                    </div>
-                    <p class="testimonial-quote">“The multidisciplinary team approach made all the difference. We finally have hope.”</p>
-                    <div class="testimonial-author">
-                        <strong>M.N.</strong> <span>• Family caregiver</span>
-                    </div>
+            <!-- Done -->
+            <div class="th-done" data-step="4" hidden>
+                <div class="th-done-check"><i class='bx bx-check'></i></div>
+                <h3>Request ready!</h3>
+                <p>We’ve opened WhatsApp with your booking details. Send the message and our team will confirm your specialist and time.</p>
+                <div class="th-center-actions">
+                    <a href="form.html" class="vv-btn vv-btn--primary"><i class='bx bx-file'></i> Complete full intake</a>
+                    <button type="button" class="vv-btn" data-close>Done</button>
                 </div>
             </div>
 
-            <!-- Carousel Navigation -->
-            <button class="testimonials-prev" id="testimonialsPrev"><i class='bx bx-chevron-left'></i></button>
-            <button class="testimonials-next" id="testimonialsNext"><i class='bx bx-chevron-right'></i></button>
-        </div>
-
-        <!-- Dots Navigation -->
-        <div class="testimonials-dots" id="testimonialsDots"></div>
-
-        <p class="testimonials-microcopy">All testimonials reflect real clients who received licensed, professional care.</p>
-
-        <!-- Social Proof Badges -->
-        <div class="testimonials-badges">
-            <span class="testimonial-badge"><i class='bx bx-group'></i> 500+ Families Served</span>
-            <span class="testimonial-badge"><i class='bx bx-calendar-check'></i> 2,500+ Sessions Completed</span>
-            <span class="testimonial-badge"><i class='bx bx-certification'></i> 30+ Licensed Professionals</span>
-        </div>
-
-        <!-- CTA -->
-        <div class="testimonials-cta">
-            <a href="#" class="testimonials-btn testimonials-btn-primary">Start Your Journey Today</a>
-            <a href="#" class="testimonials-btn testimonials-btn-secondary">Book Your First Session</a>
-        </div>
-    </div>
-</section>
-
-
-<!-- FAQ Section -->
-<section class="faq">
-    <div class="faq-container">
-        <h2 class="faq-title">Your Questions, Answered</h2>
-        <p class="faq-subtitle">Everything you need to know to start your teletherapy journey with confidence.</p>
-
-        <div class="faq-grid" id="faqGrid">
-            <!-- Question 1 -->
-            <div class="faq-item">
-                <div class="faq-question" tabindex="0">
-                    <span class="faq-icon"><i class='bx bx-help-circle'></i></span>
-                    <h3>Is teletherapy as effective as in-person sessions?</h3>
-                    <span class="faq-arrow"><i class='bx bx-chevron-down'></i></span>
-                </div>
-                <div class="faq-answer">
-                    <p>Yes! Our licensed professionals use structured, personalized plans that deliver measurable results — all from the comfort of your home.</p>
-                </div>
+            <div class="th-sheet-actions" id="bookActions">
+                <button type="button" class="vv-btn" id="bookBack" hidden><i class='bx bx-chevron-left'></i> Back</button>
+                <button type="button" class="vv-btn vv-btn--primary" id="bookNext">Continue <i class='bx bx-right-arrow-alt'></i></button>
             </div>
-            <!-- Question 2 -->
-            <div class="faq-item">
-                <div class="faq-question" tabindex="0">
-                    <span class="faq-icon"><i class='bx bx-user-check'></i></span>
-                    <h3>Who will I be matched with?</h3>
-                    <span class="faq-arrow"><i class='bx bx-chevron-down'></i></span>
-                </div>
-                <div class="faq-answer">
-                    <p>Our clinical team carefully reviews your intake form and assigns you the most suitable specialist — or a multidisciplinary team for holistic support.</p>
-                </div>
-            </div>
-            <!-- Question 3 -->
-            <div class="faq-item">
-                <div class="faq-question" tabindex="0">
-                    <span class="faq-icon"><i class='bx bx-certification'></i></span>
-                    <h3>How do I know the professionals are qualified?</h3>
-                    <span class="faq-arrow"><i class='bx bx-chevron-down'></i></span>
-                </div>
-                <div class="faq-answer">
-                    <p>All therapists are licensed, verified, and experienced in their respective fields — from speech therapy to mental health counseling.</p>
-                </div>
-            </div>
-            <!-- Question 4 -->
-            <div class="faq-item">
-                <div class="faq-question" tabindex="0">
-                    <span class="faq-icon"><i class='bx bx-lock-alt'></i></span>
-                    <h3>Is my information safe and confidential?</h3>
-                    <span class="faq-arrow"><i class='bx bx-chevron-down'></i></span>
-                </div>
-                <div class="faq-answer">
-                    <p>Absolutely. All your data and session details are securely encrypted and handled with the highest confidentiality standards.</p>
-                </div>
-            </div>
-            <!-- Question 5 -->
-            <div class="faq-item">
-                <div class="faq-question" tabindex="0">
-                    <span class="faq-icon"><i class='bx bx-calendar'></i></span>
-                    <h3>Can I schedule sessions around my availability?</h3>
-                    <span class="faq-arrow"><i class='bx bx-chevron-down'></i></span>
-                </div>
-                <div class="faq-answer">
-                    <p>Yes! Flexible scheduling ensures you can access therapy at times that work for you — including evenings and weekends.</p>
-                </div>
-            </div>
-            <!-- Question 6 -->
-            <div class="faq-item">
-                <div class="faq-question" tabindex="0">
-                    <span class="faq-icon"><i class='bx bx-group'></i></span>
-                    <h3>What if I need multiple types of therapy?</h3>
-                    <span class="faq-arrow"><i class='bx bx-chevron-down'></i></span>
-                </div>
-                <div class="faq-answer">
-                    <p>We provide holistic care by coordinating multiple specialists if needed, so your therapy plan is fully personalized.</p>
-                </div>
-            </div>
-            <!-- Question 7 -->
-            <div class="faq-item">
-                <div class="faq-question" tabindex="0">
-                    <span class="faq-icon"><i class='bx bx-credit-card'></i></span>
-                    <h3>How do payments work?</h3>
-                    <span class="faq-arrow"><i class='bx bx-chevron-down'></i></span>
-                </div>
-                <div class="faq-answer">
-                    <p>Transparent pricing with no hidden fees. You can pay per session or choose a subscription package that best fits your needs.</p>
-                </div>
-            </div>
-            <!-- Question 8 -->
-            <div class="faq-item">
-                <div class="faq-question" tabindex="0">
-                    <span class="faq-icon"><i class='bx bx-time'></i></span>
-                    <h3>What if I need to reschedule?</h3>
-                    <span class="faq-arrow"><i class='bx bx-chevron-down'></i></span>
-                </div>
-                <div class="faq-answer">
-                    <p>You can easily reschedule a session through our platform — your continuity of care is our priority.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Urgency microcopy and CTA -->
-        <p class="faq-urgency">Limited weekly spots — secure your sessions now</p>
-        <div class="faq-cta">
-            <a href="#" class="faq-btn faq-btn-primary">Start Your Assessment Today</a>
-            <a href="#" class="faq-btn faq-btn-secondary">Speak to a Specialist Now</a>
-        </div>
-    </div>
-</section>
-
-<!-- Final Call to Action Section -->
-<section class="final-cta">
-    <div class="final-cta__container">
-        <div class="final-cta__content">
-            <h2 class="final-cta__title">Start Your Journey to Better Health — Don’t Wait Another Day</h2>
-            <p class="final-cta__subtitle">Licensed professionals are ready to support you, your family, or your child with personalized therapy — securely online. Limited weekly slots available.</p>
-
-            <div class="final-cta__buttons">
-                <a href="#" class="final-cta__btn final-cta__btn--primary">Start Your Assessment Now</a>
-                <a href="#" class="final-cta__btn final-cta__btn--secondary">Speak to a Specialist Today</a>
-            </div>
-
-            <div class="final-cta__microcopy">
-                <p>All sessions are confidential and led by verified, licensed professionals.</p>
-                <p>Holistic, personalized care for individuals, families, and children.</p>
-                <p class="final-cta__urgency">⏳ Book now and secure same‑week sessions — don’t miss your chance.</p>
-            </div>
-        </div>
-
-        <!-- Optional illustration (visible on desktop) -->
-        <div class="final-cta__illustration">
-            <img src="assets/img/therapy-illustration.svg" alt="Therapist and client having an online session" onerror="this.style.display='none'">
-            <!-- Fallback: if SVG missing, hide; you can replace with a PNG or leave empty -->
-        </div>
-    </div>
-</section>
-
-<!-- Lottie Animation Section -->
-<section class="lottie-section">
-    <div class="lottie-container">
-        <div id="lottie-animation" style="width: 200px; height: 200px; margin: 0 auto;"></div>
-        <p class="lottie-caption">Experience the comfort of online therapy</p>
-    </div>
-</section>
-
-    
-    <!-- Add this to your HTML -->
-<div id="auth-modal" class="modal">
-    <div class="modal-content">
-        <span class="modal-close">&times;</span>
-        <div class="auth-tabs">
-            <div class="auth-tab active" data-form="login">Login</div>
-            <div class="auth-tab" data-form="register">Register</div>
-        </div>
-
-        <form id="login-form" class="auth-form active">
-            <div class="error-message" id="login-error"></div>
-            <div class="form-group">
-                <input type="email" id="login-email" placeholder="Email" required>
-            </div>
-            <div class="form-group password-group">
-                <input type="password" id="login-password" placeholder="Password" required>
-                <span class="password-toggle" id="login-password-toggle">
-                    <i class='bx bx-hide'></i>
-                </span>
-            </div>
-            
-            <!-- Forgot password link -->
-            <div class="forgot-password">
-                <a href="forgot-password.html">Forgot your password?</a>
-            </div>
-            
-            <!-- Terms agreement -->
-            <div class="form-group terms-agreement">
-                <label for="login-terms">By clicking the login button, you agree to our <a href="terms.html" target="_blank">Terms</a> and <a href="privacy.html" target="_blank">Privacy policy</a></label>
-            </div>
-            
-            <button type="submit">Login</button>
-            <div class="auth-switch">
-                Don't have an account? <a href="#" id="show-register">Register</a>
-            </div>
-        </form>
-
-        <form id="register-form" class="auth-form">
-            <div class="error-message" id="register-error"></div>
-            <div class="form-group">
-                <input type="name" id="register-name" placeholder="Name" required>
-            </div>
-            <div class="form-group">
-                <input type="email" id="register-email" placeholder="Email" required>
-            </div>
-            <div class="form-group password-group">
-                <input type="password" id="register-password" placeholder="Password (min. 6 characters)" required>
-                <span class="password-toggle" id="register-password-toggle">
-                    <i class='bx bx-hide'></i>
-                </span>
-            </div>
-            
-            <!-- Terms agreement -->
-            <div class="form-group terms-agreement">
-                <label for="login-terms">By clicking the register button, you agree to our <a href="terms.html" target="_blank">Terms</a> and <a href="privacy.html" target="_blank">Privacy policy</a></label>
-            </div>
-            
-            <button type="submit">Create Account</button>
-            <div class="auth-switch">
-                Already have an account? <a href="#" id="show-login">Login</a>
-            </div>
-            <div id="auth-spinner" class="spinner" style="display: none;"></div>
         </form>
     </div>
 </div>
 
- <a href="form.html" class="floating-help-button">
-  <i class='bx bx-compass'></i>
- Claim your space now!
-</a>
-
-  <footer class="modern-footer">
-    <div class="footer-grid">
-        <!-- Column 1: Brand Info -->
-        <div class="footer-column">
-            <h3>REHABVERVE</h3>
-            <p>Connecting patients with top healthcare professionals</p>
-            <div class="social-links">
-                <a href="#"><i class='bx bxl-facebook'></i></a>
-                <a href="#"><i class='bx bxl-twitter'></i></a>
-                <a href="#"><i class='bx bxl-instagram'></i></a>
-                <a href="#"><i class='bx bxl-linkedin'></i></a>
-            </div>
-        </div>
-        
-        <!-- Column 2: Quick Links -->
-        <div class="footer-column">
-            <h4>Quick Links</h4>
-            <ul>
-                <li><a href="index.html" >Home</a></li>
-                <li><a href="#about">About Us</a></li>
-                <li><a href="professionals.html" onclick="saveAppState()">Professionals</a></li>
-                <li><a href="marketplace.html" onclick="saveAppState()">Marketplace</a></li>
-                <li><a href="centers.html" onclick="saveAppState()">Centers</a></li>
-            </ul>
-        </div>
-        
-        <!-- Column 3: Contact Info -->
-        <div class="footer-column">
-            <h4>Contact Us</h4>
-            <div class="contact-info">
-                <p><i class='bx bx-map'></i> 44, Shonola Street, Ogba, Lagos state</p>
-                <p><i class='bx bx-phone'></i> + (234) 8132-912-880</p>
-                <p><i class='bx bx-envelope'></i> info@rehabconnect.com</p>
-            </div>
-        </div>
-        
-        <!-- Column 4: Newsletter -->
-        <div class="footer-column">
-            <h4>Newsletter</h4>
-            <form class="newsletter-form">
-                <input type="email" placeholder="rehabverve@gmail.com" required>
-                <button type="submit">Subscribe</button>
-            </form>
-        </div>
-    </div>
-    
-    <div class="footer-bottom">
-        <p>&copy; 2025 REHABVERVE. All rights reserved.</p>
-        <div class="legal-links">
-            <a href="terms.html">Privacy Policy</a>
-            <a href="terms.html">Terms of Service</a>
-            <a href="#">Cookie Policy</a>
-        </div>
-    </div>
-</footer>
-
-    <!-- Scripts (order matters) -->
+    <script src="assets/js/navmodal.js"></script>
+    <script src="assets/js/verve.js"></script>
+    <script src="assets/js/tele.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
     <script src="assets/js/configuration.js"></script>
-    <script src="assets/js/tele.js"></script>   <!-- new -->
-    <script src="assets/js/auth.js"></script>   <!-- if needed for login -->
-    <script src="assets/js/main.js"></script>   <!-- optional, for global functionality -->
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/main.js"></script>
 </body>
 </html>

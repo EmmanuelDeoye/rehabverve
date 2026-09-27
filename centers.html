@@ -2,185 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Centers | REHABVERVE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Care Centers — RehabVerve</title>
+    <meta name="description" content="Rehabilitation centers, hospitals, schools and home-care teams on the RehabVerve network.">
+    <meta name="theme-color" content="#050816">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/centers.css">
+    <link rel="stylesheet" href="assets/css/directory.css">
+    <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
 </head>
-<body>
-    <header class="l-header">
-         
-    </header>
-
+<body class="page-directory">
     <main class="l-main">
-        <section class="center-section">
-            <div class="center-search-container">
-                <div class="nav__search">
-                    <i class='bx bx-search nav__search-icon' id="search-icon"></i>
-                    <input type="search" class="nav__search-input" id="center-search-input" placeholder="Search centers...">
+        <section class="dir-hero">
+            <div class="vv-container">
+                <span class="vv-eyebrow" data-reveal>Approved centers</span>
+                <h1 class="vv-title" data-split>Care centers, <span class="vv-gradient-text">closer to you.</span></h1>
+                <p class="vv-lead" data-reveal>Rehabilitation centers, hospitals, schools and home‑care teams — reviewed and listed on the network.</p>
+                <div class="dir-search" role="search" data-reveal>
+                    <i class='bx bx-search'></i>
+                    <input type="search" id="center-search-input" placeholder="Search centers by name or location" aria-label="Search centers" autocomplete="off">
                 </div>
-                <div class="filter-dropdown">
-                    <select id="category-filter" class="filter-select">
-                        <option value="All">All Categories</option>
-                        <option value="Rehabilitation Centers">Rehabilitation Centers</option>
-                        <option value="Schools">Schools</option>
-                        <option value="Hospitals">Hospitals</option>
-                        <option value="Homes">Homes</option>
-                    </select>
-                    <i class='bx bx-chevron-down filter-icon'></i>
-                </div>
+                <div class="dir-chips" id="category-chips" role="toolbar" aria-label="Filter by type"></div>
+            </div>
+        </section>
+
+        <section class="vv-container">
+            <div class="dir-toolbar"><p class="dir-count" id="centers-count" aria-live="polite">Loading centers…</p></div>
+            <div class="dir-grid dir-grid--wide centers-container" id="centers-container">
+                <div class="card-skel vv-skel"></div><div class="card-skel vv-skel"></div><div class="card-skel vv-skel"></div>
             </div>
 
-            <h2 class="section-title">Approved Centers Directory</h2>
-            <div class="centers-container" id="centers-container">
-                <!-- Centers will be loaded here -->
-                <div class="loading-overlay">
-                    <div class="spinner"></div>
-                    <p>Loading centers...</p>
+            <div class="dir-cta" data-reveal>
+                <div>
+                    <h3>Run a center or clinic?</h3>
+                    <p>List your facility and reach families searching for care.</p>
                 </div>
+                <a class="vv-btn vv-btn--primary" href="registration.html"><i class='bx bx-building'></i> Register your center</a>
             </div>
         </section>
     </main>
-    
-   
-<!-- Add this to your HTML -->
-<div id="auth-modal" class="modal">
-    <div class="modal-content">
-        <span class="modal-close">&times;</span>
-        <div class="auth-tabs">
-            <div class="auth-tab active" data-form="login">Login</div>
-            <div class="auth-tab" data-form="register">Register</div>
-        </div>
 
-        <form id="login-form" class="auth-form active">
-            <div class="error-message" id="login-error"></div>
-            <div class="form-group">
-                <input type="email" id="login-email" placeholder="Email" required>
-            </div>
-            <div class="form-group password-group">
-                <input type="password" id="login-password" placeholder="Password" required>
-                <span class="password-toggle" id="login-password-toggle">
-                    <i class='bx bx-hide'></i>
-                </span>
-            </div>
-            
-            <!-- Forgot password link -->
-            <div class="forgot-password">
-                <a href="forgot-password.html">Forgot your password?</a>
-            </div>
-            
-            <!-- Terms agreement -->
-            <div class="form-group terms-agreement">
-                <label for="login-terms">By clicking the login button, you agree to our <a href="terms.html" target="_blank">Terms</a> and <a href="privacy.html" target="_blank">Privacy policy</a></label>
-            </div>
-            
-            <button type="submit">Login</button>
-            <div class="auth-switch">
-                Don't have an account? <a href="#" id="show-register">Register</a>
-            </div>
-        </form>
+    <a href="assessment.html" class="floating-ai-button22" style="display: none;">
+        <i class='bx bx-bot'></i>
+        <span class="ai-button-text">Quick Assessment</span>
+    </a>
 
-        <form id="register-form" class="auth-form">
-            <div class="error-message" id="register-error"></div>
-            <div class="form-group">
-                <input type="name" id="register-name" placeholder="Name" required>
-            </div>
-            <div class="form-group">
-                <input type="email" id="register-email" placeholder="Email" required>
-            </div>
-            <div class="form-group password-group">
-                <input type="password" id="register-password" placeholder="Password (min. 6 characters)" required>
-                <span class="password-toggle" id="register-password-toggle">
-                    <i class='bx bx-hide'></i>
-                </span>
-            </div>
-            
-            <!-- Terms agreement -->
-            <div class="form-group terms-agreement">
-                <label for="login-terms">By clicking the register button, you agree to our <a href="terms.html" target="_blank">Terms</a> and <a href="privacy.html" target="_blank">Privacy policy</a></label>
-            </div>
-            
-            <button type="submit">Create Account</button>
-            <div class="auth-switch">
-                Already have an account? <a href="#" id="show-login">Login</a>
-            </div>
-            <div id="auth-spinner" class="spinner" style="display: none;"></div>
-        </form>
-    </div>
-</div>
-
-<!-- Add this just before the closing </body> tag in index.html -->
-<a href="ai.html" class="floating-ai-button" style="display: none;">
-  <i class='bx bx-brain'></i>
-  <span class="ai-button-text">AI Assistant</span>
-</a>
-
-<a href="assessment.html" class="floating-ai-button22" style="display: none;">
-  <i class='bx bx-bot'></i>
-  <span class="ai-button-text">Quick Assessment</span>
-</a>
-
-    <footer class="modern-footer">
-    <div class="footer-grid">
-        <!-- Column 1: Brand Info -->
-        <div class="footer-column">
-            <h3>REHABVERVE</h3>
-            <p>Connecting patients with top healthcare professionals</p>
-            <div class="social-links">
-                <a href="#"><i class='bx bxl-facebook'></i></a>
-                <a href="#"><i class='bx bxl-twitter'></i></a>
-                <a href="#"><i class='bx bxl-instagram'></i></a>
-                <a href="#"><i class='bx bxl-linkedin'></i></a>
-            </div>
-        </div>
-        
-        <!-- Column 2: Quick Links -->
-        <div class="footer-column">
-            <h4>Quick Links</h4>
-            <ul>
-                <li><a href="index.html" >Home</a></li>
-                <li><a href="#about">About Us</a></li>
-                <li><a href="professionals.html" onclick="saveAppState()">Professionals</a></li>
-                <li><a href="marketplace.html" onclick="saveAppState()">Marketplace</a></li>
-                <li><a href="centers.html" onclick="saveAppState()">Centers</a></li>
-            </ul>
-        </div>
-        
-        <!-- Column 3: Contact Info -->
-        <div class="footer-column">
-            <h4>Contact Us</h4>
-            <div class="contact-info">
-                <p><i class='bx bx-map'></i> 44, Shonola Street, Ogba, Lagos state</p>
-                <p><i class='bx bx-phone'></i> + (234) 8132-912-880</p>
-                <p><i class='bx bx-envelope'></i> info@rehabconnect.com</p>
-            </div>
-        </div>
-        
-        <!-- Column 4: Newsletter -->
-        <div class="footer-column">
-            <h4>Newsletter</h4>
-            <form class="newsletter-form">
-                <input type="email" placeholder="rehabverve@gmail.com" required>
-                <button type="submit">Subscribe</button>
-            </form>
-        </div>
-    </div>
-    
-    <div class="footer-bottom">
-        <p>&copy; 2025 REHABVERVE. All rights reserved.</p>
-        <div class="legal-links">
-            <a href="terms.html">Privacy Policy</a>
-            <a href="terms.html">Terms of Service</a>
-            <a href="#">Cookie Policy</a>
-        </div>
-    </div>
-</footer>
-
+    <script src="assets/js/navmodal.js"></script>
+    <script src="assets/js/verve.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
     <script src="assets/js/configuration.js"></script>
-    <script src="assets/js/navmodal.js"></script>
-    <script src="assets/js/mainload.js"></script>
     <script src="assets/js/auth.js"></script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/centers.js"></script>

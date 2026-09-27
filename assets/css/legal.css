@@ -1,0 +1,18 @@
+/* Legal pages — RehabVerve */
+.legal { max-width: 880px; padding-top: 28px; padding-bottom: 24px; }
+.legal-hero { margin-bottom: 24px; }
+.legal-hero h1 { font-size: clamp(32px, 7vw, 54px); font-weight: 800; letter-spacing: -.04em; margin: 14px 0 8px; }
+.legal-body { padding: 24px 20px; border-radius: var(--r-xl); font-size: 15.5px; line-height: 1.8; color: #d7e0f5; }
+@media (min-width: 768px) { .legal-body { padding: 44px 48px; } }
+.legal-body hr { border: 0; height: 1px; margin: 28px 0; background: linear-gradient(90deg, transparent, var(--border-2), transparent); }
+.legal-body h2 { font-size: 20px; margin: 0 0 12px; color: var(--text); display: flex; align-items: center; gap: 10px; }
+.legal-body h2::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--grad); box-shadow: 0 0 10px var(--cyan); flex-shrink: 0; }
+.legal-body h3 { font-size: 17px; margin: 18px 0 8px; color: var(--text); }
+.legal-body p { margin: 0 0 12px; }
+.legal-body ul, .legal-body ol { list-style: disc; padding-left: 1.3em; margin: 0 0 14px; }
+.legal-body li { margin-bottom: 8px; }
+.legal-body li::marker { color: var(--cyan); }
+.legal-body strong { color: var(--text); }
+.legal-body a { color: var(--cyan); text-decoration: underline; text-underline-offset: 3px; }
+.legal-body .note, .legal-body .disclaimer { color: #a5f3fc; font-style: italic; }
+.legal-body > p:first-child { display: inline-flex; padding: 6px 14px; border-radius: var(--r-pill); background: var(--surface); border: 1px solid var(--border); font-size: 13.5px; }

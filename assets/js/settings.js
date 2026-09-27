@@ -387,6 +387,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Show toast notification
     function showToast(message) {
+        if (window.vvToast) { window.vvToast(message, /fail|error/i.test(message) ? 'error' : 'success'); return; }
         // Remove existing toast if any
         const existingToast = document.querySelector('.toast-notification');
         if (existingToast) {

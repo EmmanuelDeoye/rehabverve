@@ -13,7 +13,10 @@ function formatDate(timestamp) {
     let date;
     
     // Handle different timestamp formats
-    if (typeof timestamp === 'number') {
+    if (typeof timestamp === 'string' && /^\d+$/.test(timestamp)) {
+        // Stored as a numeric string (milliseconds)
+        date = new Date(Number(timestamp));
+    } else if (typeof timestamp === 'number') {
         // If it's a numeric timestamp (like Firebase timestamp)
         date = new Date(timestamp);
     } else if (timestamp.seconds) {
@@ -108,24 +111,23 @@ function displayBlogPost(blogPost, blogId) {
     // Format content with proper HTML structure
     const formattedContent = formatBlogContent(blogPost.content || '');
     
+    const words = String(blogPost.content || '').split(/\s+/).length;
+    document.title = `${blogPost.title} — RehabVerve`;
     blogDetailsContainer.innerHTML = `
-        <img src="${blogPost.img || 'assets/img/blog-placeholder.jpg'}" alt="${blogPost.title}" class="blog-header-image">
-        <div class="blog-content">
-            <h1 class="blog-title">${blogPost.title}</h1>
-            <div class="blog-meta">
-                <div class="blog-date">
-                    <i class='bx bx-calendar'></i>
-                    <span>${formatDate(blogPost.timestamp)}</span>
-                </div>
-                <div class="blog-author">
-                    <i class='bx bx-user'></i>
-                    <span>${blogPost.author || 'RehabVerve Team'}</span>
-                </div>
-                <div class="blog-category">
-                    <i class='bx bx-category'></i>
-                    <span>${blogPost.category || 'General'}</span>
+        <header class="article-hero">
+            <img src="${blogPost.img || 'assets/img/blog-placeholder.jpg'}" alt="${blogPost.title}" class="blog-header-image" onerror="this.src='assets/img/blog-placeholder.jpg'">
+            <div class="article-hero-body">
+                <a href="blogs.html" class="article-back"><i class='bx bx-arrow-back'></i> Health news</a>
+                <h1 class="blog-title">${blogPost.title}</h1>
+                <div class="blog-meta">
+                    <span class="blog-author"><i class='bx bx-user-circle'></i>${blogPost.author || 'RehabVerve Team'}</span>
+                    <span class="blog-date"><i class='bx bx-calendar'></i>${formatDate(blogPost.timestamp)}</span>
+                    <span class="blog-read"><i class='bx bx-time-five'></i>${Math.max(1, Math.round(words / 220))} min read</span>
+                    ${blogPost.category ? `<span class="blog-category"><i class='bx bx-purchase-tag'></i>${blogPost.category}</span>` : ''}
                 </div>
             </div>
+        </header>
+        <div class="blog-content">
             <div class="blog-text">
                 ${formattedContent}
             </div>
@@ -265,7 +267,7 @@ function displayRelatedPosts(relatedPosts) {
             <img src="${post.img || 'assets/img/blog-placeholder.jpg'}" alt="${post.title}">
             <div class="related-post-content">
                 <h4 class="related-post-title">${post.title}</h4>
-                <p class="related-post-excerpt">${post.description.substring(0, 100)}...</p>
+                <p class="related-post-excerpt">${String(post.description || '').substring(0, 120)}</p>
                 <a href="fullgist.html?id=${post.id}" class="read-more-btn">Read More</a>
             </div>
         </div>

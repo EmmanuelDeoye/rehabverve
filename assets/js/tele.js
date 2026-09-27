@@ -1,528 +1,370 @@
-// tele.js – Teletherapy page functionality
+// tele.js — Teletherapy page: booking flow, audience tabs, stories carousel,
+// animated FAQ, scroll-linked progress and the sticky booking dock.
+(function () {
+    'use strict';
 
-document.addEventListener('DOMContentLoaded', function() {
-    initHeroLottie();
-    initFloatingCTA();
-    initHowItWorksAnimation();
-    initTestimonialsCarousel();
-    initFaqAccordion();
-    initFooterLottie();
-});
+    const WA_NUMBER = '2348132912880';
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const $ = (s, r = document) => r.querySelector(s);
+    const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+    const waLink = text => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
 
-// ==================== HERO LOTTIE ANIMATION ====================
-function initHeroLottie() {
-    const container = document.getElementById('hero-lottie');
-    if (!container || typeof lottie === 'undefined') {
-        console.warn('Lottie library not loaded or container missing');
-        return;
-    }
+    const state = { day: null, audience: 'Myself' };
 
-    lottie.loadAnimation({
-        container: container,
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        // High-quality online therapy/consultation animation
-        path: 'https://assets2.lottiefiles.com/packages/lf20_jvxwtdtp.json'
-    });
-}
-
-// ==================== FLOATING CTA ====================
-function initFloatingCTA() {
-    const floatingBtn = document.getElementById('floatingCta');
-    const mainCTA = document.querySelector('.tele-btn--primary');
-    if (!floatingBtn || !mainCTA) return;
-
-    window.addEventListener('scroll', () => {
-        const mainCTARect = mainCTA.getBoundingClientRect();
-        const isMainCTAVisible = mainCTARect.top < window.innerHeight && mainCTARect.bottom > 0;
-
-        if (!isMainCTAVisible) {
-            floatingBtn.classList.add('show');
-        } else {
-            floatingBtn.classList.remove('show');
-        }
-    });
-}
-
-// ==================== HOW IT WORKS SCROLL ANIMATION ====================
-function initHowItWorksAnimation() {
-    const steps = document.querySelectorAll('.how-step');
-    if (!steps.length) return;
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target); // stop observing once animated
-            }
+    /* ---------------- WhatsApp links ---------------- */
+    function whatsappLinks() {
+        $$('[data-wa]').forEach(a => {
+            a.href = waLink(a.getAttribute('data-wa'));
+            a.target = '_blank';
+            a.rel = 'noopener';
         });
-    }, {
-        threshold: 0.2,
-        rootMargin: '0px'
-    });
-
-    steps.forEach(step => observer.observe(step));
-}
-
-// ==================== TESTIMONIALS CAROUSEL ====================
-function initTestimonialsCarousel() {
-    const track = document.getElementById('testimonialsTrack');
-    const prevBtn = document.getElementById('testimonialsPrev');
-    const nextBtn = document.getElementById('testimonialsNext');
-    const dotsContainer = document.getElementById('testimonialsDots');
-
-    if (!track || !prevBtn || !nextBtn || !dotsContainer) return;
-
-    const cards = Array.from(track.children);
-    if (cards.length === 0) return;
-
-    let currentIndex = 0;
-    let cardWidth = cards[0].getBoundingClientRect().width + 24; // include gap (1.5rem = 24px)
-    let cardsPerView = getCardsPerView();
-
-    function getCardsPerView() {
-        if (window.innerWidth >= 992) return 3;
-        if (window.innerWidth >= 768) return 2;
-        return 1;
     }
 
-    function updateDots() {
-        const totalDots = Math.ceil(cards.length / cardsPerView);
-        dotsContainer.innerHTML = '';
-        for (let i = 0; i < totalDots; i++) {
-            const dot = document.createElement('div');
-            dot.className = 'testimonials-dot';
-            if (i === Math.floor(currentIndex / cardsPerView)) {
-                dot.classList.add('active');
-            }
-            dot.addEventListener('click', () => {
-                currentIndex = i * cardsPerView;
-                if (currentIndex + cardsPerView > cards.length) {
-                    currentIndex = cards.length - cardsPerView;
-                }
-                moveTrack();
-                updateDots();
-            });
-            dotsContainer.appendChild(dot);
-        }
-    }
-
-    function moveTrack() {
-        track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
-    }
-
-    function handleResize() {
-        cardWidth = cards[0].getBoundingClientRect().width + 24;
-        cardsPerView = getCardsPerView();
-        if (currentIndex + cardsPerView > cards.length) {
-            currentIndex = Math.max(0, cards.length - cardsPerView);
-        }
-        moveTrack();
-        updateDots();
-    }
-
-    prevBtn.addEventListener('click', () => {
-        if (currentIndex > 0) {
-            currentIndex -= 1;
-        } else {
-            currentIndex = cards.length - cardsPerView;
-        }
-        moveTrack();
-        updateDots();
-    });
-
-    nextBtn.addEventListener('click', () => {
-        if (currentIndex + cardsPerView < cards.length) {
-            currentIndex += 1;
-        } else {
-            currentIndex = 0;
-        }
-        moveTrack();
-        updateDots();
-    });
-
-    // Add touch/swipe support for mobile
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    track.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-
-    track.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    });
-
-    function handleSwipe() {
-        const swipeThreshold = 50;
-        if (touchEndX < touchStartX - swipeThreshold) {
-            // Swipe left - next
-            if (currentIndex + cardsPerView < cards.length) {
-                currentIndex += 1;
-            } else {
-                currentIndex = 0;
-            }
-            moveTrack();
-            updateDots();
-        }
-        if (touchEndX > touchStartX + swipeThreshold) {
-            // Swipe right - previous
-            if (currentIndex > 0) {
-                currentIndex -= 1;
-            } else {
-                currentIndex = cards.length - cardsPerView;
-            }
-            moveTrack();
-            updateDots();
-        }
-    }
-
-    window.addEventListener('resize', handleResize);
-    
-    // Initialize
-    handleResize();
-    
-    // Auto-advance every 5 seconds
-    let autoAdvance = setInterval(() => {
-        if (currentIndex + cardsPerView < cards.length) {
-            currentIndex += 1;
-        } else {
-            currentIndex = 0;
-        }
-        moveTrack();
-        updateDots();
-    }, 5000);
-
-    // Pause auto-advance on hover
-    track.addEventListener('mouseenter', () => clearInterval(autoAdvance));
-    track.addEventListener('mouseleave', () => {
-        autoAdvance = setInterval(() => {
-            if (currentIndex + cardsPerView < cards.length) {
-                currentIndex += 1;
-            } else {
-                currentIndex = 0;
-            }
-            moveTrack();
-            updateDots();
-        }, 5000);
-    });
-}
-
-// ==================== FAQ ACCORDION ====================
-function initFaqAccordion() {
-    const faqItems = document.querySelectorAll('.faq-item');
-    if (!faqItems.length) return;
-
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        if (!question) return;
-
-        question.addEventListener('click', () => {
-            // Close other items (optional - uncomment if you want auto-close)
-            // faqItems.forEach(otherItem => {
-            //     if (otherItem !== item && otherItem.classList.contains('active')) {
-            //         otherItem.classList.remove('active');
-            //     }
-            // });
-            
-            // Toggle current item
-            item.classList.toggle('active');
-        });
-
-        // Allow keyboard activation (Enter or Space)
-        question.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                item.classList.toggle('active');
-            }
-        });
-    });
-}
-
-// ==================== FOOTER LOTTIE ANIMATION ====================
-function initFooterLottie() {
-    const animationContainer = document.getElementById('lottie-animation');
-    if (!animationContainer || typeof lottie === 'undefined') return;
-
-    lottie.loadAnimation({
-        container: animationContainer,
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        path: 'https://assets9.lottiefiles.com/packages/lf20_pz9jz1.json' // Online therapy / consultation
-    });
-}
-
-// ==================== SMOOTH SCROLL FOR ANCHOR LINKS ====================
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        const href = this.getAttribute('href');
-        if (href === '#' || href === '#0') return;
-        
-        const targetElement = document.querySelector(href);
-        if (targetElement) {
-            e.preventDefault();
-            targetElement.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
+    /* ---------------- Preferred day pickers ---------------- */
+    function buildDays() {
+        const days = [];
+        const now = new Date();
+        for (let i = 0; i < 5; i++) {
+            const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i);
+            days.push({
+                key: d.toISOString().slice(0, 10),
+                top: i === 0 ? 'Today' : i === 1 ? 'Tmrw' : d.toLocaleDateString('en-US', { weekday: 'short' }),
+                num: d.getDate(),
+                label: d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })
             });
         }
-    });
-});
-
-// ==================== PRICING CARD HOVER EFFECTS ====================
-function enhancePricingCards() {
-    const pricingCards = document.querySelectorAll('.pricing-card');
-    pricingCards.forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            pricingCards.forEach(c => c.style.opacity = '0.7');
-            card.style.opacity = '1';
+        state.day = days[1];
+        ['heroDays', 'sheetDays'].forEach(id => {
+            const host = document.getElementById(id);
+            if (!host) return;
+            host.innerHTML = days.map(d => `
+                <button type="button" class="th-day ${d.key === state.day.key ? 'is-active' : ''}" data-day="${d.key}" aria-pressed="${d.key === state.day.key}">
+                    <small>${d.top}</small><b>${d.num}</b>
+                </button>`).join('');
         });
-        card.addEventListener('mouseleave', () => {
-            pricingCards.forEach(c => c.style.opacity = '1');
+        document.addEventListener('click', e => {
+            const btn = e.target.closest('.th-day');
+            if (!btn) return;
+            state.day = days.find(d => d.key === btn.dataset.day);
+            $$('.th-day').forEach(b => {
+                const on = b.dataset.day === state.day.key;
+                b.classList.toggle('is-active', on);
+                b.setAttribute('aria-pressed', on);
+            });
         });
-    });
-}
-
-// Call this after DOM is ready
-document.addEventListener('DOMContentLoaded', enhancePricingCards);
-
-// ==================== SERVICE CARD ANIMATION ON SCROLL ====================
-function initServiceCardAnimation() {
-    const serviceCards = document.querySelectorAll('.service-card');
-    if (!serviceCards.length) return;
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-                setTimeout(() => {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }, index * 100); // Stagger effect
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px'
-    });
-
-    serviceCards.forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(card);
-    });
-}
-
-// Call this after DOM is ready
-document.addEventListener('DOMContentLoaded', initServiceCardAnimation);
-
-// ==================== FORM VALIDATION FOR NEWSLETTER ====================
-function initNewsletterForm() {
-    const newsletterForm = document.querySelector('.newsletter-form');
-    if (!newsletterForm) return;
-
-    newsletterForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const emailInput = newsletterForm.querySelector('input[type="email"]');
-        const email = emailInput.value.trim();
-
-        if (!email || !isValidEmail(email)) {
-            showToast('Please enter a valid email address', 'error');
-            return;
-        }
-
-        // Here you would typically send to your backend
-        showToast('Thank you for subscribing!', 'success');
-        emailInput.value = '';
-    });
-}
-
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-function showToast(message, type = 'info') {
-    // Create toast element
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    toast.textContent = message;
-    toast.style.cssText = `
-        position: fixed;
-        bottom: 100px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: ${type === 'success' ? '#28a745' : '#dc3545'};
-        color: white;
-        padding: 12px 24px;
-        border-radius: 50px;
-        font-weight: 500;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        z-index: 9999;
-        animation: slideUp 0.3s ease;
-    `;
-
-    document.body.appendChild(toast);
-
-    setTimeout(() => {
-        toast.style.animation = 'slideDown 0.3s ease';
-        setTimeout(() => toast.remove(), 300);
-    }, 3000);
-}
-
-// Add toast animations
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideUp {
-        from { opacity: 0; transform: translate(-50%, 20px); }
-        to { opacity: 1; transform: translate(-50%, 0); }
-    }
-    @keyframes slideDown {
-        from { opacity: 1; transform: translate(-50%, 0); }
-        to { opacity: 0; transform: translate(-50%, 20px); }
-    }
-`;
-document.head.appendChild(style);
-
-// Initialize newsletter form
-document.addEventListener('DOMContentLoaded', initNewsletterForm);
-
-// ==================== CTA BUTTON TRACKING (Optional) ====================
-function initCTATracking() {
-    const ctaButtons = document.querySelectorAll('[data-cta]');
-    ctaButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            const ctaName = button.getAttribute('data-cta');
-            console.log(`CTA clicked: ${ctaName}`);
-            // Here you could send analytics events
-            // e.g., gtag('event', 'click', { 'event_category': 'CTA', 'event_label': ctaName });
-        });
-    });
-}
-
-document.addEventListener('DOMContentLoaded', initCTATracking);
-
-// ==================== LAZY LOAD IMAGES ====================
-function initLazyLoading() {
-    const images = document.querySelectorAll('img[data-src]');
-    if (!images.length) return;
-
-    const imageObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.getAttribute('data-src');
-                img.removeAttribute('data-src');
-                imageObserver.unobserve(img);
-            }
-        });
-    });
-
-    images.forEach(img => imageObserver.observe(img));
-}
-
-document.addEventListener('DOMContentLoaded', initLazyLoading);
-
-// ==================== STICKY HEADER BEHAVIOR ====================
-function initStickyHeader() {
-    const header = document.querySelector('.l-header');
-    if (!header) return;
-
-    let lastScroll = 0;
-    const scrollThreshold = 50;
-
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-
-        if (currentScroll <= 0) {
-            header.classList.remove('scroll-up');
-            return;
-        }
-
-        if (currentScroll > lastScroll && currentScroll > scrollThreshold) {
-            // Scrolling down
-            header.classList.add('scroll-down');
-            header.classList.remove('scroll-up');
-        } else if (currentScroll < lastScroll) {
-            // Scrolling up
-            header.classList.add('scroll-up');
-            header.classList.remove('scroll-down');
-        }
-
-        lastScroll = currentScroll;
-    });
-}
-
-document.addEventListener('DOMContentLoaded', initStickyHeader);
-
-// ==================== BACK TO TOP BUTTON ====================
-function initBackToTop() {
-    // Create button if it doesn't exist
-    let backToTop = document.getElementById('back-to-top');
-    if (!backToTop) {
-        backToTop = document.createElement('button');
-        backToTop.id = 'back-to-top';
-        backToTop.innerHTML = '<i class="bx bx-chevron-up"></i>';
-        backToTop.style.cssText = `
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: #00BCD4;
-            color: white;
-            border: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            cursor: pointer;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            z-index: 999;
-            transition: all 0.3s ease;
-        `;
-        document.body.appendChild(backToTop);
     }
 
-    window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) {
-            backToTop.style.display = 'flex';
-        } else {
-            backToTop.style.display = 'none';
+    /* ---------------- Audience tabs ---------------- */
+    const AUDIENCES = {
+        individual: {
+            icon: 'bx-user', book: 'Book for myself', audience: 'Myself',
+            title: 'Support that fits your life',
+            text: 'One‑to‑one sessions with a licensed specialist, built around your goals and schedule.',
+            list: ['Stress & anxiety', 'Stroke & injury recovery', 'Speech & voice', 'Pain & mobility']
+        },
+        couple: {
+            icon: 'bx-heart', book: 'Book as a couple', audience: 'Couple',
+            title: 'Grow closer, communicate better',
+            text: 'Guided sessions that help you resolve conflict and rebuild connection — together, from home.',
+            list: ['Communication', 'Conflict resolution', 'Trust & intimacy', 'Life transitions']
+        },
+        family: {
+            icon: 'bx-home-heart', book: 'Book for my family', audience: 'Family',
+            title: 'Care that includes everyone',
+            text: 'Coordinated support for caregivers and loved ones, with a multidisciplinary team when needed.',
+            list: ['Caregiver support', 'Family dynamics', 'Home rehab plans', 'Care coordination']
+        },
+        child: {
+            icon: 'bx-child', book: 'Book for my child', audience: 'My child',
+            title: 'Helping children thrive',
+            text: 'Playful, evidence‑based therapy with specialists who work with children every day.',
+            list: ['Speech & language', 'Autism support', 'Learning differences', 'Motor skills']
         }
-    });
-
-    backToTop.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-
-    backToTop.addEventListener('mouseenter', () => {
-        backToTop.style.transform = 'translateY(-5px)';
-        backToTop.style.boxShadow = '0 8px 20px rgba(0,188,212,0.4)';
-    });
-
-    backToTop.addEventListener('mouseleave', () => {
-        backToTop.style.transform = 'translateY(0)';
-        backToTop.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-    });
-}
-
-document.addEventListener('DOMContentLoaded', initBackToTop);
-
-// ==================== EXPORT FOR TESTING (if needed) ====================
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        initHeroLottie,
-        initHowItWorksAnimation,
-        initTestimonialsCarousel,
-        initFaqAccordion
     };
-}
+
+    function audienceTabs() {
+        const tabs = $$('.th-tab');
+        const ink = $('.th-tab-ink');
+        if (!tabs.length) return;
+        const copy = $('.th-aud-copy');
+
+        function moveInk(tab) {
+            if (!ink) return;
+            ink.style.width = `${tab.offsetWidth}px`;
+            ink.style.transform = `translateX(${tab.offsetLeft - 5}px)`;
+        }
+        function select(tab, animate) {
+            const a = AUDIENCES[tab.dataset.aud];
+            tabs.forEach(t => { const on = t === tab; t.classList.toggle('is-active', on); t.setAttribute('aria-selected', on); });
+            moveInk(tab);
+            $('#audTitle').textContent = a.title;
+            $('#audText').textContent = a.text;
+            $('#audList').innerHTML = a.list.map(x => `<li><i class='bx bx-check-circle'></i>${x}</li>`).join('');
+            $('#audIcon').className = `bx ${a.icon}`;
+            $('#audBtn span').textContent = a.book;
+            $('#audBtn').dataset.audience = a.audience;
+            if (animate && copy) { copy.classList.remove('th-aud-fade'); void copy.offsetWidth; copy.classList.add('th-aud-fade'); }
+        }
+        tabs.forEach(t => t.addEventListener('click', () => select(t, true)));
+        $('.th-tabs').addEventListener('keydown', e => {
+            const i = tabs.findIndex(t => t.classList.contains('is-active'));
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                const next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+                next.focus(); select(next, true);
+            }
+        });
+        select(tabs[0], false);
+        addEventListener('resize', () => moveInk($('.th-tab.is-active')));
+        // fonts can shift widths after load
+        if (document.fonts) document.fonts.ready.then(() => moveInk($('.th-tab.is-active')));
+    }
+
+    /* ---------------- Steps progress line ---------------- */
+    function stepsLine() {
+        const wrap = $('#thSteps');
+        const line = $('.th-steps-line');
+        if (!wrap || !line) return;
+        const update = () => {
+            const r = wrap.getBoundingClientRect();
+            const p = Math.min(1, Math.max(0, (innerHeight * 0.85 - r.top) / (r.height + innerHeight * 0.3)));
+            line.style.setProperty('--p', p.toFixed(3));
+        };
+        addEventListener('scroll', update, { passive: true });
+        update();
+    }
+
+    /* ---------------- Stories carousel ---------------- */
+    function stories() {
+        const track = $('#tTrack');
+        const dotsHost = $('#tDots');
+        if (!track) return;
+        const cards = $$('.th-story', track);
+        dotsHost.innerHTML = cards.map((_, i) => `<button type="button" aria-label="Story ${i + 1}"></button>`).join('');
+        const dots = $$('button', dotsHost);
+
+        const step = () => (cards[1] ? cards[1].offsetLeft - cards[0].offsetLeft : track.clientWidth);
+        const current = () => Math.round(track.scrollLeft / step());
+        const go = i => {
+            const max = cards.length - 1;
+            const idx = i > max ? 0 : i < 0 ? max : i;
+            track.scrollTo({ left: idx * step(), behavior: reduced ? 'auto' : 'smooth' });
+        };
+        const sync = () => dots.forEach((d, i) => d.classList.toggle('is-active', i === Math.min(current(), dots.length - 1)));
+
+        dots.forEach((d, i) => d.addEventListener('click', () => go(i)));
+        $('#tPrev') && $('#tPrev').addEventListener('click', () => go(current() - 1));
+        $('#tNext') && $('#tNext').addEventListener('click', () => go(current() + 1));
+        track.addEventListener('scroll', () => requestAnimationFrame(sync), { passive: true });
+        track.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight') { e.preventDefault(); go(current() + 1); }
+            if (e.key === 'ArrowLeft') { e.preventDefault(); go(current() - 1); }
+        });
+        sync();
+
+        if (reduced) return;
+        let timer = null, visible = false, hovering = false;
+        const tick = () => { if (visible && !hovering && !document.hidden) { const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4; go(atEnd ? 0 : current() + 1); } };
+        const start = () => { clearInterval(timer); timer = setInterval(tick, 5500); };
+        track.addEventListener('pointerenter', () => { hovering = true; });
+        track.addEventListener('pointerleave', () => { hovering = false; });
+        track.addEventListener('touchstart', () => { hovering = true; start(); }, { passive: true });
+        track.addEventListener('touchend', () => { hovering = false; }, { passive: true });
+        new IntersectionObserver(es => es.forEach(e => { visible = e.isIntersecting; })).observe(track);
+        start();
+    }
+
+    /* ---------------- FAQ (animated details) ---------------- */
+    function faq() {
+        $$('.th-q').forEach(d => {
+            const summary = $('summary', d);
+            const body = $('.th-a', d);
+            summary.addEventListener('click', e => {
+                if (reduced) return;
+                e.preventDefault();
+                if (d.open) {
+                    const h = body.offsetHeight;
+                    body.animate([{ height: `${h}px`, opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 320, easing: 'cubic-bezier(.22,1,.36,1)' })
+                        .onfinish = () => { d.open = false; };
+                } else {
+                    d.open = true;
+                    const h = body.offsetHeight;
+                    body.animate([{ height: '0px', opacity: 0 }, { height: `${h}px`, opacity: 1 }], { duration: 420, easing: 'cubic-bezier(.22,1,.36,1)' });
+                }
+            });
+        });
+    }
+
+    /* ---------------- Sticky dock ---------------- */
+    function dock() {
+        const el = $('#thDock');
+        const hero = $('.th-actions');
+        if (!el || !hero) return;
+        new IntersectionObserver(es => es.forEach(e => {
+            el.classList.toggle('show', !e.isIntersecting && e.boundingClientRect.top < 0);
+        })).observe(hero);
+    }
+
+    /* ---------------- Booking sheet ---------------- */
+    function booking() {
+        const sheet = $('#bookSheet');
+        const form = $('#bookForm');
+        if (!sheet || !form) return;
+        const steppers = $$('.th-stepper', form);
+        const done = $('.th-done', form);
+        const actions = $('#bookActions');
+        const back = $('#bookBack');
+        const next = $('#bookNext');
+        const bar = $('#bookBar');
+        const labels = $$('.th-progress-labels li');
+        let step = 1, lastFocus = null;
+
+        function setStep(n) {
+            step = n;
+            steppers.forEach(s => s.classList.toggle('is-active', Number(s.dataset.step) === n));
+            const isDone = n === 4;
+            done.hidden = !isDone;
+            actions.hidden = isDone;
+            back.hidden = n === 1;
+            next.innerHTML = n === 3 ? "<i class='bx bxl-whatsapp'></i> Send request" : "Continue <i class='bx bx-right-arrow-alt'></i>";
+            next.classList.toggle('vv-btn--whatsapp', n === 3);
+            next.classList.toggle('vv-btn--primary', n !== 3);
+            bar.style.width = `${Math.min(n, 3) / 3 * 100}%`;
+            labels.forEach((l, i) => l.classList.toggle('is-on', i < Math.min(n, 3)));
+            if (n === 3) renderSummary();
+            $('.th-sheet-panel').scrollTop = 0;
+        }
+
+        function values() {
+            const fd = new FormData(form);
+            return {
+                audience: fd.get('audience'),
+                service: fd.get('service'),
+                plan: fd.get('plan'),
+                time: fd.get('time'),
+                name: (fd.get('name') || '').trim(),
+                phone: (fd.get('phone') || '').trim(),
+                notes: (fd.get('notes') || '').trim(),
+                day: state.day ? state.day.label : 'Flexible'
+            };
+        }
+
+        function renderSummary() {
+            const v = values();
+            $('#bookSummary').innerHTML = `
+                <div><b>For:</b> ${v.audience} · <b>Service:</b> ${escapeHTML(v.service)}</div>
+                <div><b>Plan:</b> ${v.plan}</div>
+                <div><b>Preferred:</b> ${v.day}, ${v.time.toLowerCase()}</div>`;
+        }
+
+        function escapeHTML(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+
+        function validate() {
+            let ok = true;
+            ['name', 'phone'].forEach(n => {
+                const input = form.elements[n];
+                const field = input.closest('.th-field');
+                const valid = n === 'phone' ? input.value.replace(/\D/g, '').length >= 7 : input.value.trim().length >= 2;
+                field.classList.toggle('has-error', !valid);
+                if (!valid && ok) { input.focus(); ok = false; }
+            });
+            return ok;
+        }
+
+        function open(ctx = {}) {
+            lastFocus = document.activeElement;
+            form.reset();
+            $$('.th-field.has-error', form).forEach(f => f.classList.remove('has-error'));
+            if (ctx.service) {
+                const opt = $$('option', $('#bookService')).find(o => o.textContent.trim() === ctx.service);
+                if (opt) $('#bookService').value = opt.value;
+            }
+            if (ctx.plan) { const r = $(`input[name="plan"][value="${ctx.plan}"]`, form); if (r) r.checked = true; }
+            if (ctx.audience) { const r = $(`input[name="audience"][value="${ctx.audience}"]`, form); if (r) r.checked = true; }
+            setStep(1);
+            sheet.hidden = false;
+            sheet.classList.remove('is-closing');
+            document.body.classList.add('th-lock');
+            setTimeout(() => { const first = $('input:checked', form) || $('input', form); if (first) first.focus({ preventScroll: true }); }, 60);
+        }
+
+        function close() {
+            if (sheet.hidden) return;
+            sheet.classList.add('is-closing');
+            setTimeout(() => {
+                sheet.hidden = true;
+                sheet.classList.remove('is-closing');
+                document.body.classList.remove('th-lock');
+                if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+            }, reduced ? 0 : 340);
+        }
+
+        function send() {
+            const v = values();
+            const msg = [
+                'Hello RehabVerve! I\'d like to book a teletherapy session.',
+                '',
+                `• Name: ${v.name}`,
+                `• Phone: ${v.phone}`,
+                `• Session for: ${v.audience}`,
+                `• Service: ${v.service}`,
+                `• Plan: ${v.plan}`,
+                `• Preferred time: ${v.day}, ${v.time}`,
+                v.notes ? `• Notes: ${v.notes}` : null
+            ].filter(line => line !== null).join('\n');
+            window.open(waLink(msg), '_blank', 'noopener');
+            setStep(4);
+            if (window.vvToast) window.vvToast('Booking request prepared — send it on WhatsApp to confirm', 'success', 5000);
+        }
+
+        document.addEventListener('click', e => {
+            const trigger = e.target.closest('[data-book]');
+            if (trigger && !sheet.contains(trigger)) {
+                e.preventDefault();
+                const service = trigger.closest('[data-service]');
+                const plan = trigger.closest('[data-plan]');
+                open({
+                    service: service && service.dataset.service,
+                    plan: plan && plan.dataset.plan,
+                    audience: trigger.dataset.audience
+                });
+            }
+            if (e.target.closest('[data-close]') && sheet.contains(e.target)) close();
+        });
+        next.addEventListener('click', () => {
+            if (step < 3) setStep(step + 1);
+            else if (validate()) send();
+        });
+        back.addEventListener('click', () => setStep(Math.max(1, step - 1)));
+        form.addEventListener('submit', e => { e.preventDefault(); next.click(); });
+        form.addEventListener('input', e => {
+            const f = e.target.closest('.th-field');
+            if (f) f.classList.remove('has-error');
+        });
+        document.addEventListener('keydown', e => {
+            if (sheet.hidden) return;
+            if (e.key === 'Escape') close();
+            if (e.key === 'Tab') {
+                const focusables = $$('button:not([hidden]), input, select, textarea, a[href]', sheet).filter(el => el.offsetParent !== null);
+                const first = focusables[0], last = focusables[focusables.length - 1];
+                if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+                else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+            }
+        });
+        // Allow deep links like teletherapy.html#book
+        if (location.hash === '#book') setTimeout(() => open(), 400);
+    }
+
+    function init() {
+        whatsappLinks();
+        buildDays();
+        audienceTabs();
+        stepsLine();
+        stories();
+        faq();
+        dock();
+        booking();
+    }
+
+    if (document.body) init();
+    else document.addEventListener('DOMContentLoaded', init);
+})();

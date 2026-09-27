@@ -48,6 +48,26 @@ const coursesRef = database.ref('cert');
 const toolsRef = database.ref('equip');
 const blogPostsRef = database.ref().child('blogPosts');
 
+// Escape database text before it goes into innerHTML
+function esc(value) {
+    return String(value == null ? '' : value)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function professionalCardHTML(professional) {
+    return `
+        <div class="pc-cover"></div>
+        <div class="pc-avatar">
+            <img src="${esc(professional.img || 'assets/img/profile.png')}" alt="${esc(professional.name)}" class="profile-image" loading="lazy" onerror="this.src='assets/img/profile.png'">
+            <span class="pc-verified" title="Verified"><i class='bx bxs-badge-check'></i></span>
+        </div>
+        <h3 class="pc-name">${esc(professional.name || 'RehabVerve member')}</h3>
+        <p class="pc-role">${esc(professional.job || 'Healthcare Professional')}</p>
+        <span class="pc-cta">View profile <i class='bx bx-right-arrow-alt'></i></span>
+    `;
+}
+
 // Design slider functions
 let designsSlideInterval;
 
@@ -188,11 +208,11 @@ function renderSlides() {
         const slideElement = document.createElement('div');
         slideElement.className = 'slide';
         slideElement.innerHTML = `
-            <img src="${slide.imageUrl || slide.image}" alt="${slide.title || ''}">
+            <img src="${esc(slide.imageUrl || slide.image)}" alt="${esc(slide.title || 'RehabVerve spotlight')}" ${index ? 'loading="lazy"' : ''}>
             ${slide.title ? `
             <div class="slide-content">
-                <h2>${slide.title}</h2>
-                ${slide.description ? `<p>${slide.description}</p>` : ''}
+                <h2>${esc(slide.title)}</h2>
+                ${slide.description ? `<p>${esc(slide.description)}</p>` : ''}
             </div>` : ''}
         `;
         
@@ -276,6 +296,7 @@ function displayProfessionals(professionalsData) {
     
     appState.professionals = professionalsData;
     profilesContainer.innerHTML = '';
+    document.dispatchEvent(new CustomEvent('vv:professionals', { detail: professionalsData || {} }));
     
     if (professionalsData) {
         const professionalsArray = Object.keys(professionalsData).map(key => ({
@@ -289,19 +310,8 @@ function displayProfessionals(professionalsData) {
         if (featuredProfessionals.length > 0) {
             featuredProfessionals.forEach(professional => {
                 const profileCard = document.createElement('div');
-                
-                const displayName = professional.name.length > 20 
-    ? professional.name.substring(0, 14) + '...' 
-    : professional.name;
                 profileCard.classList.add('profile-card');
-                profileCard.innerHTML = `
-                    <img src="${professional.img || 'assets/img/profile.png'}" 
-                         alt="${professional.name}"
-                         class="profile-image">
-                    <p2>${displayName}</p2>
-                    <p class="specialty">${professional.job || 'Healthcare Professional'}</p>
-                    ${professional.specialty ? `<p class="specialty">${professional.specialty}</p>` : ''}
-                `;
+                profileCard.innerHTML = professionalCardHTML(professional);
                 
                 profileCard.addEventListener('click', () => {
                     saveAppState();
@@ -368,7 +378,9 @@ function displayFeaturedCenters(centersData) {
     
     appState.centers = centersData;
     centersContainer.innerHTML = '';
-    
+    centersData = centersData || {};
+    document.dispatchEvent(new CustomEvent('vv:centers', { detail: centersData }));
+
     const centersArray = Object.keys(centersData).map(key => ({
             id: key,
             ...centersData[key],
@@ -380,12 +392,14 @@ function displayFeaturedCenters(centersData) {
             const centerCard = document.createElement('div');
             centerCard.className = 'center-card';
                 centerCard.innerHTML = `
-                    <img src="${center.img || 'assets/img/center-placeholder.jpg'}" alt="${center.centerName}">
-                    <div class="center-card-content">
-                        <h3>${center.centerName}</h3>
-                        <p class="center-date">${center.centerType}</p>
-                        
-                        <a href="center_details.html?id=${center.userId}" class="read-more">View Details</a>
+                    <div class="cc-media">
+                        <img src="${esc(center.img || 'assets/img/center-placeholder.jpg')}" alt="${esc(center.centerName)}" loading="lazy">
+                        ${center.centerType ? `<span class="cc-tag">${esc(center.centerType)}</span>` : ''}
+                    </div>
+                    <div class="cc-body">
+                        <h3>${esc(center.centerName || 'Care center')}</h3>
+                        ${center.address ? `<div class="cc-meta"><i class='bx bx-map'></i><span>${esc(String(center.address).slice(0, 60))}</span></div>` : ''}
+                        <a href="users.html?id=${encodeURIComponent(center.userId || center.id)}" class="cc-link">View center <i class='bx bx-right-arrow-alt'></i></a>
                     </div>
                 `;
             
@@ -468,19 +482,8 @@ function displayProfessionals22(professionalsData22) {
         if (featuredProfessionals22.length > 0) {
             featuredProfessionals22.forEach(professional => {
                 const profileCard = document.createElement('div');
-               
-               const displayName = professional.name.length > 20 
-    ? professional.name.substring(0, 14) + '...' 
-    : professional.name;
                 profileCard.classList.add('profile-card');
-                profileCard.innerHTML = `
-                    <img src="${professional.img || 'assets/img/profile.png'}" 
-                         alt="${professional.name}"
-                         class="profile-image">
-                    <p2>${displayName}</p2>
-                    <p class="specialty">${professional.job || 'Healthcare Professional'}</p>
-                    ${professional.specialty ? `<p class="specialty">${professional.specialty}</p>` : ''}
-                `;
+                profileCard.innerHTML = professionalCardHTML(professional);
                 
                 profileCard.addEventListener('click', () => {
                     saveAppState();
@@ -522,17 +525,21 @@ function displayLatestBlogPosts(blogPostsData) {
                 blogCard.className = 'blog-card';
                 
                 // Format date if available
-                const postDate = blogPost.timestamp ? 
-                    new Date(blogPost.timestamp).toLocaleDateString() : 
-                    'Recent';
+                const ts = Number(blogPost.timestamp);
+                const postDate = ts
+                    ? new Date(ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                    : 'Recent';
                 
                 blogCard.innerHTML = `
-                    <img src="${blogPost.img || 'assets/img/blog-placeholder.jpg'}" alt="${blogPost.title}">
-                    <div class="blog-card-content">
-                        <h3>${blogPost.title || 'Untitled Post'}</h3>
-                        <p class="blog-date">${postDate}</p>
-                        <p>${(blogPost.description || '').substring(0, 100)}...</p>
-                        
+                    <div class="cc-media">
+                        <img src="${esc(blogPost.img || 'assets/img/blog-placeholder.jpg')}" alt="${esc(blogPost.title)}" loading="lazy">
+                        ${blogPost.category ? `<span class="cc-tag">${esc(blogPost.category)}</span>` : ''}
+                    </div>
+                    <div class="cc-body">
+                        <div class="cc-meta"><i class='bx bx-calendar'></i><span>${esc(postDate)}</span></div>
+                        <h3>${esc(blogPost.title || 'Untitled Post')}</h3>
+                        <p>${esc((blogPost.description || '').substring(0, 120))}</p>
+                        <span class="cc-link">Read story <i class='bx bx-right-arrow-alt'></i></span>
                     </div>
                 `;
                 
@@ -667,7 +674,7 @@ function initializeApp() {
     const isBackNavigation = navigationType === 'back_forward';
     
     // Use cached data for back navigation
-    if (stateRestored && isBackNavigation) {
+    if (stateRestored && isBackNavigation && appState.professionals && appState.professionals22) {
         if (appState.professionals) displayProfessionals(appState.professionals);
         if (appState.professionals22) displayProfessionals22(appState.professionals22);
         if (appState.products) displayFeaturedProducts(appState.products);
@@ -717,9 +724,9 @@ function initializeApp() {
     }
     
     // Initialize professionals for both sections
-    if (stateRestored) {
-        if (appState.professionals) displayProfessionals(appState.professionals);
-        if (appState.professionals22) displayProfessionals22(appState.professionals22);
+    if (stateRestored && appState.professionals && appState.professionals22) {
+        displayProfessionals(appState.professionals);
+        displayProfessionals22(appState.professionals22);
     } else {
         // Original professionals section
         showLoading('featured-professionals');

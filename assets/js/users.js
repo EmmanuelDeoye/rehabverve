@@ -10,6 +10,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const database = firebase.database();
     const storage = firebase.storage();
 
+    // No profile id: send signed-in users to their own profile, ask others to sign in
+    if (!profileId) {
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                location.replace(`users.html?id=${encodeURIComponent(user.uid)}`);
+            } else {
+                document.querySelector('.user-name').textContent = 'Sign in to view your profile';
+                document.querySelector('.user-title').textContent = 'Your RehabVerve profile lives here';
+                if (typeof showModal === 'function') showModal('auth-modal');
+            }
+        });
+        return;
+    }
+
     // DOM Elements
     const profileImage = document.getElementById('profile-image');
     const editIcon = document.getElementById('edit-icon');
@@ -808,11 +822,14 @@ document.addEventListener('DOMContentLoaded', () => {
             last_changed: firebase.database.ServerValue.TIMESTAMP
         };
         
-        database.ref('.info/connected').on('value', (snapshot) => {
-            if (snapshot.val() === false) return;
-            
-            userStatusRef.onDisconnect().set(isOffline).then(() => {
-                userStatusRef.set(isOnline);
+        // Only the profile owner reports their own presence; visitors just listen.
+        auth.onAuthStateChanged(user => {
+            if (!user || user.uid !== uid) return;
+            database.ref('.info/connected').on('value', (snapshot) => {
+                if (snapshot.val() === false) return;
+                userStatusRef.onDisconnect().set(isOffline).then(() => {
+                    userStatusRef.set(isOnline);
+                });
             });
         });
         

@@ -1215,10 +1215,7 @@
     box-sizing: border-box;
 }
 
-html, body {
-    overflow-x: hidden;
-    max-width: 100%;
-}
+html { max-width: 100%; }
 
 
 /* Add to your existing CSS */
@@ -1305,3 +1302,102 @@ html, body {
     border-color: #00BCD4;
     box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.1);
 }
+
+/* =====================================================================
+   RehabVerve "Aurora" theme for the assessment tool
+   The generated A4 ".paper" stays light so it prints and reads like a
+   real clinical form; everything around it follows the site theme.
+   ===================================================================== */
+:root {
+    --surface-color: rgba(255,255,255,0.05);
+    --surface-elevated: rgba(255,255,255,0.04);
+    --surface-hover: rgba(255,255,255,0.08);
+    --border-color: rgba(255,255,255,0.10);
+    --text-primary: #eef4ff;
+    --text-secondary: #b3c0dd;
+    --text-tertiary: #7d8bab;
+    --primary-gradient: linear-gradient(135deg, #22d3ee 0%, #34d399 100%);
+    --secondary-gradient: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
+    --shadow-sm: 0 2px 10px rgba(0,0,0,.25);
+    --shadow-md: 0 10px 30px -8px rgba(0,0,0,.55);
+    --shadow-lg: 0 30px 60px -15px rgba(0,0,0,.7), 0 8px 20px rgba(0,0,0,.3);
+}
+.paper, #evaluationReport, .response-summary {
+    --surface-color: #ffffff;
+    --surface-elevated: #f8fafc;
+    --surface-hover: #f1f5f9;
+    --border-color: #e2e8f0;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --text-tertiary: #94a3b8;
+    color: #1e293b;
+    color-scheme: light;
+}
+.paper h1, .paper h2, .paper h3, .paper h4, #evaluationReport h2, #evaluationReport h3 { color: #0f172a; }
+
+.ai-therapist-container { margin-top: 0; height: auto; min-height: calc(100vh - var(--header-h)); }
+@media (min-width: 993px) {
+    .ai-therapist-container { height: calc(100vh - var(--header-h)); max-width: 1400px; margin: 0 auto; }
+}
+@media (max-width: 992px) {
+    .ai-main, .generator-container { overflow: visible; height: auto; }
+    .ai-sidebar { top: 0; height: 100%; z-index: 1250; width: min(86vw, 320px); }
+}
+
+.ai-sidebar {
+    background: rgba(8, 12, 30, 0.9);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-right: 1px solid var(--border-color);
+}
+.sidebar-header { background: transparent; }
+.sidebar-header h2 { font-family: var(--font-display); }
+.drawer-close-btn { border: 1px solid var(--border-color); color: var(--text-primary); }
+.new-conversation-btn { color: #04111a; font-family: var(--font-display); font-weight: 700; border-radius: 999px; box-shadow: 0 12px 30px -10px rgba(34,211,238,.7); }
+.history-item { background: var(--surface-elevated); border: 1px solid var(--border-color); }
+
+.tool-header { margin-top: 0; padding: 16px 24px; border-bottom: 1px solid var(--border-color); }
+.sidebar-toggle { color: var(--text-primary); border-radius: 14px; }
+.sidebar-toggle:hover { border-color: var(--cyan); color: var(--cyan); }
+.btn-primary { color: #fff; border-radius: 999px; box-shadow: 0 10px 24px -8px rgba(139,92,246,.7); }
+.btn-secondary { border-radius: 999px; color: var(--text-primary); }
+
+.config-panel { max-width: 720px; }
+.as-hero { margin: 4px 0 26px; }
+.as-hero h1 { font-size: clamp(30px, 6vw, 48px); font-weight: 800; letter-spacing: -.04em; margin: 14px 0 8px; }
+.as-hero p { color: var(--text-secondary); margin: 0; }
+
+.form-card, .form-card:hover {
+    background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    box-shadow: var(--shadow-md);
+}
+.config-panel h3, .form-card h3 { color: var(--text-primary); font-family: var(--font-display); text-align: left; }
+.form-card label { color: var(--text-secondary); }
+.form-input {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.16);
+    color: var(--text-primary);
+    border-radius: 14px;
+    min-height: 48px;
+    font-size: 16px;
+}
+.form-input:focus { border-color: var(--cyan); box-shadow: 0 0 0 4px rgba(34,211,238,.15); }
+.range-slider { color: var(--text-secondary); }
+.range-slider span { color: var(--cyan); }
+.range-slider input[type="range"] { accent-color: var(--cyan); }
+.generate-btn {
+    color: #04111a;
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    box-shadow: 0 16px 40px -10px rgba(34,211,238,.7);
+}
+.disclaimer { color: var(--text-tertiary); }
+.disclaimer a { color: var(--cyan); }
+.loading-state h3 { color: var(--text-primary); }
+.loading-state p { color: var(--text-secondary); }
+.paper { box-shadow: 0 30px 80px -20px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.08); border-radius: 18px; }
+.status-indicator { bottom: var(--tabbar-offset); border-radius: 999px; }
+@media (min-width: 992px) { .status-indicator { bottom: 28px; } }

@@ -180,7 +180,12 @@ if (
   /iphone|ipad|ipod/i.test(navigator.userAgent) &&
   !window.matchMedia("(display-mode: standalone)").matches
 ) {
-  setTimeout(() => {
-    alert("To install Rehabverve: Tap Share → Add to Home Screen");
-  }, 6000);
+  let hinted = false;
+  try { hinted = localStorage.getItem("vv-ios-hint") === "1"; } catch (e) { hinted = true; }
+  if (!hinted) {
+    setTimeout(() => {
+      try { localStorage.setItem("vv-ios-hint", "1"); } catch (e) { /* ignore */ }
+      if (window.vvToast) window.vvToast("Install RehabVerve: tap Share → Add to Home Screen", "info", 6000);
+    }, 6000);
+  }
 }

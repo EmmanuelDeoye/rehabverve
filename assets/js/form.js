@@ -558,8 +558,9 @@
       const saveBtn = document.getElementById('saveUserInfoBtn');
       if (saveBtn) {
         saveBtn.addEventListener('click', () => {
-          if (!answers.userType) { alert("Please select who this form is for."); return; }
-          if (!answers.problemType) { alert("Please select the primary concern type."); return; }
+          const warn = m => (window.vvToast ? window.vvToast(m, 'error') : alert(m));
+          if (!answers.userType) { warn("Please select who this form is for."); return; }
+          if (!answers.problemType) { warn("Please select the primary concern type."); return; }
           goToNextStep();
         });
       }
@@ -632,7 +633,16 @@
       planBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
           const planName = btn.dataset.plan;
-          alert(`✨ You selected ${planName}! You'll be redirected to schedule your first teletherapy session.\nYour discount is locked for ${Math.floor(discountSeconds/60)} minutes.`);
+          // Send the completed intake + chosen plan to the RehabVerve team on WhatsApp
+          const labels = { userType: 'For', age: 'Age', problemType: 'Primary concern' };
+          const lines = Object.keys(answers)
+            .filter(k => answers[k] !== '' && answers[k] != null && !(Array.isArray(answers[k]) && !answers[k].length))
+            .map(k => `• ${labels[k] || k.replace(/_/g, ' ')}: ${Array.isArray(answers[k]) ? answers[k].join(', ') : answers[k]}`);
+          const msg = `Hello RehabVerve! I've completed the teletherapy intake and would like to claim the ${planName}.\n\n${lines.join('\n')}`;
+          window.open(`https://wa.me/2348132912880?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+          if (window.vvToast) {
+            window.vvToast(`${planName} selected — send the WhatsApp message to confirm your first session`, 'success', 6000);
+          }
         });
       });
       
@@ -706,13 +716,13 @@
     if (currentStep.type === 'single') {
       const val = answers[currentStep.id];
       if (!val) {
-        alert("Please select an option before continuing.");
+        (window.vvToast ? window.vvToast("Please select an option before continuing.", "error") : alert("Please select an option before continuing."));
         return;
       }
     } else if (currentStep.type === 'multi') {
       const selected = answers[currentStep.id];
       if (!selected || selected.length === 0) {
-        alert("Please select at least one option before continuing.");
+        (window.vvToast ? window.vvToast("Please select at least one option before continuing.", "error") : alert("Please select at least one option before continuing."));
         return;
       }
     }
@@ -722,7 +732,7 @@
       visibleIndex++;
       renderStep();
     } else {
-      alert("Thank you! A care coordinator will reach out within 24 hours.");
+      (window.vvToast ? window.vvToast("Thank you! A care coordinator will reach out within 24 hours.", "success", 6000) : alert("Thank you! A care coordinator will reach out within 24 hours."));
     }
   }
 

@@ -39,12 +39,20 @@ function initializeApp() {
         });
     }
 
+    let resizeTimer;
+    let lastWide = window.innerWidth > 991;
     window.addEventListener('resize', () => {
-        if (auth.currentUser) {
-            handleAuthenticatedState(auth.currentUser);
-        } else {
-            handleUnauthenticatedState();
-        }
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            const wide = window.innerWidth > 991;
+            if (wide === lastWide) return;
+            lastWide = wide;
+            if (auth.currentUser) {
+                handleAuthenticatedState(auth.currentUser);
+            } else {
+                handleUnauthenticatedState();
+            }
+        }, 250);
     });
 }
 
@@ -242,14 +250,17 @@ function setupAuthForms() {
                 hideAuthSpinner();
                 if (DEBUG) console.log("Registration successful! User:", user.uid);
                 hideAllModals();
-                alert('Account created successfully! You are now logged in.');
+                if (window.vvToast) window.vvToast('Account created — welcome to RehabVerve!', 'success');
+                else alert('Account created successfully! You are now logged in.');
 
                 const redirectTarget = sessionStorage.getItem('postAuthRedirect');
                 if (redirectTarget === 'ai-assistant') {
                     sessionStorage.removeItem('postAuthRedirect');
                     window.location.href = '/ai-assistant/';
+                } else if (typeof window.redirectToPreviousPage === 'function') {
+                    window.redirectToPreviousPage();
                 } else {
-                    redirectToPreviousPage();
+                    handlePostLogin();
                 }
             } catch (error) {
                 hideAuthSpinner();
@@ -452,7 +463,7 @@ function handleUnauthenticatedState() {
     const myProfileNavItem = document.getElementById('my-profile-nav-item');
     const navMenu = document.getElementById('nav-menu');
 
-    if (loginBtn) loginBtn.style.display = 'block';
+    if (loginBtn) loginBtn.style.display = '';
     
     if (window.innerWidth <= 991) {
         if (navToggle) navToggle.style.display = 'block';

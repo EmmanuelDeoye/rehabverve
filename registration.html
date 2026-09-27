@@ -2,27 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join Our Network | Rehabverve</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Join the Network — RehabVerve</title>
+    <meta name="theme-color" content="#050816">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/create.css">
-    <link rel="icon" href="assets/img/logo.png">
+    <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
 </head>
-<body>
-    <header class="l-header">
-        <nav class="nav bd-grid">
-            <div>
-                <h2><span class="home__title-color">REHAB</span>VERVE</h2>
-            </div>
-        </nav>
-    </header>
+<body class="page-register">
 
     <main class="registration-container">
         <div class="registration-header">
-            <h1>Join Our Network</h1>
-            <p>Choose your role and start connecting with the rehabilitation community</p>
+            <span class="vv-eyebrow" data-reveal>For professionals</span>
+            <h1 data-split>Join the <span class="vv-gradient-text">network.</span></h1>
+            <p data-reveal>Choose your role and start connecting with the rehabilitation community.</p>
         </div>
 
         <div class="role-selection">
@@ -32,7 +26,7 @@
                 </div>
                 <h3>Healthcare Practitioner</h3>
                 <p>Join as a healthcare professional to offer your services and connect with patients</p>
-                <button class="role-select-btn">Select Role</button>
+                <button class="role-select-btn">Select role <i class='bx bx-right-arrow-alt'></i></button>
             </div>
 
             <div class="role-card" data-role="center">
@@ -41,7 +35,7 @@
                 </div>
                 <h3>Center/Organization</h3>
                 <p>Register your rehabilitation center, hospital, or healthcare organization</p>
-                <button class="role-select-btn">Select Role</button>
+                <button class="role-select-btn">Select role <i class='bx bx-right-arrow-alt'></i></button>
             </div>
 
             <div class="role-card" data-role="supplier">
@@ -50,7 +44,7 @@
                 </div>
                 <h3>Supplier/Merchant</h3>
                 <p>Join as a supplier to showcase and sell your healthcare products</p>
-                <button class="role-select-btn">Select Role</button>
+                <button class="role-select-btn">Select role <i class='bx bx-right-arrow-alt'></i></button>
             </div>
         </div>
 
@@ -353,8 +347,11 @@
         </div>
     </main>
 
+    <script src="assets/js/navmodal.js"></script>
+    <script src="assets/js/verve.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
     <script src="assets/js/configuration.js"></script>
+    <script src="assets/js/auth.js"></script>
     <script src="assets/js/create.js"></script>
 </body>
 </html>

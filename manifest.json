@@ -1,21 +1,24 @@
 {
-  "name": "Rehabverve Hub",
-  "short_name": "Rehabverve",
+  "name": "RehabVerve — The Rehabilitation Network",
+  "short_name": "RehabVerve",
+  "description": "Find verified rehabilitation professionals and centers, and book secure teletherapy.",
   "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#e9ecef",
-  "theme_color": "#e9ecef",
+  "background_color": "#050816",
+  "theme_color": "#050816",
   "orientation": "portrait",
   "icons": [
     {
       "src": "/assets/img/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "/assets/img/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

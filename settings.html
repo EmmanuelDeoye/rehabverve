@@ -2,234 +2,157 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings | Rehabverve</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Settings — RehabVerve</title>
+    <meta name="theme-color" content="#050816">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/settings.css">
-    <link rel="stylesheet" href="assets/css/cart.css">
+    <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
 </head>
-<body>
-    <header class="l-header">
-        <nav class="nav bd-grid">
-            <div>
-                <h2><span class="home__title-color">REHAB</span>VERVE</h2>
-            </div>
-            <a href="users.html" class="back-button">
-                <i class='bx bx-arrow-back'></i> Back to Profile
-            </a>
-        </nav>
-    </header>
-
+<body class="page-settings">
     <main class="settings-container">
+        <a href="users.html" class="back-button"><i class='bx bx-arrow-back'></i> Back to profile</a>
         <div class="settings-header">
-            <h1><i class='bx bx-cog'></i> Settings</h1>
-            <p>Manage your account and preferences</p>
+            <span class="vv-eyebrow" data-reveal>Account</span>
+            <h1 data-split>Settings</h1>
+            <p data-reveal>Manage your profile, security and activity.</p>
         </div>
 
-        <!-- Section 1: Shopping & Orders -->
         <section class="settings-section">
-            <h2 class="section-title">Shopping & Orders</h2>
+            <h2 class="section-title">Profile</h2>
             <div class="settings-grid">
-                <div class="setting-card" id="cart-items-card">
-                    <div class="setting-icon">
-                        <i class='bx bx-cart'></i>
-                    </div>
-                    <div class="setting-content">
-                        <h3>My Cart Items</h3>
-                        <p>View and manage your shopping cart</p>
-                        <span class="item-count" id="cart-count">0 items</span>
-                    </div>
+                <div class="setting-card" id="edit-profile-card" tabindex="0" role="button">
+                    <div class="setting-icon"><i class='bx bx-user'></i></div>
+                    <div class="setting-content"><h3>Edit profile</h3><p>Update your personal information</p></div>
                     <i class='bx bx-chevron-right'></i>
                 </div>
-
-                <div class="setting-card" id="orders-card">
-                    <div class="setting-icon">
-                        <i class='bx bx-package'></i>
-                    </div>
-                    <div class="setting-content">
-                        <h3>My Previous Orders</h3>
-                        <p>View your order history and tracking</p>
-                        <span class="item-count" id="orders-count">0 orders</span>
-                    </div>
+                <div class="setting-card" id="share-profile-card" tabindex="0" role="button">
+                    <div class="setting-icon"><i class='bx bx-share-alt'></i></div>
+                    <div class="setting-content"><h3>Share profile link</h3><p>Send your profile to others</p></div>
                     <i class='bx bx-chevron-right'></i>
                 </div>
-
-                <div class="setting-card" id="wishlist-card">
-                    <div class="setting-icon">
-                        <i class='bx bx-heart'></i>
-                    </div>
-                    <div class="setting-content">
-                        <h3>Wishlist</h3>
-                        <p>Your saved favorite items</p>
-                        <span class="item-count" id="wishlist-count">0 items</span>
-                    </div>
+                <div class="setting-card" id="professional-register-card" tabindex="0" role="button">
+                    <div class="setting-icon"><i class='bx bx-briefcase'></i></div>
+                    <div class="setting-content"><h3>Professional account</h3><p>Register as a practitioner, center or supplier</p></div>
                     <i class='bx bx-chevron-right'></i>
                 </div>
             </div>
         </section>
 
-        <!-- Section 2: Profile Management -->
         <section class="settings-section">
-            <h2 class="section-title">Profile Management</h2>
+            <h2 class="section-title">Activity</h2>
             <div class="settings-grid">
-                <div class="setting-card" id="edit-profile-card">
-                    <div class="setting-icon">
-                        <i class='bx bx-user'></i>
-                    </div>
-                    <div class="setting-content">
-                        <h3>Edit Profile</h3>
-                        <p>Update your personal information</p>
-                    </div>
+                <div class="setting-card" id="cart-items-card" tabindex="0" role="button">
+                    <div class="setting-icon"><i class='bx bx-cart'></i></div>
+                    <div class="setting-content"><h3>Cart</h3><p>Items you’re about to order</p><span class="item-count" id="cart-count">0 items</span></div>
                     <i class='bx bx-chevron-right'></i>
                 </div>
-
-                <div class="setting-card" id="share-profile-card">
-                    <div class="setting-icon">
-                        <i class='bx bx-share-alt'></i>
-                    </div>
-                    <div class="setting-content">
-                        <h3>Share Profile Link</h3>
-                        <p>Share your profile with others</p>
-                    </div>
+                <div class="setting-card" id="orders-card" tabindex="0" role="button">
+                    <div class="setting-icon"><i class='bx bx-package'></i></div>
+                    <div class="setting-content"><h3>Orders</h3><p>Order history and tracking</p><span class="item-count" id="orders-count">0 orders</span></div>
                     <i class='bx bx-chevron-right'></i>
                 </div>
-
-                <div class="setting-card" id="professional-register-card">
-                    <div class="setting-icon">
-                        <i class='bx bx-briefcase'></i>
-                    </div>
-                    <div class="setting-content">
-                        <h3>Professional Account</h3>
-                        <p>Register a new professional account</p>
-                    </div>
+                <div class="setting-card" id="wishlist-card" tabindex="0" role="button">
+                    <div class="setting-icon"><i class='bx bx-heart'></i></div>
+                    <div class="setting-content"><h3>Wishlist</h3><p>Your saved items</p><span class="item-count" id="wishlist-count">0 items</span></div>
                     <i class='bx bx-chevron-right'></i>
                 </div>
             </div>
         </section>
 
-        <!-- Section 3: Account Security -->
         <section class="settings-section">
-            <h2 class="section-title">Account Security</h2>
+            <h2 class="section-title">Security</h2>
             <div class="settings-grid">
-                <div class="setting-card" id="change-password-card">
-                    <div class="setting-icon">
-                        <i class='bx bx-lock'></i>
-                    </div>
-                    <div class="setting-content">
-                        <h3>Change Password</h3>
-                        <p>Update your account password</p>
-                    </div>
+                <div class="setting-card" id="change-password-card" tabindex="0" role="button">
+                    <div class="setting-icon"><i class='bx bx-lock'></i></div>
+                    <div class="setting-content"><h3>Change password</h3><p>Update your account password</p></div>
                     <i class='bx bx-chevron-right'></i>
                 </div>
-
-                <div class="setting-card logout-card" id="logout-card">
-                    <div class="setting-icon">
-                        <i class='bx bx-log-out'></i>
-                    </div>
-                    <div class="setting-content">
-                        <h3>Logout</h3>
-                        <p>Sign out of your account</p>
-                    </div>
+                <div class="setting-card logout-card" id="logout-card" tabindex="0" role="button">
+                    <div class="setting-icon"><i class='bx bx-log-out'></i></div>
+                    <div class="setting-content"><h3>Sign out</h3><p>Sign out of this device</p></div>
                     <i class='bx bx-chevron-right'></i>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Modals -->
-    <!-- Cart Modal -->
-<div id="cart-modal" class="cart-modal">
-    <div class="cart-modal-content">
-        <div class="cart-header">
-            <h2>Your Cart</h2>
-            <span class="close-cart">&times;</span>
-        </div>
-        <div id="cart-items-container" class="cart-items-container"></div>
-        <div class="cart-footer">
-            <div class="cart-total">
-                <span>Total:</span>
-                <span id="cart-total-price">₦0.00</span>
+    <!-- Cart -->
+    <div id="cart-modal" class="cart-modal modal">
+        <div class="cart-modal-content modal-content">
+            <div class="cart-header">
+                <h2><i class='bx bx-cart'></i> Your cart</h2>
+                <span class="close-cart modal-close" role="button" aria-label="Close">&times;</span>
             </div>
-            <button id="checkout-btn" class="checkout-btn">Checkout via Paystack</button>
+            <div id="cart-items-container" class="cart-items-container"></div>
+            <div class="cart-footer">
+                <div class="cart-total"><span>Total</span><span id="cart-total-price">₦0.00</span></div>
+                <button id="checkout-btn" class="vv-submit">Checkout via Paystack</button>
+            </div>
         </div>
     </div>
-</div>
 
-    <!-- Orders Modal -->
     <div id="orders-modal" class="modal">
         <div class="modal-content">
-            <span class="modal-close">&times;</span>
-            <h2><i class='bx bx-package'></i> My Previous Orders</h2>
-            <div class="modal-body">
-                <div id="orders-container" class="items-container">
-                    <!-- Orders will be loaded here -->
-                </div>
-            </div>
+            <span class="modal-close" role="button" aria-label="Close">&times;</span>
+            <h2><i class='bx bx-package'></i> Orders</h2>
+            <div class="modal-body"><div id="orders-container" class="items-container"></div></div>
         </div>
     </div>
 
-    <!-- Wishlist Modal -->
     <div id="wishlist-modal" class="modal">
         <div class="modal-content">
-            <span class="modal-close">&times;</span>
-            <h2><i class='bx bx-heart'></i> My Wishlist</h2>
-            <div class="modal-body">
-                <div id="wishlist-container" class="items-container">
-                    <!-- Wishlist items will be loaded here -->
-                </div>
-            </div>
+            <span class="modal-close" role="button" aria-label="Close">&times;</span>
+            <h2><i class='bx bx-heart'></i> Wishlist</h2>
+            <div class="modal-body"><div id="wishlist-container" class="items-container"></div></div>
         </div>
     </div>
 
-    <!-- Change Password Modal -->
     <div id="change-password-modal" class="modal">
         <div class="modal-content">
-            <span class="modal-close">&times;</span>
-            <h2><i class='bx bx-lock'></i> Change Password</h2>
+            <span class="modal-close" role="button" aria-label="Close">&times;</span>
+            <h2><i class='bx bx-lock'></i> Change password</h2>
             <div class="modal-body">
                 <form id="change-password-form">
-                    <div class="form-group">
-                        <label for="current-password">Current Password</label>
-                        <input type="password" id="current-password" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="new-password">New Password</label>
-                        <input type="password" id="new-password" minlength="6" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="confirm-password">Confirm New Password</label>
-                        <input type="password" id="confirm-password" minlength="6" required>
-                    </div>
+                    <div class="form-group"><label for="current-password">Current password</label><input type="password" id="current-password" autocomplete="current-password" required></div>
+                    <div class="form-group"><label for="new-password">New password</label><input type="password" id="new-password" minlength="6" autocomplete="new-password" required></div>
+                    <div class="form-group"><label for="confirm-password">Confirm new password</label><input type="password" id="confirm-password" minlength="6" autocomplete="new-password" required></div>
                     <div id="password-error" class="error-message"></div>
                     <div id="password-success" class="success-message" style="display: none;"></div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Change Password</button>
-                    </div>
+                    <button type="submit" class="vv-submit">Change password</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Logout Confirmation Modal -->
     <div id="logout-modal" class="modal">
         <div class="modal-content">
-            <span class="modal-close">&times;</span>
-            <h2><i class='bx bx-log-out'></i> Confirm Logout</h2>
+            <span class="modal-close" role="button" aria-label="Close">&times;</span>
+            <h2><i class='bx bx-log-out'></i> Sign out?</h2>
             <div class="modal-body">
-                <p>Are you sure you want to logout?</p>
+                <p>You’ll need to sign in again to message specialists or manage your profile.</p>
                 <div class="modal-footer">
-                    <button class="btn btn-outline" id="cancel-logout">Cancel</button>
-                    <button class="btn btn-primary" id="confirm-logout">Yes, Logout</button>
+                    <button class="vv-btn" id="cancel-logout">Cancel</button>
+                    <button class="vv-btn vv-btn--primary" id="confirm-logout">Yes, sign out</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="assets/js/navmodal.js"></script>
+    <script src="assets/js/verve.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
     <script src="assets/js/configuration.js"></script>
-<script src="assets/js/cart.js"></script>
+    <script src="assets/js/auth.js"></script>
     <script src="assets/js/settings.js"></script>
+    <script>
+        // Keyboard access for the setting cards
+        document.querySelectorAll('.setting-card').forEach(function (card) {
+            card.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); } });
+        });
+        // Back link goes to the signed-in user's own profile
+        firebase.auth().onAuthStateChanged(function (u) { if (u) document.querySelector('.back-button').href = 'users.html?id=' + u.uid; });
+    </script>
 </body>
 </html>
