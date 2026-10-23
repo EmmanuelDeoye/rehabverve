@@ -2,157 +2,83 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Settings — RehabVerve</title>
-    <meta name="theme-color" content="#050816">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/settings.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>My account — RehabVerve</title>
+    <meta name="description" content="Manage your RehabVerve account, bookings, classes, theme and security.">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="robots" content="noindex">
     <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+    <link rel="manifest" href="manifest.json">
+    <script src="assets/js/theme.js"></script>
+    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
 </head>
-<body class="page-settings">
-    <main class="settings-container">
-        <a href="users.html" class="back-button"><i class='bx bx-arrow-back'></i> Back to profile</a>
-        <div class="settings-header">
-            <span class="vv-eyebrow" data-reveal>Account</span>
-            <h1 data-split>Settings</h1>
-            <p data-reveal>Manage your profile, security and activity.</p>
+<body data-page="settings">
+<main id="main">
+    <section class="page-head"><div class="container narrow"><span class="eyebrow">My account</span><h1>Settings</h1></div></section>
+    <section class="container narrow mt-2 stack" id="settings">
+        <div class="card card-pad" id="signed-out" hidden>
+            <h3>Sign in to manage your account</h3>
+            <p class="muted">See your bookings, classes and profile in one place.</p>
+            <button class="btn btn-primary" data-signin>Sign in or create account</button>
         </div>
 
-        <section class="settings-section">
-            <h2 class="section-title">Profile</h2>
-            <div class="settings-grid">
-                <div class="setting-card" id="edit-profile-card" tabindex="0" role="button">
-                    <div class="setting-icon"><i class='bx bx-user'></i></div>
-                    <div class="setting-content"><h3>Edit profile</h3><p>Update your personal information</p></div>
-                    <i class='bx bx-chevron-right'></i>
-                </div>
-                <div class="setting-card" id="share-profile-card" tabindex="0" role="button">
-                    <div class="setting-icon"><i class='bx bx-share-alt'></i></div>
-                    <div class="setting-content"><h3>Share profile link</h3><p>Send your profile to others</p></div>
-                    <i class='bx bx-chevron-right'></i>
-                </div>
-                <div class="setting-card" id="professional-register-card" tabindex="0" role="button">
-                    <div class="setting-icon"><i class='bx bx-briefcase'></i></div>
-                    <div class="setting-content"><h3>Professional account</h3><p>Register as a practitioner, center or supplier</p></div>
-                    <i class='bx bx-chevron-right'></i>
-                </div>
-            </div>
-        </section>
+        <div class="card card-pad" data-auth>
+            <h3><i class='bx bx-user'></i> Account</h3>
+            <form id="account-form" class="form-grid">
+                <div class="row full"><img id="acc-photo" class="avatar" style="width:64px;height:64px" src="assets/img/profile.png" alt="" onerror="this.src='assets/img/profile.png'">
+                    <label class="field grow"><span>Photo</span><input type="file" name="photo" accept="image/jpeg,image/png,image/webp"></label></div>
+                <label class="field"><span>Name</span><input name="name" maxlength="120" required></label>
+                <label class="field"><span>Phone / WhatsApp</span><input name="phone" type="tel" maxlength="40"></label>
+                <label class="field"><span>Location</span><input name="location" maxlength="200" placeholder="City, country"></label>
+                <label class="field"><span>Email</span><input name="email" disabled></label>
+                <div class="form-actions full"><button class="btn btn-primary" type="submit">Save</button></div>
+            </form>
+        </div>
 
-        <section class="settings-section">
-            <h2 class="section-title">Activity</h2>
-            <div class="settings-grid">
-                <div class="setting-card" id="cart-items-card" tabindex="0" role="button">
-                    <div class="setting-icon"><i class='bx bx-cart'></i></div>
-                    <div class="setting-content"><h3>Cart</h3><p>Items you’re about to order</p><span class="item-count" id="cart-count">0 items</span></div>
-                    <i class='bx bx-chevron-right'></i>
-                </div>
-                <div class="setting-card" id="orders-card" tabindex="0" role="button">
-                    <div class="setting-icon"><i class='bx bx-package'></i></div>
-                    <div class="setting-content"><h3>Orders</h3><p>Order history and tracking</p><span class="item-count" id="orders-count">0 orders</span></div>
-                    <i class='bx bx-chevron-right'></i>
-                </div>
-                <div class="setting-card" id="wishlist-card" tabindex="0" role="button">
-                    <div class="setting-icon"><i class='bx bx-heart'></i></div>
-                    <div class="setting-content"><h3>Wishlist</h3><p>Your saved items</p><span class="item-count" id="wishlist-count">0 items</span></div>
-                    <i class='bx bx-chevron-right'></i>
-                </div>
+        <div class="card card-pad">
+            <h3><i class='bx bx-palette'></i> Appearance</h3>
+            <div class="checks" id="theme-choice">
+                <label><input type="radio" name="theme" value="system"> <i class='bx bx-desktop'></i>Match my device</label>
+                <label><input type="radio" name="theme" value="light"> <i class='bx bx-sun'></i>Light</label>
+                <label><input type="radio" name="theme" value="dark"> <i class='bx bx-moon'></i>Dark</label>
             </div>
-        </section>
+            <div class="mt-2"><button class="btn btn-sm" data-install hidden><i class='bx bx-download'></i> Install RehabVerve on this device</button></div>
+        </div>
 
-        <section class="settings-section">
-            <h2 class="section-title">Security</h2>
-            <div class="settings-grid">
-                <div class="setting-card" id="change-password-card" tabindex="0" role="button">
-                    <div class="setting-icon"><i class='bx bx-lock'></i></div>
-                    <div class="setting-content"><h3>Change password</h3><p>Update your account password</p></div>
-                    <i class='bx bx-chevron-right'></i>
-                </div>
-                <div class="setting-card logout-card" id="logout-card" tabindex="0" role="button">
-                    <div class="setting-icon"><i class='bx bx-log-out'></i></div>
-                    <div class="setting-content"><h3>Sign out</h3><p>Sign out of this device</p></div>
-                    <i class='bx bx-chevron-right'></i>
-                </div>
-            </div>
-        </section>
-    </main>
+        <div class="card card-pad" data-auth id="bookings">
+            <div class="row-between"><h3 class="mb-0"><i class='bx bx-calendar-check'></i> My bookings</h3><a class="btn btn-sm" href="teletherapy.html#book">New booking</a></div>
+            <div id="bookings-list" class="list mt-2"><div class="spinner"></div></div>
+        </div>
 
-    <!-- Cart -->
-    <div id="cart-modal" class="cart-modal modal">
-        <div class="cart-modal-content modal-content">
-            <div class="cart-header">
-                <h2><i class='bx bx-cart'></i> Your cart</h2>
-                <span class="close-cart modal-close" role="button" aria-label="Close">&times;</span>
-            </div>
-            <div id="cart-items-container" class="cart-items-container"></div>
-            <div class="cart-footer">
-                <div class="cart-total"><span>Total</span><span id="cart-total-price">₦0.00</span></div>
-                <button id="checkout-btn" class="vv-submit">Checkout via Paystack</button>
+        <div class="card card-pad" data-auth>
+            <h3><i class='bx bx-briefcase'></i> Professional listing</h3>
+            <div id="pro-status"><div class="spinner"></div></div>
+        </div>
+
+        <div class="card card-pad" data-auth>
+            <h3><i class='bx bx-lock-alt'></i> Security</h3>
+            <form id="password-form" class="form-grid">
+                <label class="field"><span>Current password</span><input name="current" type="password" autocomplete="current-password"></label>
+                <label class="field"><span>New password</span><input name="next" type="password" autocomplete="new-password" minlength="6"></label>
+                <div class="form-actions full"><button class="btn" type="submit">Change password</button></div>
+            </form>
+            <hr>
+            <div class="row-between">
+                <button class="btn" data-signout><i class='bx bx-log-out'></i> Sign out</button>
+                <button class="btn btn-danger" id="delete-account"><i class='bx bx-trash'></i> Delete my account</button>
             </div>
         </div>
-    </div>
+    </section>
+</main>
 
-    <div id="orders-modal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close" role="button" aria-label="Close">&times;</span>
-            <h2><i class='bx bx-package'></i> Orders</h2>
-            <div class="modal-body"><div id="orders-container" class="items-container"></div></div>
-        </div>
-    </div>
-
-    <div id="wishlist-modal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close" role="button" aria-label="Close">&times;</span>
-            <h2><i class='bx bx-heart'></i> Wishlist</h2>
-            <div class="modal-body"><div id="wishlist-container" class="items-container"></div></div>
-        </div>
-    </div>
-
-    <div id="change-password-modal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close" role="button" aria-label="Close">&times;</span>
-            <h2><i class='bx bx-lock'></i> Change password</h2>
-            <div class="modal-body">
-                <form id="change-password-form">
-                    <div class="form-group"><label for="current-password">Current password</label><input type="password" id="current-password" autocomplete="current-password" required></div>
-                    <div class="form-group"><label for="new-password">New password</label><input type="password" id="new-password" minlength="6" autocomplete="new-password" required></div>
-                    <div class="form-group"><label for="confirm-password">Confirm new password</label><input type="password" id="confirm-password" minlength="6" autocomplete="new-password" required></div>
-                    <div id="password-error" class="error-message"></div>
-                    <div id="password-success" class="success-message" style="display: none;"></div>
-                    <button type="submit" class="vv-submit">Change password</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div id="logout-modal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close" role="button" aria-label="Close">&times;</span>
-            <h2><i class='bx bx-log-out'></i> Sign out?</h2>
-            <div class="modal-body">
-                <p>You’ll need to sign in again to message specialists or manage your profile.</p>
-                <div class="modal-footer">
-                    <button class="vv-btn" id="cancel-logout">Cancel</button>
-                    <button class="vv-btn vv-btn--primary" id="confirm-logout">Yes, sign out</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="assets/js/navmodal.js"></script>
-    <script src="assets/js/verve.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
-    <script src="assets/js/configuration.js"></script>
-    <script src="assets/js/auth.js"></script>
-    <script src="assets/js/settings.js"></script>
-    <script>
-        // Keyboard access for the setting cards
-        document.querySelectorAll('.setting-card').forEach(function (card) {
-            card.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); } });
-        });
-        // Back link goes to the signed-in user's own profile
-        firebase.auth().onAuthStateChanged(function (u) { if (u) document.querySelector('.back-button').href = 'users.html?id=' + u.uid; });
-    </script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-storage-compat.js"></script>
+<script defer src="assets/js/firebase-init.js"></script>
+<script defer src="assets/js/settings.js"></script>
 </body>
 </html>

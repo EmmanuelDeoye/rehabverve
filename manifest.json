@@ -1,24 +1,16 @@
 {
-  "name": "RehabVerve — The Rehabilitation Network",
+  "name": "RehabVerve — Rehabilitation care across Africa",
   "short_name": "RehabVerve",
-  "description": "Find verified rehabilitation professionals and centers, and book secure teletherapy.",
-  "start_url": "/index.html",
+  "description": "Find rehab professionals, centers and mobile rehab services, book teletherapy and online classes for children.",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#050816",
-  "theme_color": "#050816",
-  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#0a8ea3",
+  "orientation": "any",
   "icons": [
-    {
-      "src": "/assets/img/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/assets/img/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    { "src": "assets/img/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }

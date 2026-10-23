@@ -2,165 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>AI Quick Assessment — RehabVerve</title>
-    <meta name="theme-color" content="#050816">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>AI assessment — RehabVerve</title>
+    <meta name="description" content="Generate a guided self-assessment questionnaire, fill it in and get an AI summary with suggested rehabilitation specialists. Free, and not a diagnosis.">
+    <meta name="theme-color" content="#ffffff">
+    <meta property="og:title" content="AI assessment — RehabVerve">
+    <meta property="og:description" content="A guided questionnaire with suggested referrals to the right rehab professional.">
+    <meta property="og:image" content="https://www.rehabverve.com.ng/assets/img/icon-512.png">
+    <link rel="canonical" href="https://www.rehabverve.com.ng/assessment.html">
     <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/assessment.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="manifest" href="manifest.json">
+    <script src="assets/js/theme.js"></script>
+    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
 </head>
-<body class="page-assessment">
-
-    <div class="ai-therapist-container">
-        <div class="ai-sidebar" id="aiSidebar">
-            <div class="sidebar-header">
-                <h2>Saved Assessments</h2>
-                <button id="closeDrawerBtn" class="drawer-close-btn"><i class='bx bx-x'></i></button>
-            </div>
-            
-            <button class="new-conversation-btn" id="newAssessmentBtn">
-                <i class="fas fa-plus-circle"></i>
-                Create New Form
-            </button>
-            
-            <div class="history-title">Recent Files</div>
-            <div class="history-list" id="savedList">
-                </div>
+<body data-page="assessment">
+<main id="main">
+    <section class="page-head no-print">
+        <div class="container">
+            <span class="eyebrow">AI assessment · free</span>
+            <h1>A guided assessment in minutes</h1>
+            <p class="lead">Enter a few details and choose a focus. We create a questionnaire for you to fill in, then summarise the answers and suggest which professionals to see.</p>
         </div>
-        
-        <div class="ai-main">
-            <div class="tool-header">
-                <button class="sidebar-toggle" id="sidebarToggle">
-        <i class="fas fa-history"></i>
-    </button>
-                
-                <div class="action-buttons" id="actionButtons" style="display: none;">
-                    <button class="btn-secondary" id="saveBtn"><i class="fas fa-save"></i> Save</button>
-                    <button class="btn-primary" id="printBtn"><i class="fas fa-print"></i> Print/PDF</button>
+    </section>
+    <section class="container mt-2">
+        <div class="profile-grid">
+            <div class="stack">
+                <form class="card card-pad no-print" id="config" novalidate>
+                    <h3>1. About the person</h3>
+                    <div class="form-grid">
+                        <label class="field full"><span>Name or initials</span><input name="name" maxlength="80" placeholder="e.g. A.O."></label>
+                        <label class="field"><span>Age</span><input name="age" type="number" min="0" max="120"></label>
+                        <label class="field"><span>Gender</span><select name="gender"><option>Female</option><option>Male</option><option>Prefer not to say</option></select></label>
+                        <label class="field full"><span>Main concern or diagnosis *</span><input name="condition" maxlength="300" placeholder="e.g. stroke, autism, back pain, speech delay"></label>
+                    </div>
+                    <h3 class="mt-3">2. Assessment</h3>
+                    <div class="form-grid">
+                        <label class="field"><span>Area</span><select name="category"><option>General Health</option><option>Physical Health</option><option>Mental Health</option><option>Emotional Well-being</option><option>Cognitive Function</option><option>Communication</option><option>Child Development</option></select></label>
+                        <label class="field"><span>Examiner</span><select name="examiner"><option>General consultant</option><option>Physiotherapist</option><option>Occupational Therapist</option><option>Speech Therapist</option><option>Psychologist</option><option>Nurse</option><option>Special Educator</option></select></label>
+                        <label class="field full"><span>Number of questions: <strong id="count-val">15</strong></span><input name="questionCount" type="range" min="10" max="30" value="15"></label>
+                    </div>
+                    <div class="form-msg error mt-2" hidden></div>
+                    <button type="submit" class="btn btn-accent btn-lg btn-block mt-2" id="generate"><i class='bx bx-bot'></i> Generate questionnaire</button>
+                    <p class="hint mt-1 mb-0">You need a free account to use the AI. The details you enter are sent to our AI provider to create the questionnaire — see our <a href="privacy.html">Privacy Policy</a>. This tool supports, but does not replace, a professional assessment.</p>
+                </form>
+
+                <div id="output" hidden>
+                    <div class="row no-print" style="margin-bottom:12px">
+                        <button class="btn" id="save"><i class='bx bx-save'></i> Save</button>
+                        <button class="btn" id="print"><i class='bx bx-printer'></i> Print / save as PDF</button>
+                        <button class="btn btn-ghost" id="new"><i class='bx bx-plus'></i> New assessment</button>
+                    </div>
+                    <div class="paper" id="paper"></div>
+                    <button class="btn btn-primary btn-lg btn-block mt-2 no-print" id="evaluate"><i class='bx bx-clipboard'></i> Summarise answers and suggest specialists</button>
+                    <div class="paper mt-2" id="report" hidden></div>
                 </div>
+                <div class="card card-pad center" id="loading" hidden><div class="spinner"></div><p class="mb-0" id="loading-text">Creating your questionnaire…</p></div>
             </div>
-            
-            <div class="generator-container">
-                <div class="config-panel" id="configPanel">
-                    <div class="as-hero">
-                        <span class="vv-eyebrow">AI Quick Assessment</span>
-                        <h1 data-split>Build a clinical form <span class="vv-gradient-text">in seconds.</span></h1>
-                        <p>Enter a few details, pick an examiner and focus — then fill, save or download the generated assessment as a PDF.</p>
-                    </div>
-                    <div class="form-card">
-                        <h3>1. Patient Biodata</h3>
-                        <div class="form-group">
-                            <label>Patient Name (or Initials)</label>
-                            <input type="text" id="patientName" class="form-input" placeholder="e.g. John Doe">
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Age</label>
-                                <input type="number" id="patientAge" class="form-input" placeholder="Age">
-                            </div>
-                            <div class="form-group">
-                                <label>Gender</label>
-                                <select id="patientGender" class="form-input">
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Diagnosis/Chief Complaint</label>
-                            <input type="text" id="patientDiagnosis" class="form-input" placeholder="e.g. Stroke, Autism, fracture...">
-                        </div>
-                    </div>
-
-                    <div class="form-card">
-                        <h3>2. Assessment Details</h3>
-                        <div class="form-group">
-                            <label>Category</label>
-                            <select id="categorySelect" class="form-input">
-                                <option value="General Health">General Health</option>
-                                <option value="Mental Health">Mental health</option>
-                <option value="Physical Health">Physical health</option>
-                <option value="Emotional Well-being">Emotional Well-being</option>
-                <option value="Cognitive Function">Cognitive Function</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Choose your Examiner</label>
-                            <select id="deptSelect" class="form-input">
-                                <option value="General consultant">General consultant</option>
-                                <option value="Occupational Therapy">Occupational Therapist</option>
-                                <option value="Physiotherapy">Physiotherapist</option>
-                                <option value="Speech Therapy">Speech Therapist</option>
-                                <option value="Nursing">Nurse</option>
-                                <option value="Psychology">Psychologist</option>
-                            </select>
-                        </div>
-                        <!-- Replace the existing "Est. Length (Pages)" section with: -->
-<div class="form-group">
-    <label>Number of Questions</label>
-    <div class="range-slider">
-        <input type="range" id="questionCount" min="10" max="30" value="15" 
-               oninput="document.getElementById('questionVal').innerText = this.value">
-        <span id="questionVal">15</span> Questions
-    </div>
-</div>
-                    </div>
-
-                    <button id="generateBtn" class="generate-btn">
-                        <i class="fas fa-magic"></i> Generate Assessment Form
-                    </button>
-                    <p class="disclaimer">
-                                By generating an assessment, you agree to our 
-                                <a href="terms.html">Terms of Service</a> and 
-                                <a href="privacy.html">Privacy Policy</a>
-                            </p>
+            <aside class="stack no-print">
+                <div class="card card-pad">
+                    <h3>Saved on this device</h3>
+                    <div id="saved" class="list"></div>
                 </div>
-
-
-                <div class="document-preview" id="documentPreview" style="display: none; flex-direction: column; align-items: center;">
-    
-    <div class="paper" id="printableArea"></div>
-        
-    <div id="evaluationControls" style="width: 100%; max-width: 210mm; margin-top: 24px; display: none;">
-        
-        <button id="evaluateBtn" class="generate-btn" style="background: var(--secondary-gradient);">
-            <i class="fas fa-user-md"></i> Generate Clinical Report & Referrals
-        </button>
-
-        <div id="evalLoading" style="display: none; text-align: center; padding: 20px;">
-            <div class="spinner" style="margin: 0 auto;"></div>
-            <p>Analyzing clinical data and finding specialists...</p>
+                <div class="notice"><i class='bx bx-info-circle'></i><span>In an emergency, contact your local emergency services or go to the nearest hospital.</span></div>
+            </aside>
         </div>
+    </section>
+</main>
 
-        <div id="evaluationReport" class="paper" style="margin-top: 24px; display: none; border-top: 4px solid #28a745;">
-            </div>
-    </div>
-</div>   
-
-                <div class="loading-state" id="loadingState" style="display: none;">
-                    <div class="spinner"></div>
-                    <h3>Generating Clinical Assessment...</h3>
-                    <p>Analyzing parameters and structuring standardized tools.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="status-indicator" id="statusIndicator" style="display: none;"></div>
-
-
-
-    <script src="assets/js/navmodal.js"></script>
-    <script src="assets/js/verve.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
-    <script src="assets/js/configuration.js"></script>
-    <script src="assets/js/auth.js"></script>
-    <script src="assets/js/assessment.js"></script>
-    <script src="assets/js/track.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-functions-compat.js"></script>
+<script defer src="assets/js/firebase-init.js"></script>
+<script defer src="assets/js/assessment.js"></script>
 </body>
 </html>

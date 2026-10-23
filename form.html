@@ -2,48 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Teletherapy Intake — RehabVerve</title>
-    <meta name="description" content="A short, confidential intake so we can match you with the right teletherapy specialist.">
-    <meta name="theme-color" content="#050816">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/form.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Teletherapy intake — RehabVerve</title>
+    <meta name="description" content="A short, confidential intake so our clinical team can match you with the right rehabilitation specialist.">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="canonical" href="https://www.rehabverve.com.ng/form.html">
     <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+    <link rel="manifest" href="manifest.json">
+    <script src="assets/js/theme.js"></script>
+    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
 </head>
-<body class="page-intake">
-    <div class="intake-hero">
-        <span class="vv-eyebrow" data-reveal>Teletherapy intake · 2 minutes</span>
-        <h1 data-split>Let’s find the right <span class="vv-gradient-text">care for you.</span></h1>
-        <p data-reveal>Confidential questions that help our clinical team match you with the right specialist.</p>
-    </div>
-
-    <div class="form-app" data-reveal>
-        <div class="form-header">
-            <div class="urgency-badge" id="globalUrgencyBadge">
-                <i class='bx bx-time-five'></i> <span id="globalTimerLabel">Limited discount</span>
-            </div>
+<body data-page="intake">
+<main id="main">
+    <section class="page-head">
+        <div class="container narrow">
+            <span class="eyebrow">Free intake · about 2 minutes</span>
+            <h1>Let’s find the right care</h1>
+            <p class="lead">A few confidential questions help our clinical team match you with the right specialist.</p>
         </div>
+    </section>
+    <section class="container narrow mt-2">
+        <form class="card card-pad" id="intake" novalidate></form>
+    </section>
+</main>
 
-        <div class="progress-wrapper">
-            <div class="step-progress-bar" id="stepProgressFill"></div>
-            <div class="step-counter" id="stepCounter">Step 1 / 7</div>
-        </div>
-
-        <div id="stepsContainer" class="steps-container"></div>
-
-        <div class="nav-buttons" id="navButtons">
-            <button class="btn-prev" id="prevBtn" style="display: none;"><i class='bx bx-chevron-left'></i> Back</button>
-            <button class="btn-next" id="nextBtn">Continue <i class='bx bx-chevron-right'></i></button>
-        </div>
-    </div>
-
-    <script src="assets/js/navmodal.js"></script>
-    <script src="assets/js/verve.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
-    <script src="assets/js/configuration.js"></script>
-    <script src="assets/js/auth.js"></script>
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/form.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
+<script defer src="assets/js/firebase-init.js"></script>
+<script defer src="assets/js/intake.js"></script>
 </body>
 </html>

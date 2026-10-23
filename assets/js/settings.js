@@ -1,417 +1,163 @@
-// settings.js
-document.addEventListener('DOMContentLoaded', function() {
-    const auth = firebase.auth();
-    const database = firebase.database();
-    let currentUser = null;
+// settings.js — account details, theme, bookings, listing status, password and account deletion.
+(function () {
+    'use strict';
+    const { $, $$, esc } = RV;
+    const fb = RV.fb;
 
-    // DOM Elements
-    const cartItemsCard = document.getElementById('cart-items-card');
-    const ordersCard = document.getElementById('orders-card');
-    const wishlistCard = document.getElementById('wishlist-card');
-    const editProfileCard = document.getElementById('edit-profile-card');
-    const shareProfileCard = document.getElementById('share-profile-card');
-    const professionalRegisterCard = document.getElementById('professional-register-card');
-    const changePasswordCard = document.getElementById('change-password-card');
-    const logoutCard = document.getElementById('logout-card');
+    // ---------- theme ----------
+    const current = RV.theme.get();
+    $$('#theme-choice input').forEach(r => { r.checked = r.value === current; });
+    $('#theme-choice').addEventListener('change', e => { RV.theme.set(e.target.value); RV.toast('Theme updated'); });
+    document.addEventListener('rv:theme', e => $$('#theme-choice input').forEach(r => { r.checked = r.value === e.detail; }));
 
-    // Modal Elements
-    const ordersModal = document.getElementById('orders-modal');
-    const wishlistModal = document.getElementById('wishlist-modal');
-    const changePasswordModal = document.getElementById('change-password-modal');
-    const logoutModal = document.getElementById('logout-modal');
+    const STATUS = { new: ['badge-warning', 'Received'], contacted: ['badge-accent', 'Contacted'], confirmed: ['badge-primary', 'Confirmed'], completed: ['badge-success', 'Completed'], cancelled: ['badge-danger', 'Cancelled'] };
 
-    // Initialize settings
-    function initializeSettings() {
-        auth.onAuthStateChanged(user => {
-            currentUser = user;
-            if (user) {
-                loadCounts();
-                setupEventListeners();
-            } else {
-                // Redirect to login if not authenticated
-                window.location.href = 'index.html';
-            }
-        });
+    RV.onAuth(s => {
+        const signed = !!s.user;
+        $('#signed-out').hidden = signed;
+        $$('[data-auth]').forEach(el => { el.hidden = !signed; });
+        if (!signed || !fb) return;
+        fillAccount(s);
+        loadBookings(s.user.uid);
+        loadListing(s);
+        if (location.hash === '#bookings') setTimeout(() => $('#bookings').scrollIntoView(), 200);
+    });
+
+    function fillAccount(s) {
+        const f = $('#account-form');
+        const p = s.profile || {};
+        f.name.value = p.name || s.user.displayName || '';
+        f.phone.value = p.phone || '';
+        f.location.value = p.location || '';
+        f.email.value = s.user.email || '';
+        $('#acc-photo').src = RV.img(p.img);
     }
 
-    // Load counts for cart, orders, wishlist
-    function loadCounts() {
-        // Cart count
-        const cart = JSON.parse(localStorage.getItem('rehabverve_cart')) || [];
-        const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-        document.getElementById('cart-count').textContent = `${cartCount} ${cartCount === 1 ? 'item' : 'items'}`;
-
-        // Orders count
-        loadOrdersCount();
-
-        // Wishlist count
-        loadWishlistCount();
-    }
-
-    // Load orders count
-    function loadOrdersCount() {
-        if (!currentUser) return;
-
-        const ordersRef = database.ref('orders');
-        ordersRef.orderByChild('userId').equalTo(currentUser.uid).once('value')
-            .then(snapshot => {
-                const orders = snapshot.val() || {};
-                const ordersCount = Object.keys(orders).length;
-                document.getElementById('orders-count').textContent = `${ordersCount} ${ordersCount === 1 ? 'order' : 'orders'}`;
-            })
-            .catch(error => {
-                console.error('Error loading orders count:', error);
-                document.getElementById('orders-count').textContent = '0 orders';
-            });
-    }
-
-    // Load wishlist count
-    function loadWishlistCount() {
-        if (!currentUser) return;
-
-        const wishlistRef = database.ref('wishlist/' + currentUser.uid);
-        wishlistRef.once('value')
-            .then(snapshot => {
-                const wishlist = snapshot.val() || {};
-                const wishlistCount = Object.keys(wishlist).length;
-                document.getElementById('wishlist-count').textContent = `${wishlistCount} ${wishlistCount === 1 ? 'item' : 'items'}`;
-            })
-            .catch(error => {
-                console.error('Error loading wishlist count:', error);
-                document.getElementById('wishlist-count').textContent = '0 items';
-            });
-    }
-
-    // Setup event listeners
-    function setupEventListeners() {
-        // Modal close buttons
-        document.querySelectorAll('.modal-close').forEach(closeBtn => {
-            closeBtn.addEventListener('click', hideAllModals);
-        });
-
-        // Close modals when clicking outside
-        window.addEventListener('click', (e) => {
-            if (e.target.classList.contains('modal')) {
-                hideAllModals();
-            }
-        });
-
-        // Card click events
-        cartItemsCard.addEventListener('click', showCartModal);
-        ordersCard.addEventListener('click', showOrdersModal);
-        wishlistCard.addEventListener('click', showWishlistModal);
-        editProfileCard.addEventListener('click', editProfile);
-        shareProfileCard.addEventListener('click', shareProfile);
-        professionalRegisterCard.addEventListener('click', registerProfessional);
-        changePasswordCard.addEventListener('click', showChangePasswordModal);
-        logoutCard.addEventListener('click', showLogoutModal);
-    }
-
-    // Show cart modal - using existing cart modal and functions from cart.js
-    function showCartModal() {
-        hideAllModals();
-        
-        // Use the existing cart modal from cart.js
-        const existingCartModal = document.getElementById('cart-modal');
-        if (existingCartModal) {
-            existingCartModal.style.display = 'block';
-            
-            // Render cart items using the function from cart.js
-            if (typeof renderCartItems === 'function') {
-                renderCartItems();
-            }
-        }
-    }
-
-    // Show orders modal
-    function showOrdersModal() {
-        hideAllModals();
-        ordersModal.style.display = 'block';
-        loadOrders();
-    }
-
-    // Load orders
-    function loadOrders() {
-        if (!currentUser) return;
-
-        const container = document.getElementById('orders-container');
-        container.innerHTML = '<div class="empty-state"><i class="bx bx-loader-circle bx-spin"></i><p>Loading orders...</p></div>';
-
-        const ordersRef = database.ref('orders');
-        ordersRef.orderByChild('userId').equalTo(currentUser.uid).once('value')
-            .then(snapshot => {
-                const orders = snapshot.val() || {};
-
-                if (Object.keys(orders).length === 0) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <i class='bx bx-package'></i>
-                            <h3>No orders yet</h3>
-                            <p>Your order history will appear here</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                let html = '';
-                Object.keys(orders).forEach(orderId => {
-                    const order = orders[orderId];
-                    const orderDate = order.timestamp ? new Date(order.timestamp).toLocaleDateString() : 'Unknown date';
-                    const statusClass = `status-${order.status || 'pending'}`;
-
-                    html += `
-                        <div class="order-item">
-                            <div class="item-details">
-                                <h4>Order #${orderId.substring(0, 8)}</h4>
-                                <p>Total: ${order.totalAmount || 'N/A'}</p>
-                                <div class="item-meta">
-                                    <span>Date: ${orderDate}</span>
-                                    <span class="order-status ${statusClass}">${(order.status || 'pending').toUpperCase()}</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-
-                container.innerHTML = html;
-            })
-            .catch(error => {
-                console.error('Error loading orders:', error);
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <i class='bx bx-error'></i>
-                        <h3>Error loading orders</h3>
-                        <p>Please try again later</p>
-                    </div>
-                `;
-            });
-    }
-
-    // Show wishlist modal
-    function showWishlistModal() {
-        hideAllModals();
-        wishlistModal.style.display = 'block';
-        loadWishlist();
-    }
-
-    // Load wishlist
-    function loadWishlist() {
-        if (!currentUser) return;
-
-        const container = document.getElementById('wishlist-container');
-        container.innerHTML = '<div class="empty-state"><i class="bx bx-loader-circle bx-spin"></i><p>Loading wishlist...</p></div>';
-
-        const wishlistRef = database.ref('wishlist/' + currentUser.uid);
-        wishlistRef.once('value')
-            .then(snapshot => {
-                const wishlist = snapshot.val() || {};
-
-                if (Object.keys(wishlist).length === 0) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <i class='bx bx-heart'></i>
-                            <h3>Wishlist is empty</h3>
-                            <p>Add items to your wishlist to see them here</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                let html = '';
-                Object.keys(wishlist).forEach(itemId => {
-                    const item = wishlist[itemId];
-                    const addedDate = item.addedAt ? new Date(item.addedAt).toLocaleDateString() : 'Unknown date';
-
-                    html += `
-                        <div class="wishlist-item">
-                            <img src="${item.img || 'assets/img/default-product.jpg'}" alt="${item.title}">
-                            <div class="item-details">
-                                <h4>${item.title}</h4>
-                                <p>${item.price}</p>
-                                <div class="item-meta">Added: ${addedDate}</div>
-                            </div>
-                        </div>
-                    `;
-                });
-
-                container.innerHTML = html;
-            })
-            .catch(error => {
-                console.error('Error loading wishlist:', error);
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <i class='bx bx-error'></i>
-                        <h3>Error loading wishlist</h3>
-                        <p>Please try again later</p>
-                    </div>
-                `;
-            });
-    }
-
-    // Edit profile function
-    function editProfile() {
-        window.location.href = `users.html?id=${currentUser.uid}`;
-    }
-
-    // Share profile function
-    function shareProfile() {
-        const profileUrl = `${window.location.origin}/users.html?id=${currentUser.uid}`;
-        
-        if (navigator.share) {
-            navigator.share({
-                title: 'My Rehabverve Profile',
-                text: 'Check out my profile on Rehabverve',
-                url: profileUrl
-            }).catch(error => {
-                console.log('Error sharing:', error);
-                copyToClipboard(profileUrl);
-            });
-        } else {
-            copyToClipboard(profileUrl);
-        }
-    }
-
-    // Copy to clipboard helper
-    function copyToClipboard(text) {
-        navigator.clipboard.writeText(text).then(() => {
-            showToast('Profile link copied to clipboard!');
-        }).catch(err => {
-            console.error('Failed to copy: ', err);
-            showToast('Failed to copy link');
-        });
-    }
-
-    // Register professional function
-    function registerProfessional() {
-        window.location.href = 'registration.html';
-    }
-
-    // Show change password modal
-    function showChangePasswordModal() {
-        hideAllModals();
-        changePasswordModal.style.display = 'block';
-        
-        // Reset form
-        document.getElementById('change-password-form').reset();
-        document.getElementById('password-error').textContent = '';
-        document.getElementById('password-success').style.display = 'none';
-    }
-
-    // Change password function
-    function changePassword(e) {
+    $('#account-form').addEventListener('change', e => {
+        if (e.target.name === 'photo' && e.target.files[0]) $('#acc-photo').src = URL.createObjectURL(e.target.files[0]);
+    });
+    $('#account-form').addEventListener('submit', async e => {
         e.preventDefault();
+        const f = e.target;
+        const s = RV.state;
+        const v = RV.formValues(f);
+        if (!v.name) { RV.toast('Please enter your name.', 'error'); return; }
+        const photo = f.photo.files[0];
+        const bad = RV.checkFile(photo, { maxMb: 3, types: /^image\/(jpeg|png|webp)$/ });
+        if (bad) { RV.toast(bad, 'error'); return; }
+        const btn = f.querySelector('[type=submit]');
+        RV.busy(btn, true, 'Saving…');
+        try {
+            const update = { name: v.name, phone: v.phone, location: v.location };
+            if (photo) update.img = await RV.upload(`profile-images/${s.user.uid}/${RV.fileName(photo)}`, photo);
+            await fb.db.ref('userdata/' + s.user.uid).update(update);
+            await s.user.updateProfile({ displayName: v.name }).catch(() => {});
+            Object.assign(s.profile || {}, update);
+            RV.toast('Account saved', 'success');
+        } catch (err) { RV.toast(RV.errorMessage(err), 'error'); }
+        finally { RV.busy(btn, false); f.photo.value = ''; }
+    });
 
-        const currentPassword = document.getElementById('current-password').value;
-        const newPassword = document.getElementById('new-password').value;
-        const confirmPassword = document.getElementById('confirm-password').value;
-        const errorElement = document.getElementById('password-error');
-        const successElement = document.getElementById('password-success');
-
-        // Reset messages
-        errorElement.textContent = '';
-        successElement.style.display = 'none';
-
-        // Validation
-        if (!currentPassword || !newPassword || !confirmPassword) {
-            errorElement.textContent = 'All fields are required';
-            return;
-        }
-
-        if (newPassword.length < 6) {
-            errorElement.textContent = 'New password must be at least 6 characters';
-            return;
-        }
-
-        if (newPassword !== confirmPassword) {
-            errorElement.textContent = 'New passwords do not match';
-            return;
-        }
-
-        // Reauthenticate user
-        const credential = firebase.auth.EmailAuthProvider.credential(
-            currentUser.email,
-            currentPassword
-        );
-
-        currentUser.reauthenticateWithCredential(credential)
-            .then(() => {
-                // Update password
-                return currentUser.updatePassword(newPassword);
-            })
-            .then(() => {
-                successElement.textContent = 'Password updated successfully!';
-                successElement.style.display = 'block';
-                
-                // Clear form
-                document.getElementById('change-password-form').reset();
-                
-                // Hide modal after 2 seconds
-                setTimeout(() => {
-                    hideAllModals();
-                }, 2000);
-            })
-            .catch(error => {
-                console.error('Password change error:', error);
-                if (error.code === 'auth/wrong-password') {
-                    errorElement.textContent = 'Current password is incorrect';
-                } else if (error.code === 'auth/weak-password') {
-                    errorElement.textContent = 'New password is too weak';
-                } else {
-                    errorElement.textContent = 'Error changing password. Please try again.';
-                }
-            });
+    function loadBookings(uid) {
+        const host = $('#bookings-list');
+        fb.db.ref('bookings').orderByChild('userId').equalTo(uid).once('value').then(snap => {
+            const list = RV.list(snap.val()).sort((a, b) => RV.ts(b.createdAt) - RV.ts(a.createdAt));
+            if (!list.length) {
+                host.innerHTML = `<p class="muted mb-0">No bookings yet. <a href="professionals.html">Find a professional</a> or <a href="teletherapy.html">book teletherapy</a>.</p>`;
+                return;
+            }
+            host.innerHTML = list.map(b => {
+                const [cls, label] = STATUS[b.status] || STATUS.new;
+                const link = RV.safeUrl(b.meetingLink);
+                return `<div class="card list-item" data-id="${esc(b.id)}">
+                    <div>
+                        <h4>${esc(b.service || b.type)}${b.proName ? ` · ${esc(b.proName)}` : ''}</h4>
+                        <p>#${esc(b.id.slice(-6).toUpperCase())} · ${esc([b.type, b.plan, b.preferredDate, b.timeOfDay].filter(Boolean).join(' · '))}</p>
+                        ${b.scheduledAt ? `<p><i class='bx bx-calendar'></i> Scheduled: <strong>${esc(b.scheduledAt)}</strong></p>` : ''}
+                        <p><span class="badge ${cls}">${label}</span> <small class="muted">${esc(RV.dateTime(b.createdAt))}</small></p>
+                    </div>
+                    <div class="row">
+                        ${link && b.status === 'confirmed' ? `<a class="btn btn-sm btn-primary" href="${esc(link)}" target="_blank" rel="noopener"><i class='bx bx-video'></i> Join</a>` : ''}
+                        ${['new', 'contacted', 'confirmed'].includes(b.status) ? `<button class="btn btn-sm" data-cancel>Cancel</button>` : ''}
+                    </div>
+                </div>`;
+            }).join('');
+            host.querySelectorAll('[data-cancel]').forEach(btn => btn.addEventListener('click', async () => {
+                if (!(await RV.confirm('Cancel this booking?', { ok: 'Cancel booking', danger: true }))) return;
+                const id = btn.closest('[data-id]').dataset.id;
+                try {
+                    await fb.db.ref('bookings/' + id).update({ status: 'cancelled', updatedAt: fb.TIMESTAMP });
+                    RV.toast('Booking cancelled');
+                    loadBookings(uid);
+                } catch (err) { RV.toast(RV.errorMessage(err), 'error'); }
+            }));
+        }).catch(() => { host.innerHTML = '<p class="muted mb-0">Your bookings could not be loaded.</p>'; });
     }
 
-    // Show logout modal
-    function showLogoutModal() {
-        hideAllModals();
-        logoutModal.style.display = 'block';
+    async function loadListing(s) {
+        const host = $('#pro-status');
+        const uid = s.user.uid;
+        const [pro, center, app] = await Promise.all([
+            fb.db.ref('professionals/' + uid).once('value').catch(() => null),
+            fb.db.ref('centers').orderByChild('userId').equalTo(uid).limitToFirst(1).once('value').catch(() => null),
+            fb.db.ref('applications/' + uid).once('value').catch(() => null)
+        ]);
+        const a = app && app.val();
+        if ((pro && pro.exists()) || (center && center.exists())) {
+            const key = pro && pro.exists() ? uid : Object.keys(center.val())[0];
+            host.innerHTML = `<p>Your listing is live. Keep your fees, coverage areas and availability up to date so clients can match with you.</p><a class="btn btn-primary" href="users.html?id=${encodeURIComponent(key)}">View and edit my listing</a>`;
+        } else if (a) {
+            const label = { pending: 'Under review', rejected: 'Not approved', approved: 'Approved' }[a.status] || a.status;
+            host.innerHTML = `<p>Application status: <strong>${esc(label)}</strong>${a.reviewNote ? ` — ${esc(a.reviewNote)}` : ''}</p><a class="btn" href="registration.html">View or update application</a>`;
+        } else {
+            host.innerHTML = `<p class="muted">Are you a rehab professional, center, mobile service or tutor? Get listed so clients can find and book you.</p><a class="btn btn-primary" href="registration.html">Apply to join</a>`;
+        }
     }
 
-    // Logout function
-    function logout() {
-        auth.signOut().then(() => {
-            window.location.href = 'index.html';
-        }).catch(error => {
-            console.error('Logout error:', error);
-            showToast('Logout failed. Please try again.');
+    async function reauth(password) {
+        const u = RV.state.user;
+        const cred = firebase.auth.EmailAuthProvider.credential(u.email, password);
+        await u.reauthenticateWithCredential(cred);
+    }
+
+    $('#password-form').addEventListener('submit', async e => {
+        e.preventDefault();
+        const f = e.target;
+        if ((f.next.value || '').length < 6) { RV.toast('New password needs at least 6 characters.', 'error'); return; }
+        const btn = f.querySelector('[type=submit]');
+        RV.busy(btn, true, 'Updating…');
+        try {
+            await reauth(f.current.value);
+            await RV.state.user.updatePassword(f.next.value);
+            f.reset();
+            RV.toast('Password changed', 'success');
+        } catch (err) { RV.toast(RV.errorMessage(err), 'error'); }
+        finally { RV.busy(btn, false); }
+    });
+
+    $('#delete-account').addEventListener('click', () => {
+        const dlg = RV.dialog({
+            title: 'Delete your account',
+            body: `<p>This permanently deletes your sign-in and account details. Booking records are kept by our care team for safety and legal reasons, and any public listing is removed by our team on request.</p>
+                <label class="field"><span>Enter your password to confirm</span><input class="input" type="password" id="del-pw" autocomplete="current-password"></label>
+                <div class="form-actions"><button class="btn" data-no>Keep my account</button><button class="btn btn-danger" data-yes>Delete permanently</button></div>`
         });
-    }
-
-    // Hide all modals
-    function hideAllModals() {
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.style.display = 'none';
-        });
-    }
-
-    // Show toast notification
-    function showToast(message) {
-        if (window.vvToast) { window.vvToast(message, /fail|error/i.test(message) ? 'error' : 'success'); return; }
-        // Remove existing toast if any
-        const existingToast = document.querySelector('.toast-notification');
-        if (existingToast) {
-            existingToast.remove();
-        }
-        
-        // Create new toast
-        const toast = document.createElement('div');
-        toast.className = 'toast-notification';
-        toast.innerText = message;
-        toast.style.cssText = `
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            background-color: #333; color: white; padding: 12px 24px; border-radius: 25px;
-            z-index: 3000; animation: fadeIn 0.5s, fadeOut 0.5s 2.5s forwards;
-        `;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
-    }
-
-    // Form submission for change password
-    document.getElementById('change-password-form').addEventListener('submit', changePassword);
-    document.getElementById('confirm-logout').addEventListener('click', logout);
-    document.getElementById('cancel-logout').addEventListener('click', hideAllModals);
-
-    // Initialize the settings page
-    initializeSettings();
-});
+        dlg.querySelector('[data-no]').onclick = () => dlg.close();
+        dlg.querySelector('[data-yes]').onclick = async e => {
+            const btn = e.currentTarget;
+            RV.busy(btn, true, 'Deleting…');
+            try {
+                await reauth(dlg.querySelector('#del-pw').value);
+                const uid = RV.state.user.uid;
+                await fb.db.ref().update({ [`userdata/${uid}`]: null, [`userEnrollments/${uid}`]: null, [`status/${uid}`]: null }).catch(() => {});
+                await RV.state.user.delete();
+                dlg.close();
+                RV.toast('Your account has been deleted.');
+                setTimeout(() => { location.href = 'index.html'; }, 1200);
+            } catch (err) {
+                RV.busy(btn, false);
+                RV.toast(RV.errorMessage(err), 'error');
+            }
+        };
+    });
+})();

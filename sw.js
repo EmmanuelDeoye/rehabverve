@@ -1,80 +1,66 @@
-const CACHE_NAME = "rehabverve-v3-aurora";
+// Service worker: network-first for the site's own files (so updates show immediately),
+// cache-first for icon fonts, and an offline page when there is no connection.
+// Firebase data is never cached here — the SDK talks to Firebase directly.
+const CACHE_NAME = 'rehabverve-v4';
 const STATIC_ASSETS = [
-  "/",
-  "/index.html",
-  "/offline.html",
-  "/assets/css/styles.css",
-  "/assets/css/styleload.css",
-  "/assets/js/navmodal.js",
-  "/assets/js/verve.js",
-  "/assets/js/main.js",
-  "/assets/js/auth.js",
-  "/assets/js/mainload.js",
-  "/assets/img/logo.svg",
-  "/assets/img/logo.png",
-  "/assets/img/profile.png"
+    './',
+    'index.html',
+    'offline.html',
+    'manifest.json',
+    'assets/css/app.css',
+    'assets/js/theme.js',
+    'assets/js/data.js',
+    'assets/js/app.js',
+    'assets/js/firebase-init.js',
+    'assets/js/cards.js',
+    'assets/img/logo.svg',
+    'assets/img/profile.png',
+    'assets/img/icon-192.png'
 ];
 
-/* INSTALL */
-self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS)).catch(() => {})
-  );
-  self.skipWaiting();
+self.addEventListener('install', event => {
+    event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS)).catch(() => {}));
+    self.skipWaiting();
 });
 
-/* ACTIVATE — drop every older cache so no visitor keeps a stale design */
-self.addEventListener("activate", event => {
-  event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)))
-    )
-  );
-  self.clients.claim();
+// Drop older caches so nobody keeps the previous (heavier) design
+self.addEventListener('activate', event => {
+    event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))));
+    self.clients.claim();
 });
 
-/* FETCH
-   - Firebase / non-GET: bypass
-   - Same-origin (HTML, CSS, JS, images): network first, cache fallback for offline
-   - Cross-origin static (fonts, icon CSS): cache first */
-self.addEventListener("fetch", event => {
-  const request = event.request;
-  if (request.method !== "GET" || request.url.includes("firebase") || request.url.includes("googleapis.com/v0")) return;
+self.addEventListener('fetch', event => {
+    const request = event.request;
+    if (request.method !== 'GET') return;
+    const url = new URL(request.url);
 
-  const url = new URL(request.url);
-  const sameOrigin = url.origin === self.location.origin;
+    if (url.origin === self.location.origin) {
+        event.respondWith(
+            fetch(request)
+                .then(response => {
+                    if (response.ok) {
+                        const copy = response.clone();
+                        caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
+                    }
+                    return response;
+                })
+                .catch(() => caches.match(request).then(hit => {
+                    if (hit) return hit;
+                    const isPage = (request.headers.get('accept') || '').includes('text/html');
+                    return isPage ? caches.match('offline.html') : Response.error();
+                }))
+        );
+        return;
+    }
 
-  if (sameOrigin) {
-    event.respondWith(
-      fetch(request)
-        .then(response => {
-          if (response.ok) {
-            const copy = response.clone();
-            caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
-          }
-          return response;
-        })
-        .catch(() =>
-          caches.match(request).then(res => {
-            if (res) return res;
-            const isPage = (request.headers.get("accept") || "").includes("text/html");
-            return isPage ? caches.match("/offline.html") : Response.error();
-          })
-        )
-    );
-    return;
-  }
-
-  if (/fonts\.(googleapis|gstatic)\.com|unpkg\.com\/boxicons/.test(request.url)) {
-    event.respondWith(
-      caches.match(request).then(cached =>
-        cached ||
-        fetch(request).then(response => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
-          return response;
-        })
-      )
-    );
-  }
+    // Icon font and the pinned Firebase SDK files never change for a given URL
+    if (/unpkg\.com\/boxicons@|gstatic\.com\/firebasejs\//.test(request.url)) {
+        event.respondWith(caches.match(request).then(hit => hit || fetch(request).then(response => {
+            if (response.ok) {
+                const copy = response.clone();
+                caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
+            }
+            return response;
+        })));
+    }
 });

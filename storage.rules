@@ -1,0 +1,60 @@
+rules_version = '2';
+
+// File access for RehabVerve uploads.
+// `admin` is a custom claim kept in sync with /admins/{uid} by the syncAdminClaim function.
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() { return request.auth != null; }
+    function isOwner(uid) { return signedIn() && request.auth.uid == uid; }
+    function isAdmin() { return signedIn() && request.auth.token.admin == true; }
+    function image(maxMb) {
+      return request.resource.size < maxMb * 1024 * 1024
+        && request.resource.contentType.matches('image/(jpeg|png|webp|gif)');
+    }
+    function document(maxMb) {
+      return request.resource.size < maxMb * 1024 * 1024
+        && request.resource.contentType.matches('application/pdf|image/(jpeg|png|webp)|application/msword|application/vnd[.]openxmlformats-officedocument[.]wordprocessingml[.]document');
+    }
+
+    // Profile photos and center logos (public)
+    match /profile-images/{uid}/{file} {
+      allow read: if true;
+      allow create, update: if isOwner(uid) && image(3);
+      allow delete: if isOwner(uid) || isAdmin();
+    }
+
+    // CVs shown on professional profiles (public)
+    match /cvs/{uid}/{file} {
+      allow read: if true;
+      allow create, update: if isOwner(uid) && document(5);
+      allow delete: if isOwner(uid) || isAdmin();
+    }
+
+    // Licences and certificates sent with a join application (private)
+    match /applications/{uid}/{file} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create, update: if isOwner(uid) && document(5);
+      allow delete: if isOwner(uid) || isAdmin();
+    }
+
+    // Assignment work handed in by students (private; tutors use the saved link)
+    match /submissions/{classId}/{uid}/{file} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create, update: if isOwner(uid) && document(10);
+      allow delete: if isOwner(uid) || isAdmin();
+    }
+
+    // Images for news, ads, spotlight and classes (admins only)
+    match /media/{file=**} {
+      allow read: if true;
+      allow create, update: if isAdmin() && image(5);
+      allow delete: if isAdmin();
+    }
+
+    // ---- Legacy paths from the old registration forms: read-only now ----
+    match /profiles/{uid}/{file} { allow read: if true; }
+    match /centers/{uid}/{file} { allow read: if true; }
+    match /licenses/{uid}/{file} { allow read: if isOwner(uid) || isAdmin(); }
+    match /{uid}/{field}/{file} { allow read: if isOwner(uid) || isAdmin(); }
+  }
+}

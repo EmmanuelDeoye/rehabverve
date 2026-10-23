@@ -2,304 +2,167 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>RehabVerve — The Rehabilitation Network</title>
-    <meta name="description" content="Find verified rehabilitation professionals and care centers, book secure teletherapy, and get AI-assisted assessments — all in one network.">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/directory.css">
-    <link rel="stylesheet" href="assets/css/styleload.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>RehabVerve — Rehabilitation care across Africa</title>
+    <meta name="description" content="Find verified physiotherapists, occupational and speech therapists, psychologists, rehab centers and mobile rehab services across Africa. Book teletherapy and online classes for children.">
+    <meta name="theme-color" content="#ffffff">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="RehabVerve — Rehabilitation care across Africa">
+    <meta property="og:description" content="Rehab professionals, centers, mobile rehab, teletherapy and classes for children — in one place.">
+    <meta property="og:image" content="https://www.rehabverve.com.ng/assets/img/icon-512.png">
+    <meta property="og:url" content="https://www.rehabverve.com.ng/">
+    <link rel="canonical" href="https://www.rehabverve.com.ng/">
     <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
-
-    <!-- PWA -->
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#050816">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="RehabVerve">
+    <link rel="apple-touch-icon" href="assets/img/icon-192.png">
+    <link rel="manifest" href="manifest.json">
+    <script src="assets/js/theme.js"></script>
+    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
 </head>
-<body class="page-home">
+<body data-page="home">
+<main id="main">
+    <section class="hero">
+        <div class="container hero-grid">
+            <div>
+                <span class="eyebrow">The rehabilitation network for Africa</span>
+                <h1>Rehab care, <span>closer to home.</span></h1>
+                <p class="lead">Find physiotherapists, speech and occupational therapists, psychologists, rehab centers and mobile rehab teams near you — compare fees and coverage, then book in person, at home or online.</p>
 
-    <!-- ===================== HERO ===================== -->
-    <section class="hx">
-        <div class="vv-container hx-grid">
-            <div class="hx-copy">
-                <span class="vv-eyebrow" data-reveal>The rehabilitation network</span>
-                <h1 class="hx-title" data-split>Where recovery meets <span class="vv-gradient-text">its people.</span></h1>
-                <p class="vv-lead" data-reveal>Discover verified therapists and care centers, book secure teletherapy, and get an AI‑guided assessment — in one living network built for rehabilitation.</p>
-
-                <form class="hx-search" action="professionals.html" method="get" role="search" data-reveal>
-                    <i class='bx bx-search'></i>
-                    <input type="search" name="q" placeholder="Search specialists, e.g. speech therapist" aria-label="Search professionals">
-                    <input type="hidden" name="category" value="All">
-                    <button type="submit" class="vv-btn vv-btn--primary vv-btn--sm">Search</button>
+                <form class="search-bar" action="professionals.html" method="get" role="search">
+                    <label><i class='bx bx-search'></i><span class="sr-only">Who do you need?</span>
+                        <select name="category" id="home-category"><option value="">Any professional</option></select>
+                    </label>
+                    <label><i class='bx bx-map'></i><span class="sr-only">Where?</span>
+                        <input name="loc" placeholder="City or state, e.g. Ikeja" autocomplete="address-level2">
+                    </label>
+                    <button type="submit" class="btn btn-primary">Find care</button>
                 </form>
-
-                <div class="hx-chips" data-stagger>
-                    <a class="vv-chip" href="professionals.html?category=Physiotherapist"><i class='bx bx-body'></i>Physiotherapy</a>
-                    <a class="vv-chip" href="professionals.html?category=Speech"><i class='bx bx-message-rounded-dots'></i>Speech</a>
-                    <a class="vv-chip" href="professionals.html?category=Occupational"><i class='bx bx-brush'></i>Occupational</a>
-                    <a class="vv-chip" href="professionals.html?category=Psychologist"><i class='bx bx-brain'></i>Psychology</a>
+                <div class="chips">
+                    <a class="chip" href="professionals.html?mode=home"><i class='bx bx-car'></i>Home visits</a>
+                    <a class="chip" href="professionals.html?mode=tele"><i class='bx bx-video'></i>Online sessions</a>
+                    <a class="chip" href="centers.html?type=Mobile%20Rehab%20Service"><i class='bx bx-plus-medical'></i>Mobile rehab</a>
+                    <a class="chip" href="classes.html"><i class='bx bx-book-open'></i>Kids classes</a>
                 </div>
-
-                <div class="hx-cta" data-reveal>
-                    <a href="teletherapy.html" class="vv-btn vv-btn--primary vv-btn--lg vv-magnetic"><i class='bx bx-video'></i> Book teletherapy</a>
-                    <a href="professionals.html?category=All" class="vv-btn vv-btn--lg vv-magnetic">Explore the network <i class='bx bx-right-arrow-alt'></i></a>
+                <div class="stats" id="home-stats" hidden>
+                    <div><strong id="stat-pros">–</strong><span>Professionals</span></div>
+                    <div><strong id="stat-centers">–</strong><span>Centers & mobile teams</span></div>
+                    <div><strong id="stat-classes">–</strong><span>Open classes</span></div>
                 </div>
-
-                <dl class="hx-stats" data-stagger>
-                    <div><dt><span id="stat-pros" data-count="0">0</span></dt><dd>Verified specialists</dd></div>
-                    <div><dt><span id="stat-centers" data-count="0">0</span></dt><dd>Care centers</dd></div>
-                    <div><dt><span data-count="9">0</span></dt><dd>Disciplines</dd></div>
-                </dl>
             </div>
-
-            <!-- Holographic network projection -->
-            <div class="hx-visual" aria-hidden="true" data-reveal="zoom">
-                <div class="orbit-stage">
-                    <div class="orbit-floor"></div>
-                    <div class="orbit-core">
-                        <span class="core-ring r1"></span><span class="core-ring r2"></span><span class="core-ring r3"></span>
-                        <span class="core-logo" id="core-logo"></span>
-                    </div>
-                    <div class="orbit o1"><div class="orbit-spin" id="orbit-1"></div></div>
-                    <div class="orbit o2"><div class="orbit-spin" id="orbit-2"></div></div>
-                    <div class="orbit o3"><div class="orbit-spin" id="orbit-3"></div></div>
-                </div>
-                <div class="float-card fc-1">
-                    <span class="fc-icon"><i class='bx bx-video'></i></span>
-                    <div><strong>Session starting</strong><small>Speech therapy · 10:30</small></div>
-                    <span class="live-dot"></span>
-                </div>
-                <div class="float-card fc-2">
-                    <span class="fc-icon green"><i class='bx bx-target-lock'></i></span>
-                    <div><strong>Specialist matched</strong><small>98% fit for your goals</small></div>
-                </div>
-                <div class="float-card fc-3">
-                    <span class="fc-icon violet"><i class='bx bxs-badge-check'></i></span>
-                    <div><strong>Licensed &amp; verified</strong><small>Every professional reviewed</small></div>
-                </div>
+            <div class="hero-panel">
+                <a class="hero-tile" href="professionals.html"><span class="ico"><i class='bx bx-search-alt'></i></span><span><strong>Match with a professional</strong><small>Filter by need, location, budget and home visits</small></span></a>
+                <a class="hero-tile" href="teletherapy.html"><span class="ico"><i class='bx bx-video'></i></span><span><strong>Book teletherapy</strong><small>Secure video sessions from anywhere</small></span></a>
+                <a class="hero-tile" href="classes.html"><span class="ico"><i class='bx bx-book-open'></i></span><span><strong>Classes for children</strong><small>Online tutors and assignments, near and abroad</small></span></a>
+                <a class="hero-tile" href="assessment.html"><span class="ico"><i class='bx bx-bot'></i></span><span><strong>Free AI assessment</strong><small>A guided questionnaire with suggested referrals</small></span></a>
             </div>
         </div>
     </section>
 
-    <!-- ===================== SPECIALTY MARQUEE ===================== -->
-    <div class="marquee" aria-hidden="true">
-        <div class="marquee-track">
-            <span>Physiotherapy</span><i>✦</i><span>Speech Therapy</span><i>✦</i><span>Occupational Therapy</span><i>✦</i><span>Clinical Psychology</span><i>✦</i><span>Prosthetics &amp; Orthotics</span><i>✦</i><span>Behavioural Therapy</span><i>✦</i><span>Special Education</span><i>✦</i><span>Nursing</span><i>✦</i>
-            <span>Physiotherapy</span><i>✦</i><span>Speech Therapy</span><i>✦</i><span>Occupational Therapy</span><i>✦</i><span>Clinical Psychology</span><i>✦</i><span>Prosthetics &amp; Orthotics</span><i>✦</i><span>Behavioural Therapy</span><i>✦</i><span>Special Education</span><i>✦</i><span>Nursing</span><i>✦</i>
+    <section class="section-sm" id="spotlight-section" hidden>
+        <div class="container">
+            <div class="spotlight">
+                <div class="spotlight-track" id="spotlight"></div>
+                <div class="spotlight-nav"><button type="button" data-dir="-1" aria-label="Previous"><i class='bx bx-chevron-left'></i></button><button type="button" data-dir="1" aria-label="Next"><i class='bx bx-chevron-right'></i></button></div>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <!-- ===================== SPOTLIGHT SLIDER (Firebase) ===================== -->
-    <section class="vv-section spotlight">
-        <div class="vv-container">
-            <div class="vv-head vv-head--row" data-reveal>
+    <section class="section">
+        <div class="container">
+            <div class="section-head">
+                <div><span class="eyebrow">The rehab team</span><h2>Who do you need?</h2><p>Every member of the rehabilitation team, in one network.</p></div>
+                <a class="btn btn-sm" href="professionals.html">Browse all <i class='bx bx-right-arrow-alt'></i></a>
+            </div>
+            <div class="grid grid-sm" id="disciplines"></div>
+        </div>
+    </section>
+
+    <section class="section section-alt" id="featured-section">
+        <div class="section-head container">
+            <div><span class="eyebrow">Featured</span><h2>Professionals families trust</h2></div>
+            <a class="btn btn-sm" href="professionals.html">See all <i class='bx bx-right-arrow-alt'></i></a>
+        </div>
+        <div class="rail" id="featured"></div>
+    </section>
+
+    <section class="section" id="mobile-section">
+        <div class="section-head container">
+            <div><span class="eyebrow">Mobile rehab</span><h2>Care that comes to your home</h2><p>Therapists and teams who do home visits in your area.</p></div>
+            <a class="btn btn-sm" href="professionals.html?mode=home">See home visits <i class='bx bx-right-arrow-alt'></i></a>
+        </div>
+        <div class="rail" id="mobile"></div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="banner tint">
                 <div>
-                    <span class="vv-eyebrow">Spotlight</span>
-                    <h2 class="vv-title">What's happening</h2>
-                </div>
-            </div>
-            <div class="hero-slider section" id="hero-slider" data-reveal="zoom">
-                <div class="slider-container" id="slider-container"></div>
-                <div class="slider-controls">
-                    <button class="slider-prev" aria-label="Previous slide"><i class='bx bx-chevron-left'></i></button>
-                    <div class="slider-dots"></div>
-                    <button class="slider-next" aria-label="Next slide"><i class='bx bx-chevron-right'></i></button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Install App Button -->
-    <button id="installAppBtn" style="display:none; position:fixed; z-index:950; padding:12px 18px; border-radius:30px; font-size:14px;">
-        <i class='bx bx-download'></i> Install app
-    </button>
-
-    <!-- ===================== FEATURED PROFESSIONALS ===================== -->
-    <section id="featured-professionals" class="vv-section rail-section">
-        <div class="vv-container">
-            <div class="vv-head vv-head--row" data-reveal>
-                <div>
-                    <span class="vv-eyebrow">Top of the network</span>
-                    <h2 class="vv-title">Featured professionals</h2>
-                    <p class="vv-lead">Hand‑picked, licensed specialists trusted by families.</p>
-                </div>
-                <a href="professionals.html?category=All" class="vv-btn vv-btn--sm" id="view-more-profile">See all <i class='bx bx-right-arrow-alt'></i></a>
-            </div>
-        </div>
-        <div class="rail">
-            <div class="profiles-container rail-track">
-                <div class="profile-skel vv-skel"></div><div class="profile-skel vv-skel"></div><div class="profile-skel vv-skel"></div><div class="profile-skel vv-skel"></div><div class="profile-skel vv-skel"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===================== TELETHERAPY CTA ===================== -->
-    <section class="vv-section teletherapy-cta">
-        <div class="vv-container">
-            <div class="tele-banner vv-card" data-reveal="zoom" data-flat>
-                <div class="tele-banner-copy">
-                    <span class="vv-eyebrow">Online teletherapy</span>
-                    <h2 class="vv-title">Therapy that comes <span class="vv-gradient-text">to you.</span></h2>
-                    <p class="vv-lead">Secure video sessions with licensed therapists — individual, couples, family and child care. Same‑week appointments available.</p>
-                    <ul class="tele-points">
-                        <li><i class='bx bx-shield-quarter'></i> Private &amp; encrypted</li>
-                        <li><i class='bx bx-calendar-check'></i> Flexible scheduling</li>
-                        <li><i class='bx bx-user-check'></i> Matched by clinicians</li>
+                    <span class="eyebrow">Teletherapy</span>
+                    <h2>Therapy that comes to you</h2>
+                    <p class="lead">Licensed therapists for individuals, couples, families and children — in video sessions from your phone or computer.</p>
+                    <ul>
+                        <li><i class='bx bx-check-shield'></i>Private and confidential</li>
+                        <li><i class='bx bx-calendar-check'></i>Flexible scheduling, including evenings</li>
+                        <li><i class='bx bx-user-check'></i>Matched to the right specialist</li>
                     </ul>
-                    <div class="hx-cta">
-                        <a href="teletherapy.html" class="vv-btn vv-btn--primary vv-btn--lg">Explore teletherapy <i class='bx bx-right-arrow-alt'></i></a>
-                    </div>
+                    <a class="btn btn-primary btn-lg" href="teletherapy.html"><i class='bx bx-video'></i> Book teletherapy</a>
                 </div>
-                <div class="call-mock" aria-hidden="true">
-                    <div class="call-top"><span class="rec"></span> Live session · 24:18 <span class="enc"><i class='bx bx-lock-alt'></i> E2E</span></div>
-                    <div class="call-main">
-                        <div class="call-avatar"><i class='bx bx-user'></i></div>
-                        <div class="call-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-                        <div class="call-pip"><i class='bx bx-happy-heart-eyes'></i></div>
-                    </div>
-                    <div class="call-bar">
-                        <span><i class='bx bx-microphone'></i></span>
-                        <span><i class='bx bx-video'></i></span>
-                        <span><i class='bx bx-message-square-dots'></i></span>
-                        <span class="end"><i class='bx bx-phone-off'></i></span>
-                    </div>
-                </div>
+                <div class="banner-art" aria-hidden="true"><i class='bx bx-video'></i></div>
             </div>
         </div>
     </section>
 
-    <!-- ===================== CENTERS ===================== -->
-    <section id="center-section" class="vv-section rail-section">
-        <div class="vv-container">
-            <div class="vv-head vv-head--row" data-reveal>
+    <section class="section" id="classes-section" hidden>
+        <div class="container">
+            <div class="section-head">
+                <div><span class="eyebrow">Online classes</span><h2>Classes and tutoring for children</h2><p>Small online classes with assignments — for children at home and abroad.</p></div>
+                <a class="btn btn-sm" href="classes.html">All classes <i class='bx bx-right-arrow-alt'></i></a>
+            </div>
+            <div class="grid" id="home-classes"></div>
+        </div>
+    </section>
+
+    <section class="section section-alt" id="centers-section">
+        <div class="section-head container">
+            <div><span class="eyebrow">Centers</span><h2>Rehab centers and services</h2><p>Rehabilitation centers, hospitals, special schools, home-care and mobile teams.</p></div>
+            <a class="btn btn-sm" href="centers.html">All centers <i class='bx bx-right-arrow-alt'></i></a>
+        </div>
+        <div class="rail" id="centers"></div>
+    </section>
+
+    <section class="section" id="news-section">
+        <div class="container">
+            <div class="section-head">
+                <div><span class="eyebrow">Rehab updates</span><h2>Latest from the world of rehabilitation</h2></div>
+                <a class="btn btn-sm" href="blogs.html">All updates <i class='bx bx-right-arrow-alt'></i></a>
+            </div>
+            <div class="grid" id="news"></div>
+            <div class="ad-slot mt-3" data-ad-slot="home"></div>
+        </div>
+    </section>
+
+    <section class="section" id="join-section">
+        <div class="container">
+            <div class="banner">
                 <div>
-                    <span class="vv-eyebrow">Care centers</span>
-                    <h2 class="vv-title">Find a center near you</h2>
-                    <p class="vv-lead">Rehabilitation centers, hospitals, schools and home‑care teams.</p>
+                    <span class="eyebrow">For professionals, centers and tutors</span>
+                    <h2>Grow your practice on RehabVerve</h2>
+                    <p class="lead">List your services, fees and the areas you cover. Patients and caregivers find you, book you, and you manage requests in one place.</p>
+                    <div class="row"><a class="btn btn-primary btn-lg" href="registration.html">Join the network</a><a class="btn btn-lg" href="classes.html">Teach a class</a></div>
                 </div>
-                <a href="centers.html" class="vv-btn vv-btn--sm" id="view-more-blogs">All centers <i class='bx bx-right-arrow-alt'></i></a>
-            </div>
-        </div>
-        <div class="rail">
-            <div class="centers-container rail-track">
-                <div class="card-skel vv-skel"></div><div class="card-skel vv-skel"></div><div class="card-skel vv-skel"></div><div class="card-skel vv-skel"></div>
+                <div class="banner-art" aria-hidden="true"><i class='bx bx-network-chart'></i></div>
             </div>
         </div>
     </section>
+</main>
 
-    <!-- Courses Section (Hidden) -->
-    <section id="courses-section" style="display:none;">
-        <h4>Online Courses</h4>
-        <div class="courses-container"></div>
-        <a href="courses.html"><button id="view-more-courses">View More Courses</button></a>
-    </section>
-
-    <!-- ===================== AI ASSESSMENT ===================== -->
-    <section class="vv-section ai-therapists">
-        <div class="vv-container">
-            <div class="ai-panel">
-                <div class="ai-visual" aria-hidden="true" data-reveal="left">
-                    <div class="scan-card">
-                        <div class="scan-line"></div>
-                        <div class="scan-row"><span class="dot c"></span><b style="width:70%"></b></div>
-                        <div class="scan-row"><span class="dot v"></span><b style="width:52%"></b></div>
-                        <div class="scan-row"><span class="dot g"></span><b style="width:84%"></b></div>
-                        <div class="scan-row"><span class="dot c"></span><b style="width:40%"></b></div>
-                        <div class="scan-meter">
-                            <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" class="track"/><circle cx="60" cy="60" r="50" class="val"/></svg>
-                            <span>AI</span>
-                        </div>
-                    </div>
-                    <div class="ai-orb"></div>
-                </div>
-                <div class="ai-copy" data-reveal="right">
-                    <span class="vv-eyebrow">AI Quick Assessment</span>
-                    <h2 class="vv-title">A clinical-grade form, <span class="vv-gradient-text">in seconds.</span></h2>
-                    <p class="vv-lead">Pick a discipline and a focus area. Our AI builds a structured assessment, then turns your answers into a report with specialist referrals.</p>
-                    <ol class="ai-steps">
-                        <li><span>1</span> Enter basic patient details</li>
-                        <li><span>2</span> Choose examiner &amp; category</li>
-                        <li><span>3</span> Generate, fill, download as PDF</li>
-                    </ol>
-                    <a href="assessment.html" id="therapists-button" class="vv-btn vv-btn--violet vv-btn--lg vv-magnetic"><i class='bx bx-bot'></i> Start free assessment</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===================== LATEST MEMBERS ===================== -->
-    <section id="featured-professionals22" class="vv-section rail-section">
-        <div class="vv-container">
-            <div class="vv-head vv-head--row" data-reveal>
-                <div>
-                    <span class="vv-eyebrow">Growing every day</span>
-                    <h2 class="vv-title">Newest members</h2>
-                </div>
-                <a href="professionals.html?category=All" class="vv-btn vv-btn--sm">Browse all <i class='bx bx-right-arrow-alt'></i></a>
-            </div>
-        </div>
-        <div class="rail">
-            <div class="profiles-container22 rail-track">
-                <div class="profile-skel vv-skel"></div><div class="profile-skel vv-skel"></div><div class="profile-skel vv-skel"></div><div class="profile-skel vv-skel"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===================== NEWS ===================== -->
-    <section id="blog-section" class="vv-section rail-section">
-        <div class="vv-container">
-            <div class="vv-head vv-head--row" data-reveal>
-                <div>
-                    <span class="vv-eyebrow">Health news</span>
-                    <h2 class="vv-title">Trending in care</h2>
-                </div>
-                <a href="blogs.html" class="vv-btn vv-btn--sm">Read more <i class='bx bx-right-arrow-alt'></i></a>
-            </div>
-        </div>
-        <div class="rail">
-            <div class="blogs-container rail-track">
-                <div class="card-skel vv-skel"></div><div class="card-skel vv-skel"></div><div class="card-skel vv-skel"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===================== JOIN NETWORK ===================== -->
-    <section class="vv-section join-practitioner22">
-        <div class="vv-container">
-            <div class="join-card" data-reveal="zoom">
-                <div class="join-rings" aria-hidden="true"><i></i><i></i><i></i></div>
-                <span class="vv-eyebrow">For professionals, centers &amp; suppliers</span>
-                <h2 class="vv-title" data-split>Grow your practice on the network patients trust.</h2>
-                <p class="vv-lead">Create your profile, get verified, and reach families looking for exactly your expertise.</p>
-                <div class="hx-cta">
-                    <a href="registration.html" id="join-button22" class="vv-btn vv-btn--primary vv-btn--lg vv-magnetic">Join the network <i class='bx bx-right-arrow-alt'></i></a>
-                    <a href="account.html" class="vv-btn vv-btn--lg">Create a free account</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Floating quick action -->
-    <a href="ai.html" class="floating-ai-button" style="display: none;">
-        <i class='bx bx-brain'></i>
-        <span class="ai-button-text">AI Assistant</span>
-    </a>
-    <a href="assessment.html" class="floating-ai-button22" style="display: none;">
-        <i class='bx bx-bot'></i>
-        <span class="ai-button-text">Quick Assessment</span>
-    </a>
-
-    <!-- Scripts -->
-    <script src="assets/js/navmodal.js"></script>
-    <script src="assets/js/verve.js"></script>
-    <script src="assets/js/home.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
-    <script src="assets/js/configuration.js"></script>
-    <script src="assets/js/mainload.js"></script>
-    <script src="assets/js/auth.js"></script>
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/track.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
+<script defer src="assets/js/firebase-init.js"></script>
+<script defer src="assets/js/cards.js"></script>
+<script defer src="assets/js/home.js"></script>
 </body>
 </html>

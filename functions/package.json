@@ -1,0 +1,17 @@
+{
+  "name": "rehabverve-functions",
+  "private": true,
+  "description": "Server-side code for RehabVerve: AI assessment proxy, admin claim sync and rating totals.",
+  "main": "index.js",
+  "engines": {
+    "node": "22"
+  },
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "deploy": "firebase deploy --only functions"
+  },
+  "dependencies": {
+    "firebase-admin": "14.4.0",
+    "firebase-functions": "7.4.0"
+  }
+}

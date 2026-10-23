@@ -2,219 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Profile — RehabVerve</title>
-    <meta name="theme-color" content="#050816">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/users.css">
+    <meta name="description" content="Rehabilitation professional and center profiles on RehabVerve: services, fees, coverage areas and reviews.">
+    <meta name="theme-color" content="#ffffff">
     <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+    <link rel="manifest" href="manifest.json">
+    <script src="assets/js/theme.js"></script>
+    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
 </head>
-<body class="page-profile">
-<main class="vv-container user-profile-container">
-
-    <!-- ===================== PROFILE HEADER ===================== -->
-    <section class="profile-header vv-card" data-flat>
-        <div class="profile-cover" aria-hidden="true">
-            <span class="cover-orb o1"></span><span class="cover-orb o2"></span><span class="cover-orb o3"></span>
-            <span class="cover-grid"></span>
-        </div>
-
-        <div class="profile-head-body">
-            <div class="profile-image-container">
-                <img src="assets/img/profile.png" class="profile-image" alt="Profile photo" id="profile-image" onerror="this.src='assets/img/profile.png'">
-                <div class="online-status" title="Status"></div>
-            </div>
-
-            <div class="profile-identity">
-                <h1 class="user-name skel-line"></h1>
-                <p class="user-title skel-line"></p>
-                <div class="profile-badges">
-                    <span class="p-badge verified"><i class='bx bxs-badge-check'></i> Verified member</span>
-                    <span class="p-badge"><i class='bx bx-map'></i> <span id="location-chip">Nigeria</span></span>
-                </div>
-            </div>
-
-            <div class="profile-actions">
-                <a href="#" class="contact-icon whatsapp vv-btn vv-btn--whatsapp" id="whatsapp-link" target="_blank" rel="noopener"><i class='bx bxl-whatsapp'></i><span>Chat</span></a>
-                <a href="#" class="contact-icon email vv-btn" id="email-link"><i class='bx bx-envelope'></i><span>Email</span></a>
-                <a href="#" class="contact-icon phone vv-btn" id="phone-link"><i class='bx bx-phone'></i><span>Call</span></a>
-                <button type="button" class="vv-btn vv-btn--ghost icon-only" id="share-profile" aria-label="Share profile"><i class='bx bx-share-alt'></i></button>
-                <button type="button" class="edit-profile-icon vv-btn vv-btn--primary" id="edit-icon" style="display: none;"><i class='bx bx-edit'></i><span>Edit profile</span></button>
-            </div>
-        </div>
+<body data-page="profile">
+<main id="main">
+    <section class="profile-hero">
+        <div class="container" id="profile-head"><div class="skeleton" style="min-height:160px"></div></div>
     </section>
-
-    <div class="profile-layout">
-        <!-- ===================== MAIN ===================== -->
-        <div class="profile-details">
-
-            <!-- Professional -->
-            <section class="detail-card professional" id="professional-details" style="display: none;">
-                <h2 class="section-title"><i class='bx bx-id-card'></i> About</h2>
-                <p class="bio-text" id="bio-text"></p>
-                <div class="info-grid">
-                    <div class="stat-tile"><i class='bx bx-briefcase'></i><div><p class="info-label">Experience</p><p class="info-value" id="experience-value">—</p></div></div>
-                    <div class="stat-tile"><i class='bx bxs-star'></i><div><p class="info-label">Rating</p><p class="info-value" id="rating-value">—</p></div></div>
-                    <div class="stat-tile"><i class='bx bx-certification'></i><div><p class="info-label">Qualification(s)</p><p class="info-value" id="education-value">—</p></div></div>
-                </div>
-                <div class="bio-section" hidden><h3>Professional Bio</h3></div>
-            </section>
-
-            <!-- Supplier -->
-            <section class="detail-card supplier" id="supplier-details" style="display: none;">
-                <h2 class="section-title"><i class='bx bx-package'></i> Supplier details</h2>
-                <div class="info-item"><i class='bx bx-buildings'></i><div><p class="info-label">Organization</p><p class="info-value" id="supplier-org">—</p></div></div>
-                <div class="info-item"><i class='bx bx-category'></i><div><p class="info-label">Products / services</p><p class="info-value" id="supplier-products">—</p></div></div>
-                <div class="info-item"><i class='bx bx-certification'></i><div><p class="info-label">Certifications</p><p class="info-value" id="supplier-certifications">—</p></div></div>
-            </section>
-
-            <!-- Center -->
-            <section class="detail-card center" id="center-details" style="display: none;">
-                <h2 class="section-title"><i class='bx bx-clinic'></i> About the center</h2>
-                <p class="bio-text" id="center-description"></p>
-                <div class="info-grid">
-                    <div class="stat-tile"><i class='bx bx-category-alt'></i><div><p class="info-label">Center type</p><p class="info-value" id="center-type">—</p></div></div>
-                    <div class="stat-tile"><i class='bx bx-time-five'></i><div><p class="info-label">Operating hours</p><p class="info-value" id="center-hours">—</p></div></div>
-                    <div class="stat-tile"><i class='bx bx-award'></i><div><p class="info-label">Accreditations</p><p class="info-value" id="center-accreditations">—</p></div></div>
-                </div>
-                <div class="info-item"><i class='bx bx-map-pin'></i><div><p class="info-label">Address</p><p class="info-value" id="center-address">—</p></div></div>
-            </section>
-
-            <!-- Rating -->
-            <section class="rating-section detail-card" id="rating-section" style="display: none;">
-                <h2 class="section-title"><i class='bx bx-medal'></i> Rate your experience</h2>
-                <div class="rating-controls">
-                    <div class="stars" id="stars" role="radiogroup" aria-label="Rating">
-                        <i class='bx bx-star' data-rating="1" role="radio" aria-label="1 star"></i>
-                        <i class='bx bx-star' data-rating="2" role="radio" aria-label="2 stars"></i>
-                        <i class='bx bx-star' data-rating="3" role="radio" aria-label="3 stars"></i>
-                        <i class='bx bx-star' data-rating="4" role="radio" aria-label="4 stars"></i>
-                        <i class='bx bx-star' data-rating="5" role="radio" aria-label="5 stars"></i>
-                    </div>
-                    <textarea id="rating-comment" class="vv-input" placeholder="Share a few words about your experience…" style="display: none;"></textarea>
-                    <button id="submit-rating" class="vv-btn vv-btn--primary" style="display: none;">Submit rating</button>
-                </div>
-            </section>
-        </div>
-
-        <!-- ===================== SIDEBAR ===================== -->
-        <aside class="profile-aside">
-            <section class="detail-card contact-card">
-                <h2 class="section-title"><i class='bx bx-contact'></i> Contact</h2>
-                <div class="info-item"><i class='bx bx-envelope'></i><div><p class="info-label">Email</p><p class="info-value" id="email-value">—</p></div></div>
-                <div class="info-item"><i class='bx bx-phone'></i><div><p class="info-label">Phone</p><p class="info-value" id="phone-value">—</p></div></div>
-                <div class="info-item"><i class='bx bx-map'></i><div><p class="info-label">Location</p><p class="info-value" id="location-value">—</p></div></div>
-            </section>
-
-            <!-- Owner-only -->
-            <div class="profile-footer detail-card" id="profile-footer" style="display: none;">
-                <div class="profile-views">
-                    <span class="pv-icon"><i class='bx bx-show'></i></span>
-                    <div><strong id="view-count">0</strong><span>Profile views</span></div>
-                </div>
-            </div>
-            <div class="settings-section">
-                <button id="settings-btn" class="settings-btn vv-btn vv-btn--block"><i class='bx bx-cog'></i> Account settings</button>
-            </div>
-
-            <section class="detail-card promo-card">
-                <span class="vv-eyebrow">Teletherapy</span>
-                <h3>Prefer online sessions?</h3>
-                <p>Book a secure video session with a licensed specialist this week.</p>
-                <a href="teletherapy.html" class="vv-btn vv-btn--primary vv-btn--block"><i class='bx bx-video'></i> Book teletherapy</a>
-            </section>
-        </aside>
-    </div>
+    <section class="container" id="profile-body"></section>
 </main>
 
-<!-- ===================== EDIT MODAL ===================== -->
-<div id="edit-profile-modal" class="modal">
-    <div class="modal-content">
-        <span class="modal-close" role="button" aria-label="Close">&times;</span>
-        <h2><i class='bx bx-edit'></i> Edit profile</h2>
-
-        <div class="form-group">
-            <label for="edit-profile-image">Profile image</label>
-            <input type="file" id="edit-profile-image" accept="image/*">
-            <div class="upload-progress" id="image-upload-progress" style="display: none;">
-                <div class="progress-bar"></div>
-                <span class="progress-text">Uploading: 0%</span>
-            </div>
-        </div>
-
-        <div class="image-preview-container" id="image-preview-container" style="display: none;">
-            <img src="" alt="Profile preview" class="image-preview" id="edit-image-preview">
-            <div class="image-actions">
-                <button type="button" id="change-image-btn" class="image-action-btn"><i class='bx bx-image-add'></i> Change image</button>
-            </div>
-        </div>
-
-        <div class="cv-upload-section" id="cv-upload-section" style="display: none;">
-            <h4><i class='bx bx-file-pdf'></i> Curriculum Vitae</h4>
-            <div id="current-cv-preview"><p>No CV uploaded</p></div>
-            <div class="form-group">
-                <label for="edit-cv">Upload new CV</label>
-                <input type="file" id="edit-cv" accept=".pdf,.doc,.docx,.txt">
-                <div class="upload-progress" id="cv-upload-progress" style="display: none;">
-                    <div class="progress-bar"></div>
-                    <span class="progress-text">Uploading: 0%</span>
-                </div>
-                <small>PDF, DOC, DOCX or TXT · max 5MB</small>
-            </div>
-        </div>
-
-        <div class="form-group"><label for="edit-name">Full name</label><input type="text" id="edit-name" required></div>
-        <div class="form-group"><label for="edit-phone">Phone</label><input type="tel" id="edit-phone" required></div>
-
-        <div id="professional-fields" style="display: none;">
-            <div class="form-group"><label for="edit-title">Professional title</label><input type="text" id="edit-title"></div>
-            <div class="form-group"><label for="edit-specialty">Qualifications</label><input type="text" id="edit-specialty"></div>
-            <div class="form-group"><label for="edit-experience">Experience (years)</label><input type="number" id="edit-experience" min="0"></div>
-            <div class="form-group"><label for="edit-bio">Professional bio</label><textarea id="edit-bio" rows="4"></textarea></div>
-        </div>
-
-        <div id="supplier-fields" style="display: none;">
-            <div class="form-group"><label for="edit-org">Organization name</label><input type="text" id="edit-org"></div>
-            <div class="form-group"><label for="edit-products">Products / services</label><textarea id="edit-products" rows="3"></textarea></div>
-        </div>
-
-        <div id="center-fields" style="display: none;">
-            <div class="form-group"><label for="edit-center-name">Center name</label><input type="text" id="edit-center-name"></div>
-            <div class="form-group"><label for="edit-center-type">Center type</label><input type="text" id="edit-center-type"></div>
-            <div class="form-group"><label for="edit-address">Address</label><textarea id="edit-address" rows="3"></textarea></div>
-            <div class="form-group"><label for="edit-description">Description</label><textarea id="edit-description" rows="4"></textarea></div>
-        </div>
-
-        <div class="form-group">
-            <button id="save-profile-btn" class="vv-submit">Save changes</button>
-            <div id="edit-error" class="error-message"></div>
-            <div id="edit-success" class="success-message" style="display: none;">Profile updated successfully!</div>
-        </div>
-    </div>
-</div>
-
-    <script src="assets/js/navmodal.js"></script>
-    <script src="assets/js/verve.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
-    <script src="assets/js/configuration.js"></script>
-    <script src="assets/js/auth.js"></script>
-    <script src="assets/js/users.js"></script>
-    <script>
-        // Share profile: native share sheet on phones, copy link elsewhere
-        document.getElementById('share-profile').addEventListener('click', function () {
-            var name = (document.querySelector('.user-name') || {}).textContent || 'RehabVerve profile';
-            if (navigator.share) { navigator.share({ title: name, url: location.href }).catch(function () {}); return; }
-            (navigator.clipboard ? navigator.clipboard.writeText(location.href) : Promise.reject())
-                .then(function () { window.vvToast && vvToast('Profile link copied', 'success'); })
-                .catch(function () { window.vvToast && vvToast('Copy the link from your address bar', 'info'); });
-        });
-        // Mirror location into the header chip once users.js fills it in
-        new MutationObserver(function () {
-            var v = document.getElementById('location-value').textContent.trim();
-            var chip = document.getElementById('location-chip');
-            if (v && v !== '—' && v !== 'Not provided') chip.textContent = v.length > 40 ? v.slice(0, 40) + '…' : v;
-        }).observe(document.getElementById('location-value'), { childList: true, characterData: true, subtree: true });
-    </script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-storage-compat.js"></script>
+<script defer src="assets/js/firebase-init.js"></script>
+<script defer src="assets/js/cards.js"></script>
+<script defer src="assets/js/listing-form.js"></script>
+<script defer src="assets/js/booking.js"></script>
+<script defer src="assets/js/profile.js"></script>
 </body>
 </html>

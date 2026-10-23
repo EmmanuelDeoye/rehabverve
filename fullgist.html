@@ -2,60 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Story — RehabVerve</title>
-    <meta name="theme-color" content="#050816">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/fullgist.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Rehab update — RehabVerve</title>
+    <meta name="description" content="Read the latest from the world of rehabilitation on RehabVerve.">
+    <meta name="theme-color" content="#ffffff">
+    <meta property="og:type" content="article">
+    <meta property="og:image" content="https://www.rehabverve.com.ng/assets/img/icon-512.png">
     <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+    <link rel="manifest" href="manifest.json">
+    <script src="assets/js/theme.js"></script>
+    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
 </head>
-<body class="page-article">
-    <main class="l-main">
-        <article class="blog-details-section vv-container">
-            <div class="blog-details-container" id="blog-details-container">
-                <div class="article-skel">
-                    <div class="vv-skel" style="height:320px;border-radius:28px"></div>
-                    <div class="vv-skel" style="height:34px;width:80%;margin-top:28px"></div>
-                    <div class="vv-skel" style="height:16px;width:50%;margin-top:14px"></div>
-                    <div class="vv-skel" style="height:14px;margin-top:34px"></div>
-                    <div class="vv-skel" style="height:14px;margin-top:12px"></div>
-                    <div class="vv-skel" style="height:14px;width:70%;margin-top:12px"></div>
-                </div>
-            </div>
+<body data-page="article">
+<main id="main" class="section">
+    <article class="container narrow" id="article"><div class="skeleton" style="min-height:420px"></div></article>
+    <section class="container mt-4" id="related-wrap" hidden>
+        <div class="section-head"><h2>Related updates</h2><a class="btn btn-sm" href="blogs.html">All updates</a></div>
+        <div class="grid" id="related"></div>
+    </section>
+</main>
 
-            <!-- Share -->
-            <div class="social-share-bar" aria-label="Share this story">
-                <span class="social-share-label">Share</span>
-                <div class="social-share-icons">
-                    <a href="#" class="social-share-btn whatsapp" target="_blank" rel="noopener" aria-label="Share on WhatsApp"><i class='bx bxl-whatsapp'></i></a>
-                    <a href="#" class="social-share-btn linkedin" target="_blank" rel="noopener" aria-label="Share on LinkedIn"><i class='bx bxl-linkedin'></i></a>
-                    <a href="#" class="social-share-btn twitter" target="_blank" rel="noopener" aria-label="Share on X"><i class='bx bxl-twitter'></i></a>
-                    <a href="#" class="social-share-btn facebook" target="_blank" rel="noopener" aria-label="Share on Facebook"><i class='bx bxl-facebook'></i></a>
-                    <button type="button" class="social-share-btn copy" id="copy-link" aria-label="Copy link"><i class='bx bx-link'></i></button>
-                </div>
-            </div>
-
-            <section class="related-posts" id="related-posts">
-                <h3>Keep reading</h3>
-                <div class="related-posts-grid" id="related-posts-grid"></div>
-            </section>
-        </article>
-    </main>
-
-    <script src="assets/js/navmodal.js"></script>
-    <script src="assets/js/verve.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
-    <script src="assets/js/configuration.js"></script>
-    <script src="assets/js/auth.js"></script>
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/fullgist.js"></script>
-    <script>
-        document.getElementById('copy-link').addEventListener('click', function () {
-            (navigator.clipboard ? navigator.clipboard.writeText(location.href) : Promise.reject())
-                .then(function () { window.vvToast && vvToast('Link copied to clipboard', 'success'); })
-                .catch(function () { window.vvToast && vvToast('Copy this page URL from your address bar', 'info'); });
-        });
-    </script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
+<script defer src="assets/js/firebase-init.js"></script>
+<script defer src="assets/js/cards.js"></script>
+<script defer src="assets/js/article.js"></script>
 </body>
 </html>

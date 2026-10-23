@@ -1,0 +1,17 @@
+{
+  "name": "rehabverve",
+  "private": true,
+  "description": "RehabVerve — static site (GitHub Pages) + Firebase rules, functions and tests.",
+  "scripts": {
+    "rules": "node tools/build-rules.js",
+    "test": "firebase emulators:exec --only database,storage --project demo-rehabverve \"node --test tests/rules.test.js\"",
+    "emulators": "firebase emulators:start --only auth,database,storage,functions",
+    "deploy:rules": "npm run rules && firebase deploy --only database,storage",
+    "deploy:functions": "firebase deploy --only functions"
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "5.0.2",
+    "firebase": "12.18.0",
+    "firebase-tools": "15.34.1"
+  }
+}

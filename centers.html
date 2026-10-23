@@ -2,58 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Care Centers — RehabVerve</title>
-    <meta name="description" content="Rehabilitation centers, hospitals, schools and home-care teams on the RehabVerve network.">
-    <meta name="theme-color" content="#050816">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/directory.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Rehab centers and mobile rehab services — RehabVerve</title>
+    <meta name="description" content="Rehabilitation centers, hospitals, special schools, home-care and mobile rehab teams across Africa — compare services, fees and the areas they cover.">
+    <meta name="theme-color" content="#ffffff">
+    <meta property="og:title" content="Rehab centers and mobile rehab services — RehabVerve">
+    <meta property="og:description" content="Find a center or mobile rehab team near you.">
+    <meta property="og:image" content="https://www.rehabverve.com.ng/assets/img/icon-512.png">
+    <link rel="canonical" href="https://www.rehabverve.com.ng/centers.html">
     <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+    <link rel="manifest" href="manifest.json">
+    <script src="assets/js/theme.js"></script>
+    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
 </head>
-<body class="page-directory">
-    <main class="l-main">
-        <section class="dir-hero">
-            <div class="vv-container">
-                <span class="vv-eyebrow" data-reveal>Approved centers</span>
-                <h1 class="vv-title" data-split>Care centers, <span class="vv-gradient-text">closer to you.</span></h1>
-                <p class="vv-lead" data-reveal>Rehabilitation centers, hospitals, schools and home‑care teams — reviewed and listed on the network.</p>
-                <div class="dir-search" role="search" data-reveal>
-                    <i class='bx bx-search'></i>
-                    <input type="search" id="center-search-input" placeholder="Search centers by name or location" aria-label="Search centers" autocomplete="off">
-                </div>
-                <div class="dir-chips" id="category-chips" role="toolbar" aria-label="Filter by type"></div>
+<body data-page="centers" data-kind="centers">
+<main id="main">
+    <section class="page-head">
+        <div class="container">
+            <span class="eyebrow">Centers & mobile rehab</span>
+            <h1>Rehab centers and services near you</h1>
+            <p class="lead">Rehabilitation centers, hospitals, special schools, home-care providers and mobile rehab teams that come to you.</p>
+        </div>
+    </section>
+    <section class="container mt-2">
+        <form class="card card-pad" id="filters" role="search">
+            <div class="filters">
+                <label class="field"><span>Type</span><select name="type"><option value="">All types</option></select></label>
+                <label class="field"><span>Location</span><input name="loc" placeholder="City, area or state"></label>
+                <label class="field"><span>Service</span>
+                    <select name="mode"><option value="">Any</option><option value="home">Mobile / home visits</option><option value="onsite">At the center</option><option value="tele">Teletherapy</option></select>
+                </label>
+                <label class="field"><span>Search</span><input name="q" placeholder="Name or service"></label>
             </div>
-        </section>
+        </form>
+        <div class="result-bar"><span id="count" aria-live="polite">Loading…</span><button type="button" class="link-btn" id="reset">Clear filters</button></div>
+        <div class="grid" id="results"></div>
+        <div class="ad-slot mt-3" data-ad-slot="directory"></div>
+    </section>
+</main>
 
-        <section class="vv-container">
-            <div class="dir-toolbar"><p class="dir-count" id="centers-count" aria-live="polite">Loading centers…</p></div>
-            <div class="dir-grid dir-grid--wide centers-container" id="centers-container">
-                <div class="card-skel vv-skel"></div><div class="card-skel vv-skel"></div><div class="card-skel vv-skel"></div>
-            </div>
-
-            <div class="dir-cta" data-reveal>
-                <div>
-                    <h3>Run a center or clinic?</h3>
-                    <p>List your facility and reach families searching for care.</p>
-                </div>
-                <a class="vv-btn vv-btn--primary" href="registration.html"><i class='bx bx-building'></i> Register your center</a>
-            </div>
-        </section>
-    </main>
-
-    <a href="assessment.html" class="floating-ai-button22" style="display: none;">
-        <i class='bx bx-bot'></i>
-        <span class="ai-button-text">Quick Assessment</span>
-    </a>
-
-    <script src="assets/js/navmodal.js"></script>
-    <script src="assets/js/verve.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
-    <script src="assets/js/configuration.js"></script>
-    <script src="assets/js/auth.js"></script>
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/centers.js"></script>
-    <script src="assets/js/track.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
+<script defer src="assets/js/firebase-init.js"></script>
+<script defer src="assets/js/cards.js"></script>
+<script defer src="assets/js/directory.js"></script>
 </body>
 </html>

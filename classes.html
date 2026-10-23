@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Online classes and tutoring for children — RehabVerve</title>
+    <meta name="description" content="Small online classes, private tutors and assignments for children — including children with additional learning needs — at home in Africa and abroad.">
+    <meta name="theme-color" content="#ffffff">
+    <meta property="og:title" content="Online classes and tutoring for children — RehabVerve">
+    <meta property="og:description" content="Live online classes and assignments with experienced tutors and special educators.">
+    <meta property="og:image" content="https://www.rehabverve.com.ng/assets/img/icon-512.png">
+    <link rel="canonical" href="https://www.rehabverve.com.ng/classes.html">
+    <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+    <link rel="manifest" href="manifest.json">
+    <script src="assets/js/theme.js"></script>
+    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+</head>
+<body data-page="classes">
+<main id="main">
+    <section class="page-head">
+        <div class="container">
+            <span class="eyebrow">Online classes & tutoring</span>
+            <h1>Learning that fits every child</h1>
+            <p class="lead">Small live online classes and one-to-one tutoring with experienced teachers and special educators — with assignments, feedback and progress you can see. For children at home in Africa and abroad.</p>
+            <div class="row mt-2">
+                <a class="btn btn-primary" href="#catalogue">Browse classes</a>
+                <button type="button" class="btn" id="request-tutor"><i class='bx bx-chalkboard'></i> Request a private tutor</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="container mt-3" id="mine" hidden>
+        <div class="section-head"><div><h2>My classes</h2><p>Classes you have enrolled your child in.</p></div></div>
+        <div class="list" id="mine-list"></div>
+    </section>
+
+    <section class="container mt-3" id="teaching" hidden>
+        <div class="section-head"><div><h2>Classes I teach</h2><p>Manage students, assignments and grading.</p></div></div>
+        <div class="grid" id="teaching-list"></div>
+    </section>
+
+    <section class="container mt-4" id="catalogue">
+        <div class="section-head"><div><h2>Classes</h2></div></div>
+        <div class="filters card card-pad">
+            <label class="field"><span>Subject</span><select id="subject"><option value="">All subjects</option></select></label>
+            <label class="field"><span>Age group</span><select id="age"><option value="">All ages</option></select></label>
+            <label class="field"><span>Search</span><input id="q" class="input" placeholder="Class or tutor"></label>
+            <label class="check" style="align-self:center"><input type="checkbox" id="open-only" checked> Enrolling now</label>
+        </div>
+        <div class="result-bar"><span id="count"></span></div>
+        <div class="grid" id="list"></div>
+        <div class="ad-slot mt-3" data-ad-slot="classes"></div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="banner tint">
+                <div><span class="eyebrow">For teachers & special educators</span><h2>Teach on RehabVerve</h2>
+                <p class="lead">Run small online classes, set assignments and give feedback — we handle discovery, enrolment and parents’ questions.</p>
+                <a class="btn btn-primary" href="registration.html">Apply as a tutor</a></div>
+                <div class="banner-art" aria-hidden="true"><i class='bx bx-chalkboard'></i></div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
+<script defer src="assets/js/firebase-init.js"></script>
+<script defer src="assets/js/cards.js"></script>
+<script defer src="assets/js/booking.js"></script>
+<script defer src="assets/js/classes.js"></script>
+</body>
+</html>

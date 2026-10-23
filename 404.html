@@ -1,47 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Page not found — RehabVerve</title>
-  <meta name="theme-color" content="#050816">
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <link rel="stylesheet" href="/assets/css/styles.css">
-  <link rel="icon" href="/assets/img/logo.svg" type="image/svg+xml">
-  <style>
-    .nf { min-height: calc(100vh - var(--header-h) - var(--tabbar-h)); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px var(--gutter); }
-    .nf-code { font-family: var(--font-display); font-weight: 800; font-size: clamp(110px, 32vw, 260px); line-height: .9; letter-spacing: -.07em; background: var(--grad-text); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent; animation: vv-shine 6s linear infinite, nf-float 5s ease-in-out infinite; filter: drop-shadow(0 20px 60px rgba(34,211,238,.35)); }
-    @keyframes nf-float { 50% { transform: translateY(-12px); } }
-    .nf h1 { font-size: clamp(24px, 5vw, 36px); margin: 10px 0 8px; }
-    .nf p { color: var(--text-2); max-width: 460px; margin: 0 auto 26px; }
-    .nf-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
-    .nf small { display: block; margin-top: 22px; color: var(--text-3); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Page not found — RehabVerve</title>
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#ffffff">
+    <base href="/">
+    <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+    <script src="assets/js/theme.js"></script>
+    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
 </head>
-<body class="page-404">
-  <main class="nf">
-    <div class="nf-code" aria-hidden="true">404</div>
-    <h1>This page drifted out of orbit.</h1>
-    <p>The link may be broken or the page may have moved. Let’s get you back to care.</p>
-    <div class="nf-actions">
-      <a href="/" class="vv-btn vv-btn--primary vv-btn--lg"><i class='bx bx-home-alt-2'></i> Back to home</a>
-      <a href="/professionals.html?category=All" class="vv-btn vv-btn--lg"><i class='bx bx-search'></i> Find a specialist</a>
+<body data-page="404">
+<main id="main" class="section">
+    <div class="container narrow center stack">
+        <i class='bx bx-compass' style="font-size:4rem;color:var(--primary)"></i>
+        <h1>We couldn’t find that page</h1>
+        <p class="lead" style="margin:0 auto">It may have moved. Try one of these instead.</p>
+        <div class="row" style="justify-content:center">
+            <a class="btn btn-primary" href="index.html">Home</a>
+            <a class="btn" href="professionals.html">Find care</a>
+            <a class="btn" href="teletherapy.html">Teletherapy</a>
+            <a class="btn" href="classes.html">Classes</a>
+        </div>
     </div>
-    <small>Redirecting home in <span id="countdown">8</span>s</small>
-  </main>
-
-  <script>
-    // Clean URLs: /about.html -> /about (GitHub Pages serves the .html file)
-    if (window.location.pathname.endsWith('.html') && window.location.pathname !== '/404.html') {
-      window.location.href = window.location.pathname.slice(0, -5);
-    }
-    var seconds = 8, el = document.getElementById('countdown');
-    var timer = setInterval(function () {
-      seconds--; el.textContent = seconds;
-      if (seconds <= 0) { clearInterval(timer); window.location.href = '/'; }
-    }, 1000);
-  </script>
-  <script src="/assets/js/navmodal.js"></script>
-  <script src="/assets/js/verve.js"></script>
+</main>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
+<script defer src="assets/js/firebase-init.js"></script>
 </body>
 </html>

@@ -2,56 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Professionals — RehabVerve</title>
-    <meta name="description" content="Search verified physiotherapists, speech and occupational therapists, psychologists and more on RehabVerve.">
-    <meta name="theme-color" content="#050816">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/directory.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Find rehab professionals — RehabVerve</title>
+    <meta name="description" content="Match with physiotherapists, occupational and speech therapists, psychologists and other rehab professionals by need, location, fees and home visits.">
+    <meta name="theme-color" content="#ffffff">
+    <meta property="og:title" content="Find rehab professionals — RehabVerve">
+    <meta property="og:description" content="Compare fees, coverage areas and home visits, then book.">
+    <meta property="og:image" content="https://www.rehabverve.com.ng/assets/img/icon-512.png">
+    <link rel="canonical" href="https://www.rehabverve.com.ng/professionals.html">
     <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+    <link rel="manifest" href="manifest.json">
+    <script src="assets/js/theme.js"></script>
+    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
 </head>
-<body class="page-directory">
-    <main class="l-main">
-        <section class="dir-hero">
-            <div class="vv-container">
-                <span class="vv-eyebrow" data-reveal>The network</span>
-                <h1 class="vv-title" data-split>Find the right <span class="vv-gradient-text">specialist.</span></h1>
-                <p class="vv-lead" data-reveal>Licensed, verified professionals across every rehabilitation discipline — message them directly or view their full profile.</p>
-
-                <div class="dir-search" role="search" data-reveal>
-                    <i class='bx bx-search'></i>
-                    <input type="search" id="search-input" placeholder="Search by name, specialty or location" aria-label="Search professionals" autocomplete="off">
-                </div>
-                <div class="dir-chips" id="category-chips" role="toolbar" aria-label="Filter by discipline"></div>
+<body data-page="professionals" data-kind="pros">
+<main id="main">
+    <section class="page-head">
+        <div class="container">
+            <span class="eyebrow">Find care</span>
+            <h1>Match with the right professional</h1>
+            <p class="lead">Tell us what you need, where you are and your budget. We show who covers your area, their fees and whether they do home visits or online sessions.</p>
+        </div>
+    </section>
+    <section class="container mt-2">
+        <form class="card card-pad" id="filters" role="search">
+            <div class="filters">
+                <label class="field"><span>Professional</span><select name="category"><option value="">Any professional</option></select></label>
+                <label class="field"><span>Location</span><input name="loc" placeholder="City, area or state"></label>
+                <label class="field"><span>How</span>
+                    <select name="mode"><option value="">In clinic, at home or online</option><option value="home">Home visits</option><option value="clinic">In clinic</option><option value="tele">Teletherapy (online)</option></select>
+                </label>
+                <label class="field"><span>Budget per session (max)</span>
+                    <span class="row" style="gap:6px;flex-wrap:nowrap"><select name="cur" style="width:96px"></select><input name="max" type="number" min="0" step="1000" placeholder="Any"></span>
+                </label>
+                <label class="field"><span>Search</span><input name="q" placeholder="Name, condition or keyword"></label>
+                <label class="field"><span>Country</span><select name="country"><option value="">All countries</option></select></label>
+                <label class="field"><span>Sort by</span>
+                    <select name="sort"><option value="match">Best match</option><option value="price">Lowest fee</option><option value="rating">Highest rated</option><option value="experience">Most experienced</option></select>
+                </label>
+                <label class="check" style="align-self:center"><input type="checkbox" name="verified"> Verified only</label>
             </div>
-        </section>
+        </form>
+        <div class="result-bar"><span id="count" aria-live="polite">Loading…</span><button type="button" class="link-btn" id="reset">Clear filters</button></div>
+        <div class="grid" id="results"></div>
+        <div class="ad-slot mt-3" data-ad-slot="directory"></div>
+        <div class="notice mt-3"><i class='bx bxl-whatsapp'></i><span>Can’t find the right person? <a id="ask-wa" href="#" target="_blank" rel="noopener">Tell us what you need on WhatsApp</a> and we’ll recommend someone.</span></div>
+    </section>
+</main>
 
-        <section class="vv-container">
-            <div class="dir-toolbar">
-                <p class="dir-count" id="category-title" aria-live="polite">Loading specialists…</p>
-            </div>
-            <div class="dir-grid professional-grid" id="pro-grid">
-                <div class="profile-skel vv-skel" style="height:330px"></div><div class="profile-skel vv-skel" style="height:330px"></div><div class="profile-skel vv-skel" style="height:330px"></div><div class="profile-skel vv-skel" style="height:330px"></div>
-            </div>
-
-            <div class="dir-cta" data-reveal>
-                <div>
-                    <h3>Not sure who you need?</h3>
-                    <p>Tell us what’s going on — we’ll recommend the right professional for you.</p>
-                </div>
-                <a class="vv-btn vv-btn--whatsapp" target="_blank" rel="noopener" href="https://wa.me/2348132912880?text=Hello!%20I%20would%20love%20you%20to%20recommend%20the%20best%20healthcare%20professional%20to%20suit%20my%20need."><i class='bx bxl-whatsapp'></i> Get a recommendation</a>
-            </div>
-        </section>
-    </main>
-
-    <script src="assets/js/navmodal.js"></script>
-    <script src="assets/js/verve.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
-    <script src="assets/js/configuration.js"></script>
-    <script src="assets/js/auth.js"></script>
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/professionals.js"></script>
-    <script src="assets/js/track.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
+<script defer src="assets/js/firebase-init.js"></script>
+<script defer src="assets/js/cards.js"></script>
+<script defer src="assets/js/directory.js"></script>
 </body>
 </html>
