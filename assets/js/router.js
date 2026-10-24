@@ -68,7 +68,8 @@
     RV.go = (target, { replace = false } = {}) => {
         const to = RV.safeRoute(target);
         if (!to) { if (/^https?:/i.test(String(target))) location.href = target; return; }
-        if (replace) history.replaceState(null, '', to); else history.pushState(null, '', to);
+        // A replaced entry keeps its place in the visit (for the back button)
+        if (replace) history.replaceState({ depthHint: current ? current.depth : 0 }, '', to); else history.pushState(null, '', to);
         render();
     };
     // Rewrite the current address's query (filters) without reloading the screen.
@@ -159,6 +160,21 @@
     const positions = {};
     history.scrollRestoration = 'manual';
 
+    // How far into this visit an entry is: 0 for where the visit started. The header's back button
+    // goes back while there is somewhere to go back to, and home otherwise.
+    function entryDepth() {
+        const st = history.state;
+        if (st && st.rv != null) return { id: st.rv, depth: Number(st.depth) || 0 };   // back / forward / reload
+        const depth = st && st.depthHint != null ? Number(st.depthHint) || 0 : current ? current.depth + 1 : 0;
+        const id = ++entry + Date.now();
+        history.replaceState({ rv: id, depth }, '', location.href);
+        return { id, depth };
+    }
+    function showBack() {
+        const back = document.getElementById('rv-back');
+        if (back) back.hidden = !current || (current.name === '' && current.depth === 0);
+    }
+
     function setMeta(cfg) {
         document.title = cfg.title.includes('RehabVerve') ? cfg.title : `${cfg.title} — RehabVerve`;
     }
@@ -177,7 +193,8 @@
 
         // Sub-sections of the admin console switch without reloading the console
         if (current && cfg.sticky && current.name === r.name) {
-            Object.assign(current, { sub: r.sub, params: r.params, key: r.key });
+            Object.assign(current, { sub: r.sub, params: r.params, key: r.key, depth: entryDepth().depth });
+            showBack();
             RV.route = current;
             RV.params = r.params;
             document.dispatchEvent(new CustomEvent('rv:subroute', { detail: r.sub }));
@@ -186,10 +203,10 @@
 
         const my = ++gen;
         leave();
-        if (!history.state || history.state.rv == null) history.replaceState({ rv: ++entry + Date.now() }, '', location.href);
-        const id = history.state.rv;
+        const { id, depth } = entryDepth();
         const restoreY = positions[id];
-        current = { ...r, id };
+        current = { ...r, id, depth };
+        showBack();
         RV.route = current;
         RV.params = new URLSearchParams(r.params);
         setMeta(cfg);
@@ -211,12 +228,16 @@
 
         main.innerHTML = html;
         const view = main.firstElementChild || main;
+        view.classList.add('view-enter');
         window.scrollTo(0, restoreY || 0);
         if (RV.renderAds) RV.renderAds();
 
-        // Scripts need Firebase (and sometimes Storage / Functions) before they run
+        // Scripts need Firebase before they run. Storage / Functions are only fetched in the
+        // background: uploads and AI features load them again when used, so a slow download
+        // never holds a screen on its spinner.
         const fb = await RV.ready;
-        await Promise.all([loadLibs(cfg.libs || []), fb && RV.loadSdk ? RV.loadSdk(cfg.sdk || []) : null]).catch(err => console.error(err));
+        if (fb && RV.loadSdk) RV.loadSdk(cfg.sdk || []);
+        await loadLibs(cfg.libs || []).catch(err => console.error(err));
         if (my !== gen) return;
         document.body.classList.remove('is-loading');
         if (RV._countView) RV._countView(cfg.page);

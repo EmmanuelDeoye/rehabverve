@@ -32,7 +32,9 @@
         return fallback;
     };
     RV.img = (value, fallback = 'assets/img/profile.png') => {
-        const u = RV.safeUrl(value);
+        const raw = String(value == null ? '' : value).trim();
+        if (/^data:image\/(png|jpe?g|webp|gif);base64,[a-z0-9+/=\s]+$/i.test(raw)) return raw;
+        const u = RV.safeUrl(raw);
         return /^(https:|assets\/|\.\/assets\/)/i.test(u) ? u : fallback;
     };
 
@@ -278,8 +280,12 @@
     };
 
     // Upload a file to Firebase Storage and return its download URL.
-    RV.upload = (path, file, onProgress) => new Promise((resolve, reject) => {
-        if (!fb || !fb.storage) { reject(new Error('File uploads are not available on this page.')); return; }
+    RV.upload = async (path, file, onProgress) => {
+        if (fb && !fb.storage && RV.loadSdk) await RV.loadSdk(['storage']);
+        if (!fb || !fb.storage) throw new Error('File uploads are not available right now. Check your connection and try again.');
+        return put(path, file, onProgress);
+    };
+    const put = (path, file, onProgress) => new Promise((resolve, reject) => {
         const task = fb.storage.ref(path).put(file, { contentType: file.type });
         task.on('state_changed',
             s => onProgress && onProgress(Math.round((s.bytesTransferred / s.totalBytes) * 100)),
@@ -368,6 +374,13 @@
         }
         state.profile = profile;
         state.isAdmin = !!(adminSnap && adminSnap.val() === true);
+        // Professionals and centers keep their picture on their listing (img, or the old "ing")
+        const pic = path => db.ref(path).once('value').then(s => s.val()).catch(() => null);
+        const [proImg, proIng, centerImg, centerIng] = await Promise.all([
+            pic(`professionals/${user.uid}/img`), pic(`professionals/${user.uid}/ing`),
+            pic(`centers/${user.uid}/img`), pic(`centers/${user.uid}/ing`)
+        ]);
+        state.listingPhoto = [proImg, proIng, centerImg, centerIng].find(v => RV.img(v, '')) || '';
     }
 
     function startPresence(uid) {
@@ -385,6 +398,7 @@
             state.user = user;
             state.profile = null;
             state.isAdmin = false;
+            state.listingPhoto = '';
             if (user) {
                 await loadAccount(user);
                 startPresence(user.uid);
@@ -410,7 +424,8 @@
     /* ================================================================== */
     const LOGO = `<img src="assets/img/logo-96.png" width="36" height="36" alt="" decoding="async">`;
     RV.logo = LOGO;
-    const BRAND = `${LOGO}<span>Rehab<b>Verve</b></span>`;
+    // Written as on the original site: REHAB in cyan, VERVE in black (white in dark mode)
+    const BRAND = `${LOGO}<span class="wordmark"><span>REHAB</span>VERVE</span>`;
 
     const NAV = [
         { id: 'professionals', href: '#/professionals', icon: 'bx-search', label: 'Find care' },
@@ -431,6 +446,7 @@
                 <nav class="main-nav" aria-label="Main">${NAV.map(n => navLink(n)).join('')}</nav>
                 <div class="header-actions">
                     <a href="#/assessment" class="hdr-btn hide-md" data-nav="assessment" aria-label="AI check" title="AI check"><i class='bx bx-bot'></i></a>
+                    <button type="button" class="hdr-btn hdr-back" id="rv-back" aria-label="Go back" title="Back" hidden><i class='bx bx-chevron-left'></i></button>
                     <div id="rv-account" class="hdr-account"></div>
                     <button type="button" class="hdr-btn menu-toggle" id="rv-menu" aria-label="Open menu" aria-controls="rv-drawer" aria-expanded="false"><i class='bx bx-menu-alt-right'></i></button>
                 </div>
@@ -456,7 +472,7 @@
             { id: 'professionals', href: '#/professionals', icon: 'bx-search', label: 'Find' },
             { id: 'teletherapy', href: '#/teletherapy', icon: 'bx-video', label: 'Online', fab: true },
             { id: 'classes', href: '#/classes', icon: 'bx-book-open', label: 'Classes' },
-            { id: 'settings', href: '#/settings', icon: 'bx-user', label: 'Me' }
+            { id: 'news', href: '#/updates', icon: 'bx-news', label: 'Updates' }
         ];
         return `<nav class="tabbar" aria-label="Quick links">${tabs.map(t => `<a href="${t.href}" data-nav="${t.id}"${t.fab ? ' class="fab"' : ''} aria-label="${t.label}"><i class='bx ${t.icon}'></i><span>${t.label}</span></a>`).join('')}</nav>`;
     }
@@ -622,7 +638,7 @@
             ];
             if (state.isAdmin) links.unshift(['bx-shield-quarter', 'Admin console', '#/admin']);
             const menuLinks = links.map(([i, l, h]) => `<a href="${h}"><i class='bx ${i}'></i>${l}</a>`).join('');
-            const photo = RV.esc(RV.img(p.img));
+            const photo = RV.esc(RV.img([p.img, p.ing, p.photoURL, p.profileImage, state.listingPhoto, u.photoURL].find(v => RV.img(v, ''))));
             document.body.classList.add('signed-in');
             // On phones and tablets the photo opens the menu drawer; on wide screens, the account menu
             host.innerHTML = `
@@ -653,6 +669,7 @@
         RV.theme.set(RV.theme.get());
         updateInstallButtons();
     }
+    RV.renderAccount = renderAccount;
 
     function wireShell() {
         const drawer = $('#rv-drawer'), backdrop = $('#rv-backdrop'), toggle = $('#rv-menu');
@@ -663,6 +680,10 @@
             document.body.style.overflow = on ? 'hidden' : '';
         };
         RV.closeDrawer = () => { if (drawer.classList.contains('open')) open(false); };
+        // Back: the previous screen in this visit, or home when the visit started here
+        $('#rv-back').addEventListener('click', () => {
+            if (RV.route && RV.route.depth > 0) history.back(); else RV.go('#/');
+        });
         RV.openDrawer = () => open(true);
         toggle.addEventListener('click', () => open(true));
         backdrop.addEventListener('click', () => open(false));

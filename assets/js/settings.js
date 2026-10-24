@@ -53,6 +53,7 @@
             await fb.db.ref('userdata/' + s.user.uid).update(update);
             await s.user.updateProfile({ displayName: v.name }).catch(() => {});
             Object.assign(s.profile || {}, update);
+            RV.renderAccount(); // new photo / name in the header straight away
             RV.toast('Account saved', 'success');
         } catch (err) { RV.toast(RV.errorMessage(err), 'error'); }
         finally { RV.busy(btn, false); f.photo.value = ''; }

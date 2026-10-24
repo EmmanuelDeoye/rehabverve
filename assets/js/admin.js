@@ -39,7 +39,17 @@
     /* Gate & navigation                                                    */
     /* ================================================================== */
     let started = false;
-    RV.onAuth(s => {
+    // Safety net: if the sign-in check has not answered after 15 seconds, say so and offer a retry
+    // instead of leaving the spinner up.
+    const watchdog = setTimeout(() => {
+        if (gate.hidden || !gate.querySelector('.spinner')) return;
+        gate.innerHTML = `<div class="card card-pad" style="max-width:440px;margin:0 auto"><h1 style="font-size:1.4rem">Still connecting…</h1><p class="muted">The admin console is taking longer than usual. Check your internet connection, then retry.</p><button class="btn btn-primary" type="button" data-retry><i class='bx bx-refresh'></i> Retry</button></div>`;
+        gate.querySelector('[data-retry]').addEventListener('click', () => location.reload());
+    }, 15000);
+    // Registered at the very end of this file: when someone is already signed in, RV.onAuth answers
+    // at once, and every section (VIEWS below) must exist by then.
+    function gateCheck(s) {
+        clearTimeout(watchdog);
         if (!s.user) {
             $('#admin').hidden = true;
             gate.hidden = false;
@@ -55,7 +65,7 @@
         gate.hidden = true;
         $('#admin').hidden = false;
         if (!started) { started = true; start(); }
-    });
+    }
 
     function start() {
         $('#admin-nav').innerHTML = SECTIONS.map(([id, icon, label]) => `<button type="button" data-section="${id}"><i class='bx ${icon}'></i>${label}<span class="count" data-count="${id}"></span></button>`).join('');
@@ -212,37 +222,58 @@
     /* ================================================================== */
     const VIEWS = {};
 
+    // Drawn straight away; each number fills in as its data arrives, so one slow read never
+    // holds the whole page (the user list in particular can be large).
     VIEWS.overview = async () => {
-        const [users, pros, centers, apps, bookings, classes, analytics] = await Promise.all([
-            get('userdata').then(v => Object.keys(v || {}).length).catch(() => 0),
-            list('professionals'), list('centers'), list('applications'), list('bookings'), list('classes'),
-            get('analytics/daily').catch(() => ({}))
-        ]);
-        const enrol = await Promise.all(classes.map(c => list('enrollments/' + c.id)));
-        const pendingEnrol = enrol.flat().filter(e => e.status === 'pending').length;
+        const view = main;
         const days = Array.from({ length: 14 }, (_, i) => { const d = new Date(Date.now() - (13 - i) * 86400000); return d.toISOString().slice(0, 10); });
-        const views = days.map(d => (analytics && analytics[d] && analytics[d].views) || 0);
-        const max = Math.max(1, ...views);
-        const today = (analytics && analytics[RV.today()] && analytics[RV.today()].pages) || {};
-        const kpi = (n, label, href) => `<a class="card kpi clickable" href="#/admin/${href}" style="color:inherit;text-decoration:none"><strong>${n}</strong><span>${label}</span></a>`;
-        main.innerHTML = `
+        const kpi = (key, label, href) => `<a class="card kpi clickable" href="#/admin/${href}" style="color:inherit;text-decoration:none"><strong data-kpi="${key}"><span class="kpi-wait"></span></strong><span data-kpi-label="${key}">${label}</span></a>`;
+        view.innerHTML = `
             <h2>Overview</h2>
             <div class="kpis">
-                ${kpi(users, 'Registered users', 'users')}
-                ${kpi(pros.length, `Professionals (${pros.filter(p => p.verified === true).length} verified)`, 'professionals')}
-                ${kpi(centers.length, 'Centers & mobile services', 'centers')}
-                ${kpi(apps.filter(a => (a.status || 'pending') === 'pending').length, 'Applications to review', 'applications')}
-                ${kpi(bookings.filter(b => b.status === 'new').length, 'New bookings', 'bookings')}
-                ${kpi(bookings.length, 'Bookings in total', 'bookings')}
-                ${kpi(classes.filter(c => c.status === 'open').length, 'Open classes', 'classes')}
-                ${kpi(pendingEnrol, 'Enrolments waiting', 'classes')}
+                ${kpi('users', 'Registered users', 'users')}
+                ${kpi('pros', 'Professionals', 'professionals')}
+                ${kpi('centers', 'Centers & mobile services', 'centers')}
+                ${kpi('apps', 'Applications to review', 'applications')}
+                ${kpi('newBookings', 'New bookings', 'bookings')}
+                ${kpi('bookings', 'Bookings in total', 'bookings')}
+                ${kpi('classes', 'Open classes', 'classes')}
+                ${kpi('enrol', 'Enrolments waiting', 'classes')}
             </div>
             <div class="grid-2">
-                <div class="card card-pad"><h3>Page views — last 14 days</h3><div class="bars">${days.map((d, i) => `<div><span class="muted">${esc(RV.date(d, { day: 'numeric', month: 'short' }))}</span><i style="width:${(views[i] / max) * 100}%"></i><span>${views[i]}</span></div>`).join('')}</div></div>
-                <div class="card card-pad"><h3>Today by page</h3>${Object.keys(today).length ? `<dl class="kv">${Object.entries(today).sort((a, b) => b[1] - a[1]).map(([k, n]) => `<dt>${esc(k)}</dt><dd>${n}</dd>`).join('')}</dl>` : '<p class="muted">No visits yet today.</p>'}</div>
+                <div class="card card-pad"><h3>Page views — last 14 days</h3><div class="bars" data-views><div class="spinner"></div></div></div>
+                <div class="card card-pad"><h3>Today by page</h3><div data-today><div class="spinner"></div></div></div>
             </div>
-            <div class="card card-pad"><div class="row-between"><h3 class="mb-0">Latest bookings</h3><a class="btn btn-sm" href="#bookings">All bookings</a></div>
-                <div class="mt-2">${table(['Received', 'Client', 'Service', 'Status'], bookings.sort((a, b) => RV.ts(b.createdAt) - RV.ts(a.createdAt)).slice(0, 6).map(b => `<tr><td>${esc(RV.dateTime(b.createdAt))}</td><td>${esc(b.name)}</td><td>${esc(b.service || b.type)}</td><td>${statusBadge(b.status)}</td></tr>`))}</div></div>`;
+            <div class="card card-pad"><div class="row-between"><h3 class="mb-0">Latest bookings</h3><a class="btn btn-sm" href="#/admin/bookings">All bookings</a></div>
+                <div class="mt-2" data-latest><div class="spinner"></div></div></div>`;
+        const set = (key, n, label) => {
+            const el = $(`[data-kpi="${key}"]`, view);
+            if (el) el.textContent = n == null ? '—' : Number(n).toLocaleString();
+            if (label) { const l = $(`[data-kpi-label="${key}"]`, view); if (l) l.textContent = label; }
+        };
+
+        get('userdata').then(v => set('users', Object.keys(v || {}).length)).catch(() => set('users', null));
+        list('professionals').then(pros => set('pros', pros.length, `Professionals (${pros.filter(p => p.verified === true).length} verified)`));
+        list('centers').then(c => set('centers', c.length));
+        list('applications').then(apps => set('apps', apps.filter(a => (a.status || 'pending') === 'pending').length));
+        list('bookings').then(bookings => {
+            set('newBookings', bookings.filter(b => b.status === 'new').length);
+            set('bookings', bookings.length);
+            $('[data-latest]', view).innerHTML = table(['Received', 'Client', 'Service', 'Status'], bookings.sort((a, b) => RV.ts(b.createdAt) - RV.ts(a.createdAt)).slice(0, 6)
+                .map(b => `<tr><td>${esc(RV.dateTime(b.createdAt))}</td><td>${esc(b.name)}</td><td>${esc(b.service || b.type)}</td><td>${statusBadge(b.status)}</td></tr>`));
+        });
+        list('classes').then(async classes => {
+            set('classes', classes.filter(c => c.status === 'open').length);
+            const enrol = await Promise.all(classes.map(c => list('enrollments/' + c.id)));
+            set('enrol', enrol.flat().filter(e => e.status === 'pending').length);
+        });
+        get('analytics/daily').catch(() => ({})).then(analytics => {
+            const views = days.map(d => (analytics && analytics[d] && analytics[d].views) || 0);
+            const max = Math.max(1, ...views);
+            const today = (analytics && analytics[RV.today()] && analytics[RV.today()].pages) || {};
+            $('[data-views]', view).innerHTML = days.map((d, i) => `<div><span class="muted">${esc(RV.date(d, { day: 'numeric', month: 'short' }))}</span><i style="width:${(views[i] / max) * 100}%"></i><span>${views[i]}</span></div>`).join('');
+            $('[data-today]', view).innerHTML = Object.keys(today).length ? `<dl class="kv">${Object.entries(today).sort((a, b) => b[1] - a[1]).map(([k, n]) => `<dt>${esc(k)}</dt><dd>${n}</dd>`).join('')}</dl>` : '<p class="muted">No visits yet today.</p>';
+        });
     };
 
     /* ---------- applications ---------- */
@@ -970,4 +1001,6 @@
             } catch (err) { fail(err); }
         });
     };
+
+    RV.onAuth(gateCheck);
 })();

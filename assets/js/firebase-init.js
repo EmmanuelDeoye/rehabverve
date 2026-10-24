@@ -64,8 +64,9 @@
             loading[n] = new Promise((resolve, reject) => {
                 const tag = document.createElement('script');
                 tag.src = `${SDK}firebase-${n}-compat.js`;
-                tag.onload = resolve;
-                tag.onerror = () => reject(new Error(`Could not load Firebase ${n}`));
+                const timer = setTimeout(() => { tag.remove(); reject(new Error(`Firebase ${n} took too long to load`)); }, 20000);
+                tag.onload = () => { clearTimeout(timer); resolve(); };
+                tag.onerror = () => { clearTimeout(timer); tag.remove(); reject(new Error(`Could not load Firebase ${n}`)); };
                 document.head.appendChild(tag);
             }).then(() => { RV.fb[n] = setup[n](); })
                 .catch(err => { delete loading[n]; console.warn(err); });

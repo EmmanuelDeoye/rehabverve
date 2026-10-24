@@ -12,6 +12,7 @@
     form.questionCount.addEventListener('input', () => { $('#count-val').textContent = form.questionCount.value; });
 
     const callAI = async payload => {
+        if (fb && !fb.functions && RV.loadSdk) await RV.loadSdk(['functions']);
         if (!fb || !fb.functions) throw new Error('The AI service is not available right now.');
         await RV.requireAuth('Create a free account or sign in to use the AI assessment.');
         const res = await fb.functions.httpsCallable('aiAssist', { timeout: 120000 })(payload);

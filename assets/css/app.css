@@ -192,6 +192,31 @@ button { cursor: pointer; }
 .brand:hover { text-decoration: none; }
 .brand img { width: 36px; height: 36px; flex: none; filter: drop-shadow(0 3px 6px rgba(0, 120, 140, .25)); }
 .brand b { color: var(--primary); font-weight: 800; }
+/* the original RehabVerve wordmark: REHAB in cyan, VERVE in black */
+.wordmark { font-family: 'Poppins', var(--font); font-weight: 700; font-size: 1.28rem; letter-spacing: .01em; color: #000; line-height: 1; }
+.wordmark span { color: #00BCD4; }
+[data-theme="dark"] .wordmark { color: #fff; }
+.hdr-back[hidden] { display: none; }
+/* the header never pushes the page wider: the brand gives way first */
+.site-header .brand { min-width: 0; overflow: hidden; }
+.site-header .wordmark { white-space: nowrap; }
+.header-actions { flex: none; }
+@media (max-width: 480px) {
+    .site-header .container { gap: 10px; }
+    .header-actions { gap: 8px; }
+    .brand { gap: 8px; }
+    .brand img { width: 32px; height: 32px; }
+    .wordmark { font-size: 1.1rem; }
+    .hdr-signin { padding: 8px 12px; }
+    .hdr-signin .bx { display: none; }
+}
+@media (max-width: 374px) {
+    .hdr-btn, .avatar { width: 38px; height: 38px; }
+    .hdr-signin { min-height: 38px; padding: 6px 10px; font-size: .85rem; }
+    .wordmark { font-size: 1rem; }
+    .brand img { width: 30px; height: 30px; }
+}
+.hdr-back { font-size: 1.6rem; }
 .main-nav { display: flex; gap: 2px; margin-left: 12px; }
 .main-nav a {
     color: var(--text-2); font-weight: 600; font-size: .94rem;
@@ -292,9 +317,12 @@ button { cursor: pointer; }
 .tabbar a.fab { height: auto; }
 .tabbar a.fab .bx {
     width: 56px; height: 56px; margin-top: -26px; border-radius: 20px; display: grid; place-items: center;
-    color: #fff; font-size: 1.6rem; background: var(--brand); box-shadow: var(--clay), 0 8px 18px rgba(0, 150, 170, .35);
-    border: 4px solid var(--surface);
+    color: var(--primary-strong); font-size: 1.6rem; background: var(--primary-soft);
+    box-shadow: 0 6px 14px rgba(16, 24, 40, .12); border: 4px solid var(--surface);
+    transition: background-color .25s, color .25s, box-shadow .25s, transform .2s;
 }
+[data-theme="dark"] .tabbar a.fab .bx { color: var(--primary); }
+.tabbar a.fab[aria-current="page"] .bx { color: #fff; background: var(--brand); box-shadow: var(--clay), 0 8px 18px rgba(0, 150, 170, .35); transform: translateY(-2px); }
 .tabbar a.fab span { margin-top: 2px; }
 .tabbar a.fab[aria-current="page"]::after { display: none; }
 .tabbar a.fab[aria-current="page"] span { display: block; color: var(--primary-strong); }
@@ -981,3 +1009,31 @@ input[type="range"] { accent-color: var(--primary); }
 .chat-send { width: 46px; height: 46px; flex: none; border: 0; border-radius: 15px; display: grid; place-items: center; background: var(--brand); color: #fff; font-size: 1.25rem; box-shadow: var(--shadow-brand); }
 .chat-note { margin: 0; padding: 4px 14px 10px; font-size: .74rem; color: var(--muted); text-align: center; background: var(--surface); }
 @media print { .chat-fab, .chat-panel { display: none !important; } }
+
+/* ---------- motion: subtle, quick, and off when the device asks for less motion ---------- */
+@media (prefers-reduced-motion: no-preference) {
+    .view-enter { animation: view-in .38s cubic-bezier(.2, .7, .2, 1) both; }
+    @keyframes view-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+    .motion .rv-reveal { opacity: 0; transform: translateY(16px); }
+    .motion .rv-reveal.in {
+        opacity: 1; transform: none;
+        transition: opacity .55s cubic-bezier(.2, .7, .2, 1) var(--d, 0ms), transform .55s cubic-bezier(.2, .7, .2, 1) var(--d, 0ms);
+    }
+
+    .chat-panel:not([hidden]) { animation: rise-in .28s cubic-bezier(.2, .8, .2, 1) both; transform-origin: bottom right; }
+    @keyframes rise-in { from { opacity: 0; transform: translateY(16px) scale(.97); } to { opacity: 1; transform: none; } }
+    dialog.modal[open] { animation: rise-in .25s cubic-bezier(.2, .8, .2, 1) both; transform-origin: center; }
+    dialog.modal[open]::backdrop { animation: fade-in .25s ease-out both; }
+    @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+    .toast { animation: toast-in .3s cubic-bezier(.2, .8, .2, 1) both; }
+    @keyframes toast-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+    .user-menu-panel:not([hidden]) { animation: drop-in .2s ease-out both; transform-origin: top right; }
+    @keyframes drop-in { from { opacity: 0; transform: translateY(-6px) scale(.98); } to { opacity: 1; transform: none; } }
+    .chat-msg { animation: fade-in .25s ease-out both; }
+    .drawer-backdrop:not([hidden]) { animation: fade-in .2s ease-out both; }
+    .tabbar a .bx, .main-nav a, .drawer-grid a { transition: transform .2s, color .2s, background-color .2s; }
+    .tabbar a:active .bx { transform: scale(.9); }
+    .btn:active, .hdr-btn:active, .chip:active { transform: scale(.97); }
+    .kpi-wait { animation: pulse 1.4s ease-in-out infinite; }
+}

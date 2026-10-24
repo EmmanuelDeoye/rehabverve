@@ -33,3 +33,4 @@
     .kv { grid-template-columns: 1fr; }
 }
 .nr-actions { display: flex; gap: 6px; flex-wrap: nowrap; }
+.kpi-wait { display: inline-block; width: 46px; height: 1.4rem; border-radius: 8px; background: var(--surface-3); vertical-align: middle; }
