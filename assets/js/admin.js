@@ -782,7 +782,7 @@
         // Health check: is the function deployed, is the key there, does DeepSeek accept it?
         $('[data-check]', main).addEventListener('click', async e => {
             const btn = e.currentTarget, box = $('[data-status]', main);
-            const row = (good, text) => `<li><i class='bx ${good ? 'bx-check-circle' : 'bx-x-circle'}' style="color:var(--${good ? 'success' : 'danger'})"></i>${text}</li>`;
+            const row = (good, text) => `<li><i class='bx ${good ? 'bx-check-circle' : 'bx-x-circle'}' style="color:var(--${good ? 'success' : 'danger'})"></i><span>${text}</span></li>`;
             RV.busy(btn, true, 'Checking…');
             let html;
             try {
