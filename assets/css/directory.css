@@ -1,0 +1,124 @@
+/* directory.css — professionals and centers pages, restored from the original
+   professionals.css and centers.css (card look, grid, search pills, care-journey banner).
+   The extra block on professional cards (.pro-extra) carries the new fee / coverage / booking info. */
+
+/* ----- Search and filter pills ----- */
+#filters .field > span { font-size: .85rem; }
+#filters input:not([type="checkbox"]), #filters select {
+    border-radius: 50px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    padding: .65rem 1rem;
+}
+#filters input:focus, #filters select:focus { border-color: #00BCD4; box-shadow: 0 0 0 3px rgba(0, 188, 212, .2); background: var(--surface); }
+
+/* ----- "Begin Your Care Journey" banner ----- */
+.recommend {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    margin: 1rem 0; padding: 0 2rem; min-height: 100px; text-align: center;
+    background: linear-gradient(135deg, #00BCD4, #28a745);
+    border-radius: 10px; color: white; font-size: 20px; font-weight: 700;
+    box-shadow: 0 5px 20px rgba(0, 188, 212, 0.4);
+    transition: transform .3s ease;
+}
+.recommend:hover { color: #fff; text-decoration: none; transform: translateY(-5px); }
+.recommend .bx { font-size: 1.6rem; }
+
+.section-title-dir { color: var(--text); font-size: 1.4rem; font-weight: 700; margin: 1.5rem 0 0; }
+
+/* ----- Professionals grid and card (original .profile-header) ----- */
+.professional-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin: 1rem auto;
+    max-width: 1400px;
+    text-align: center;
+}
+.professional-grid .profile-header {
+    text-align: center;
+    padding: 2rem;
+    background: var(--surface);
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow);
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+.professional-grid .profile-image-container { width: 200px; height: 200px; margin: 0 auto 1rem; position: relative; }
+.professional-grid .profile-image {
+    width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+    border: 4px solid #28a745; box-shadow: var(--shadow); background-color: #00BCD4;
+}
+.professional-grid .user-name { font-size: 1.5rem; color: var(--card-dark); margin-bottom: .5rem; }
+.professional-grid .user-name .verified { color: #00BCD4; font-size: 1.2rem; vertical-align: -2px; }
+.professional-grid .user-title { color: #7F8C8D; margin-bottom: 1.5rem; font-size: 1.2rem; }
+[data-theme="dark"] .professional-grid .user-title { color: var(--card-muted); }
+.contact-icons { display: flex; gap: 1rem; justify-content: center; margin-top: .5rem; }
+.contact-icon {
+    width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    border: 2px solid #ECF0F1; font-size: 1.5rem; transition: transform .3s ease, box-shadow .3s ease;
+}
+.contact-icon:hover { transform: translateY(-3px); box-shadow: var(--shadow); text-decoration: none; }
+.contact-icon.whatsapp, .contact-icon.whatsapp:hover { background: #25D366; color: white; }
+.contact-icon.email, .contact-icon.email:hover { background: #2A5C82; color: white; }
+.contact-icon.phone, .contact-icon.phone:hover { background: #E74C3C; color: white; }
+
+/* New information, kept in the same quiet style */
+.pro-extra { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--border); display: grid; gap: 6px; }
+.pro-extra p { margin: 0; color: var(--card-muted); font-size: .95rem; }
+.pro-extra .pro-fee { color: var(--card-dark); font-weight: 600; }
+.pro-extra .bx { color: #00BCD4; }
+.pro-extra .bxs-star { color: #f59e0b; }
+.pro-badges { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.pro-book {
+    display: inline-block; justify-self: center; margin-top: 6px;
+    background: #28a745; color: #fff; font-weight: 600; padding: 8px 28px; border-radius: 8px;
+}
+.pro-book:hover { background: #1e7e34; color: #fff; text-decoration: none; }
+
+@media (max-width: 768px) {
+    .professional-grid { justify-content: center; grid-template-columns: repeat(auto-fit, minmax(280px, 320px)); }
+    .professional-grid .profile-header { width: 95%; max-width: 320px; margin: 0 auto; }
+    .professional-grid .profile-image-container { width: 170px; height: 170px; }
+}
+@media (max-width: 480px) {
+    .professional-grid { grid-template-columns: 1fr; }
+    .professional-grid .profile-header { max-width: 100%; width: 100%; }
+}
+
+/* ----- Centers grid and card (original centers.css) ----- */
+.centers-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+.center-card {
+    background: var(--surface);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    padding: 15px;
+    text-align: center;
+}
+.center-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); }
+.center-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 8px; }
+.center-card-content { padding: 1.5rem; }
+.center-card h3 { margin: 0 0 .5rem; color: var(--card-title); font-size: 1.25rem; }
+.center-card h3 .verified { color: #00BCD4; }
+.center-card p { color: var(--card-muted); margin: .5rem 0; line-height: 1.6; }
+.center-card .center-date { font-size: .875rem; color: var(--card-soft-muted); margin-bottom: 1rem; }
+.center-card .center-extra { font-size: .9rem; color: var(--card-dark); font-weight: 500; }
+.center-card a.read-more {
+    display: inline-block; margin-top: 1rem;
+    color: #00BCD4; background-color: #000; font-weight: 600;
+    padding: 6px 12px; border-radius: 5px; font-size: .85em;
+}
+.center-card a.read-more:hover { text-decoration: none; color: #fff; }
+@media (max-width: 768px) {
+    .centers-container { grid-template-columns: 1fr; }
+}

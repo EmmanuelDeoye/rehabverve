@@ -14,6 +14,7 @@
     <link rel="manifest" href="manifest.json">
     <script src="assets/js/theme.js"></script>
     <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="assets/css/directory.css">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
 </head>
 <body data-page="centers" data-kind="centers">
@@ -36,8 +37,9 @@
                 <label class="field"><span>Search</span><input name="q" placeholder="Name or service"></label>
             </div>
         </form>
+        <h2 class="section-title-dir">Approved Centers Directory</h2>
         <div class="result-bar"><span id="count" aria-live="polite">Loading…</span><button type="button" class="link-btn" id="reset">Clear filters</button></div>
-        <div class="grid" id="results"></div>
+        <div class="centers-container" id="results"></div>
         <div class="ad-slot mt-3" data-ad-slot="directory"></div>
     </section>
 </main>

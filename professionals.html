@@ -14,6 +14,7 @@
     <link rel="manifest" href="manifest.json">
     <script src="assets/js/theme.js"></script>
     <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="assets/css/directory.css">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
 </head>
 <body data-page="professionals" data-kind="pros">
@@ -44,10 +45,10 @@
                 <label class="check" style="align-self:center"><input type="checkbox" name="verified"> Verified only</label>
             </div>
         </form>
+        <a class="recommend" id="ask-wa" href="#" target="_blank" rel="noopener"><i class='bx bx-compass'></i>Begin Your Care Journey</a>
         <div class="result-bar"><span id="count" aria-live="polite">Loading…</span><button type="button" class="link-btn" id="reset">Clear filters</button></div>
-        <div class="grid" id="results"></div>
+        <div class="professional-grid" id="results"></div>
         <div class="ad-slot mt-3" data-ad-slot="directory"></div>
-        <div class="notice mt-3"><i class='bx bxl-whatsapp'></i><span>Can’t find the right person? <a id="ask-wa" href="#" target="_blank" rel="noopener">Tell us what you need on WhatsApp</a> and we’ll recommend someone.</span></div>
     </section>
 </main>
 

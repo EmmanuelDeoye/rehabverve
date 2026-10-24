@@ -1,46 +1,35 @@
-// news.js — Rehab updates list: categories, search, featured story.
+// news.js — blog list (original "Latest Gist" layout): search, category filter, cards.
 (function () {
     'use strict';
     const { $, esc, lower, cards } = RV;
     const fb = RV.fb;
     let all = [];
-    let cat = RV.params.get('category') || 'All';
+    const select = $('#cats');
 
     function render() {
+        const cat = select.value || 'All';
         const q = lower($('#q').value.trim());
         const list = all.filter(p => (cat === 'All' || lower(p.category) === lower(cat)) &&
             (!q || lower(p.title).includes(q) || lower(p.description).includes(q) || lower(p.content).includes(q)));
-        const feature = cat === 'All' && !q ? list[0] : null;
-        $('#featured').innerHTML = feature ? `
-            <a class="card banner clickable" href="fullgist.html?id=${encodeURIComponent(cards.postId(feature))}" style="color:inherit;text-decoration:none">
-                <div><span class="eyebrow">${esc(feature.category || 'Latest')}</span><h2>${esc(feature.title || '')}</h2>
-                <p class="lead">${esc(String(feature.description || '').slice(0, 220))}</p><span class="muted">${esc(RV.date(feature.timestamp))}</span></div>
-                <img src="${esc(RV.img(feature.img, 'assets/img/blog-placeholder.jpg'))}" alt="" style="border-radius:14px;aspect-ratio:4/3;object-fit:cover;width:100%" onerror="this.src='assets/img/blog-placeholder.jpg'">
-            </a>` : '';
-        const rest = feature ? list.slice(1) : list;
-        $('#count').textContent = `${list.length} update${list.length === 1 ? '' : 's'}`;
-        $('#posts').innerHTML = rest.length ? rest.map(cards.post).join('') : (feature ? '' : RV.empty('No updates match your search.', 'bx-news'));
+        $('#count').textContent = `${list.length} post${list.length === 1 ? '' : 's'}`;
+        $('#posts').innerHTML = list.length ? list.map(p => cards.post(p, { full: true })).join('')
+            : '<p class="no-results muted" style="grid-column:1/-1;text-align:center;padding:2rem">No blog posts found matching your criteria.</p>';
     }
 
-    function renderCats() {
-        const cats = ['All', ...new Set(all.map(p => String(p.category || '').trim()).filter(Boolean))];
-        $('#cats').innerHTML = cats.map(c => `<button type="button" class="chip" aria-pressed="${c === cat}" data-cat="${esc(c)}">${esc(c)}</button>`).join('');
+    function fillCategories() {
+        const wanted = RV.params.get('category') || 'All';
+        const cats = [...new Set(all.map(p => String(p.category || '').trim()).filter(Boolean))];
+        select.innerHTML = RV.optionList([{ value: 'All', label: 'All Categories' }, ...cats], cats.includes(wanted) ? wanted : 'All');
     }
 
-    $('#cats').addEventListener('click', e => {
-        const b = e.target.closest('[data-cat]');
-        if (!b) return;
-        cat = b.dataset.cat;
-        renderCats();
-        render();
-    });
+    select.addEventListener('change', render);
     $('#q').addEventListener('input', RV.debounce(render, 160));
 
     $('#posts').innerHTML = RV.skeletons(6);
     if (!fb) return;
     fb.db.ref('blogPosts').once('value').then(snap => {
         all = RV.list(snap.val()).filter(p => p.published !== false).sort((a, b) => RV.ts(b.timestamp) - RV.ts(a.timestamp));
-        renderCats();
+        fillCategories();
         render();
-    }).catch(() => { $('#posts').innerHTML = RV.empty('Updates could not be loaded. Please refresh.', 'bx-news'); });
+    }).catch(() => { $('#posts').innerHTML = '<p class="error" style="grid-column:1/-1;text-align:center;padding:2rem">Error loading blog posts. Please try again later.</p>'; });
 })();

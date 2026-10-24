@@ -15,80 +15,94 @@
     }
     RV.modeBadges = modeBadges;
 
-    function ratingLine(p) {
-        const r = Number(p.rating);
-        if (!r) return '';
-        const n = Number(p.ratingCount) || 0;
-        return `<div><i class='bx bxs-star' style="color:#f59e0b"></i><span>${r.toFixed(1)}${n ? ` · ${n} review${n === 1 ? '' : 's'}` : ''}</span></div>`;
+    const dateOf = ts => { const n = RV.ts(ts); return n ? new Date(n) : null; };
+
+    // ----- Home page professional card (original .profile-card) -----
+    function proMini(p) {
+        const href = `users.html?id=${encodeURIComponent(p.id)}`;
+        const name = String(p.name || 'RehabVerve member');
+        const display = name.length > 20 ? name.substring(0, 14) + '...' : name;
+        return `
+        <div class="profile-card" data-href="${href}" role="link" tabindex="0" aria-label="${esc(name)}">
+            <img src="${esc(RV.img(p.img || p.ing))}" alt="${esc(name)}" class="profile-image" loading="lazy" onerror="this.src='assets/img/profile.png'">
+            <span class="p2">${esc(display)}${p.verified === true ? ` <i class='bx bxs-badge-check verified' title="Verified by RehabVerve"></i>` : ''}</span>
+            <p class="specialty">${esc(p.job || 'Healthcare Professional')}</p>
+        </div>`;
     }
 
+    // ----- Directory professional card (original .profile-header card) -----
     function pro(p, opts = {}) {
-        const cat = D.listingCategory(p);
         const href = `users.html?id=${encodeURIComponent(p.id)}`;
+        const name = p.name || 'RehabVerve professional';
+        const phone = String(p.phone || '');
+        const wa = RV.waLink(p.whatsapp || phone);
+        const tel = RV.digits(phone) ? phone.replace(/[^\d+]/g, '') : '';
+        const email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email || '') ? p.email : '';
         const price = RV.priceRange(p);
-        const cover = RV.coverageText(p);
         const place = RV.place(p);
+        const cover = RV.coverageText(p);
+        const r = Number(p.rating);
         const why = (opts.why || []).map(w => `<span class="badge badge-success"><i class='bx bx-check'></i>${esc(w)}</span>`).join('');
         return `
-        <article class="card pro-card">
-            <div class="pro-top">
-                <img src="${esc(RV.img(p.img || p.ing))}" alt="" loading="lazy" onerror="this.src='assets/img/profile.png'">
-                <div>
-                    <h3><a href="${href}">${esc(p.name || 'RehabVerve professional')}</a>${p.verified === true ? `<i class='bx bxs-badge-check verified' title="Verified by RehabVerve"></i>` : ''}</h3>
-                    <p>${esc(p.job || (cat && cat.label) || 'Rehabilitation professional')}</p>
-                </div>
+        <div class="profile-card detailed-profile profile-header" data-href="${href}" role="link" tabindex="0" aria-label="${esc(name)}">
+            <div class="profile-image-container">
+                <img src="${esc(RV.img(p.img || p.ing))}" class="profile-image" alt="${esc(name)}" loading="lazy" onerror="this.src='assets/img/profile.png'">
             </div>
-            <div class="pro-meta">
-                ${place ? `<div><i class='bx bx-map'></i><span>${esc(place)}</span></div>` : ''}
-                ${cover ? `<div><i class='bx bx-current-location'></i><span>Covers ${esc(cover)}</span></div>` : ''}
-                <div><i class='bx bx-wallet'></i><span class="${price ? 'price' : 'muted'}">${esc(price || 'Fees on request')}</span></div>
-                ${ratingLine(p)}
+            <h3 class="user-name">${esc(name)}${p.verified === true ? ` <i class='bx bxs-badge-check verified' title="Verified by RehabVerve"></i>` : ''}</h3>
+            <p class="user-title">${esc(p.job || 'Healthcare Professional')}</p>
+            <div class="contact-icons">
+                ${wa ? `<a href="${esc(wa)}" class="contact-icon whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp ${esc(name)}"><i class='bx bxl-whatsapp'></i></a>` : ''}
+                ${email ? `<a href="mailto:${esc(email)}" class="contact-icon email" aria-label="Email ${esc(name)}"><i class='bx bx-envelope'></i></a>` : ''}
+                ${tel ? `<a href="tel:${esc(tel)}" class="contact-icon phone" aria-label="Call ${esc(name)}"><i class='bx bx-phone'></i></a>` : ''}
             </div>
-            <div class="chips">${modeBadges(p.serviceModes, D.PRO_MODES)}</div>
-            ${why ? `<div class="match-why">${why}</div>` : ''}
-            <div class="actions">
-                <a class="btn btn-sm" href="${href}">View profile</a>
-                <a class="btn btn-sm btn-primary" href="${href}&book=1">Book</a>
+            <div class="pro-extra">
+                <p class="pro-fee"><i class='bx bx-wallet'></i> ${esc(price || 'Fees on request')}</p>
+                ${place || cover ? `<p class="pro-cover"><i class='bx bx-map'></i> ${esc([place, cover ? 'Covers ' + cover : ''].filter(Boolean).join(' · '))}</p>` : ''}
+                ${r ? `<p class="pro-cover"><i class='bx bxs-star'></i> ${r.toFixed(1)}${Number(p.ratingCount) ? ` (${Number(p.ratingCount)})` : ''}</p>` : ''}
+                <div class="pro-badges">${modeBadges(p.serviceModes, D.PRO_MODES)}</div>
+                ${why ? `<div class="pro-badges">${why}</div>` : ''}
+                <a class="pro-book" href="${href}&book=1">Book</a>
             </div>
-        </article>`;
+        </div>`;
     }
 
-    function center(c) {
-        const type = D.centerTypeOf(c.centerType || c.category);
+    // ----- Center card (original .center-card) -----
+    function center(c, opts = {}) {
         const href = `users.html?id=${encodeURIComponent(c.id)}`;
+        const name = c.centerName || 'Care center';
         const price = RV.priceRange(c);
-        const place = RV.place(c) || c.address;
+        const modes = Object.keys(D.CENTER_MODES).filter(k => c.serviceModes && c.serviceModes[k]).map(k => D.CENTER_MODES[k]);
+        const desc = String(c.description || '');
         return `
-        <article class="card media-card clickable" data-href="${href}">
-            <div class="media">
-                <img src="${esc(RV.img(c.img || c.ing, 'assets/img/center.jpg'))}" alt="" loading="lazy" onerror="this.src='assets/img/center.jpg'">
-                <span class="tag">${esc(c.centerType || type.value)}</span>
+        <div class="center-card" data-href="${href}" role="link" tabindex="0" aria-label="${esc(name)}">
+            <img src="${esc(RV.img(c.img || c.ing, 'assets/img/center.jpg'))}" alt="${esc(name)}" loading="lazy" onerror="this.src='assets/img/center.jpg'">
+            <div class="center-card-content">
+                <h3>${esc(name)}${c.verified === true ? ` <i class='bx bxs-badge-check verified' title="Verified by RehabVerve"></i>` : ''}</h3>
+                <p class="center-date">${esc(c.centerType || D.centerTypeOf(c.category).value)}</p>
+                ${opts.full && desc ? `<p>${esc(desc.substring(0, 150))}${desc.length > 150 ? '...' : ''}</p>` : ''}
+                ${opts.full && (price || modes.length) ? `<p class="center-extra">${esc([price, modes.join(' · ')].filter(Boolean).join(' — '))}</p>` : ''}
+                <a href="${href}" class="read-more">View Details</a>
             </div>
-            <div class="body">
-                <h3><a href="${href}">${esc(c.centerName || 'Care center')}</a>${c.verified === true ? ` <i class='bx bxs-badge-check verified' title="Verified by RehabVerve"></i>` : ''}</h3>
-                ${place ? `<div class="meta"><i class='bx bx-map'></i>${esc(String(place).slice(0, 90))}</div>` : ''}
-                <p>${esc(String(c.description || '').slice(0, 140))}</p>
-                <div class="chips">${modeBadges(c.serviceModes, D.CENTER_MODES)}</div>
-                <div class="foot"><span class="${price ? 'price' : 'muted'}">${esc(price || 'Fees on request')}</span><span class="link-btn">View <i class='bx bx-right-arrow-alt'></i></span></div>
-            </div>
-        </article>`;
+        </div>`;
     }
 
+    // ----- Blog card (original .blog-card) -----
     const postId = p => p.push || p.id;
-    function post(p) {
+    function post(p, opts = {}) {
         const href = `fullgist.html?id=${encodeURIComponent(postId(p))}`;
+        const d = dateOf(p.timestamp);
+        const date = d ? (opts.full ? d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : d.toLocaleDateString()) : (opts.full ? 'Date not available' : 'Recent');
+        const desc = String(p.description || '');
+        const max = opts.full ? 150 : 100;
         return `
-        <article class="card media-card clickable" data-href="${href}">
-            <div class="media">
-                <img src="${esc(RV.img(p.img, 'assets/img/blog-placeholder.jpg'))}" alt="" loading="lazy" onerror="this.src='assets/img/blog-placeholder.jpg'">
-                ${p.category ? `<span class="tag">${esc(p.category)}</span>` : ''}
+        <div class="blog-card" data-href="${href}" role="link" tabindex="0" aria-label="${esc(p.title || 'Post')}">
+            <img src="${esc(RV.img(p.img, 'assets/img/blog-placeholder.jpg'))}" alt="${esc(p.title || '')}" loading="lazy" onerror="this.src='assets/img/blog-placeholder.jpg'">
+            <div class="blog-card-content">
+                <h3>${esc(p.title || 'Untitled Post')}</h3>
+                <p class="blog-date">${esc(date)}</p>
+                ${desc ? `<p>${esc(desc.substring(0, max))}...</p>` : ''}
             </div>
-            <div class="body">
-                <div class="meta"><i class='bx bx-calendar'></i>${esc(RV.date(p.timestamp) || 'Recent')}</div>
-                <h3><a href="${href}">${esc(p.title || 'Untitled')}</a></h3>
-                <p>${esc(String(p.description || '').slice(0, 150))}</p>
-            </div>
-        </article>`;
+        </div>`;
     }
 
     function klass(c, opts = {}) {
@@ -116,13 +130,17 @@
         </article>`;
     }
 
-    RV.cards = { pro, center, post, klass, postId };
+    RV.cards = { pro, proMini, center, post, klass, postId };
 
     // Whole-card clicks for cards marked with data-href (links inside still work normally)
     document.addEventListener('click', e => {
         const card = e.target.closest('[data-href]');
         if (!card || e.target.closest('a, button')) return;
         location.href = card.dataset.href;
+    });
+    document.addEventListener('keydown', e => {
+        const card = e.target.closest && e.target.closest('[data-href]');
+        if (card && e.target === card && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); location.href = card.dataset.href; }
     });
 
     RV.skeletons = (n = 4) => Array.from({ length: n }, () => '<div class="skeleton"></div>').join('');

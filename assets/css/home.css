@@ -1,0 +1,215 @@
+/* home.css — home page cards and sections, restored from the original RehabVerve
+   styleload.css / styles.css (profile cards, center & blog rows, view-more buttons,
+   gradient call-to-action banners). Colours use theme variables so dark mode works. */
+
+/* ----- Section titles (original h4) ----- */
+.home-section { padding: 16px 8px 8px; margin: 20px 0; }
+.home-section > h4 {
+    font-size: 22px; margin: 0 0 8px; text-align: center; color: var(--text);
+    font-weight: 700; font-family: var(--font);
+}
+@media (min-width: 992px) { .home-section > h4 { font-size: 32px; margin-top: 25px; margin-bottom: 10px; } }
+@media (min-width: 1200px) { .home-section > h4 { font-size: 4rem; margin-top: 30px; margin-bottom: 15px; } }
+
+/* ----- Professional cards (original .profile-card row) ----- */
+.profiles-container {
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 5px;
+    text-align: center;
+}
+.profiles-container .profile-card {
+    background-color: var(--surface);
+    border-radius: 8px;
+    min-width: 150px;
+    text-align: center;
+    padding: 8px;
+    margin: 8px;
+    filter: drop-shadow(0 0 7px #90A4AE);
+    cursor: pointer;
+}
+[data-theme="dark"] .profiles-container .profile-card { filter: drop-shadow(0 0 7px rgba(0, 0, 0, .45)); }
+.profiles-container .profile-card:last-child { margin-right: 0; }
+.profiles-container .profile-card img {
+    width: 100px;
+    height: 100px;
+    background-color: #00BCD4;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto;
+    overflow: hidden;
+    display: block;
+}
+.profiles-container .profile-card .p2 {
+    display: block;
+    margin-top: 4px;
+    margin-bottom: 2px;
+    font-size: 14px;
+    color: var(--green);
+    text-align: center;
+    font-weight: bold;
+}
+.profiles-container .profile-card .verified { color: #00BCD4; font-size: 1em; vertical-align: -2px; }
+.profiles-container .profile-card p {
+    margin-top: 2px;
+    margin-bottom: 10px;
+    font-size: 0.75em;
+    color: var(--card-muted);
+    text-align: center;
+}
+@media (min-width: 768px) {
+    .profiles-container .profile-card { border-radius: 10px; min-width: 200px; }
+    .profiles-container .profile-card img { width: 150px; height: 150px; }
+    .profiles-container .profile-card .p2 { margin-bottom: 4px; margin-top: 16px; font-size: 18px; }
+    .profiles-container .profile-card p { margin-bottom: 12px; font-size: 0.8em; }
+}
+@media (min-width: 992px) {
+    .profiles-container .profile-card { min-width: 250px; margin-right: 10px; border-radius: 15px; }
+    .profiles-container .profile-card img { height: 200px; width: 200px; margin-bottom: 10px; }
+    .profiles-container .profile-card .p2 { margin-top: 4px; margin-bottom: 4px; font-size: 18px; }
+    .profiles-container .profile-card p { margin-top: 2px; margin-bottom: 4px; font-size: 14px; }
+}
+@media (min-width: 1200px) {
+    .profiles-container .profile-card { min-width: 300px; margin-right: 15px; border-radius: 20px; }
+    .profiles-container .profile-card img { height: 250px; width: 250px; margin-bottom: 10px; }
+    .profiles-container .profile-card .p2 { margin-top: 6px; margin-bottom: 6px; font-size: 21px; }
+    .profiles-container .profile-card p { margin-top: 4px; margin-bottom: 6px; font-size: 17px; }
+}
+
+/* ----- Center and blog cards (original horizontal rows) ----- */
+.centers-container, .blogs-container {
+    display: flex;
+    overflow-x: auto;
+    padding: 0 8px 15px;
+    gap: 15px;
+}
+.blog-card, .center-card {
+    width: 80%;
+    max-width: 250px;
+    background-color: var(--surface);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 8px;
+    flex-shrink: 0;
+    justify-content: center;
+    cursor: pointer;
+}
+.blog-card img, .center-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+.blog-card h3, .center-card h3 { margin: 2px 0 5px; color: var(--green); font-size: 16px; text-align: center; }
+.blog-card p, .center-card p { font-size: 0.9em; color: var(--card-muted); margin-bottom: 4px; }
+.blog-card a, .center-card a {
+    display: inline-block;
+    color: white;
+    background-color: #00BCD4;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 0.85em;
+    text-decoration: none;
+}
+.blog-card a:hover, .center-card a:hover { background-color: #1e7e34; text-decoration: none; }
+.center-card .verified, .blog-card .verified { color: #00BCD4; }
+@media (min-width: 768px) {
+    .blog-card img, .center-card img { height: 170px; border-radius: 10px; margin-bottom: 10px; }
+    .blog-card, .center-card { max-width: 280px; margin-right: 10px; border-radius: 15px; }
+    .blog-card h3, .center-card h3 { font-size: 20px; }
+}
+@media (min-width: 992px) {
+    .blog-card img { height: 200px; border-radius: 15px; margin-bottom: 10px; }
+    .blog-card h3, .center-card h3 { margin: 10px 0 5px; font-size: 1.5em; }
+    .blog-card p, .center-card p { font-size: 1.1em; margin-bottom: 10px; }
+    .blog-card a, .center-card a { border-radius: 8px; font-size: 1em; }
+    .blog-card, .center-card { max-width: 350px; margin-right: 10px; border-radius: 15px; }
+}
+@media (min-width: 1200px) {
+    .blog-card img, .center-card img { height: 250px; border-radius: 20px; }
+    .blog-card h3, .center-card h3 { margin: 12px 0 7px; font-size: 1.7em; }
+    .blog-card p, .center-card p { font-size: 1.3em; margin-bottom: 12px; }
+    .blog-card a, .center-card a { border-radius: 10px; font-size: 1.4em; }
+    .blog-card, .center-card { max-width: 400px; margin-right: 15px; border-radius: 20px; }
+}
+
+/* ----- Green "view more" buttons ----- */
+.view-more-container { text-align: center; }
+.view-more-btn {
+    display: block;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    width: 80%;
+    margin: 10px auto 0;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    filter: drop-shadow(0 0 7px #90A4AE);
+}
+.view-more-btn:hover { background-color: #1e7e34; color: #fff; text-decoration: none; }
+[data-theme="dark"] .view-more-btn { filter: none; }
+@media (min-width: 768px) { .view-more-btn { font-size: 2em; width: 65%; } }
+@media (min-width: 992px) { .view-more-btn { width: 60%; border-radius: 10px; } }
+@media (min-width: 1200px) { .view-more-btn { font-size: 3em; width: 60%; border-radius: 15px; } }
+
+/* ----- Gradient call-to-action banners ----- */
+.teletherapy-cta, .ai-therapists, .join-practitioner22 {
+    color: white;
+    padding: 3rem 1rem;
+    text-align: center;
+    margin: 2rem 0;
+    position: relative;
+    overflow: hidden;
+}
+.teletherapy-cta { background: linear-gradient(135deg, #00BCD4, #28a745); }
+.ai-therapists { background: linear-gradient(135deg, #28a745, #3182ce); }
+.join-practitioner22 { background: linear-gradient(135deg, #00BCD4, #3182ce); }
+.join-container22 { max-width: 800px; margin: 0 auto; position: relative; z-index: 2; }
+.join-container22 h2 { font-size: 2rem; margin-bottom: 1rem; color: white; }
+.join-container22 p { font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.9; }
+.whatsapp-button22, .therapists-button {
+    display: inline-block;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 1rem 2rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin: 1rem 0;
+    width: 80%;
+    max-width: 520px;
+}
+.whatsapp-button22, .therapists-button { background-color: #25D366; }
+.whatsapp-button22:hover, .therapists-button:hover { background-color: #128C7E; transform: translateY(-3px); color: #fff; text-decoration: none; }
+.teletherapy-cta .floating-icons { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.teletherapy-cta .floating-icons i { position: absolute; font-size: 2rem; color: rgba(255, 255, 255, 0.2); }
+.teletherapy-cta .floating-icons i:nth-child(1) { top: 10%; left: 5%; }
+.teletherapy-cta .floating-icons i:nth-child(2) { bottom: 20%; left: 15%; }
+.teletherapy-cta .floating-icons i:nth-child(3) { top: 30%; right: 10%; }
+.teletherapy-cta .floating-icons i:nth-child(4) { bottom: 15%; right: 20%; }
+.teletherapy-cta .floating-icons i:nth-child(5) { top: 60%; left: 25%; }
+.teletherapy-cta .floating-icons i:nth-child(6) { bottom: 40%; right: 15%; }
+@media (prefers-reduced-motion: no-preference) {
+    /* Transform-only animations: cheap for the GPU, no repaints */
+    .teletherapy-cta .floating-icons i { animation: float-slow 8s infinite ease-in-out; }
+    .teletherapy-cta .floating-icons i:nth-child(2) { animation-delay: 1s; }
+    .teletherapy-cta .floating-icons i:nth-child(3) { animation-delay: 2s; }
+    .teletherapy-cta .floating-icons i:nth-child(4) { animation-delay: 3s; }
+    .teletherapy-cta .floating-icons i:nth-child(5) { animation-delay: .5s; }
+    .teletherapy-cta .floating-icons i:nth-child(6) { animation-delay: 1.5s; }
+    .pulse-animation { animation: pulse 2s infinite; }
+}
+@keyframes float-slow { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-15px) rotate(5deg); } }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+/* Classes row on the home page uses the shared class cards */
+.home-section .grid { padding: 0 8px; }

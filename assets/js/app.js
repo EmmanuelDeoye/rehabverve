@@ -398,16 +398,17 @@
     /* ================================================================== */
     /* Shell markup                                                         */
     /* ================================================================== */
-    const LOGO = `<svg viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="rv-logo-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22d3ee"/><stop offset=".55" stop-color="#8b5cf6"/><stop offset="1" stop-color="#34d399"/></linearGradient></defs><rect x="2" y="2" width="36" height="36" rx="11" fill="url(#rv-logo-g)"/><path d="M8 21h5.5l3-7.5 5 15 4-10h6.5" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    // Original RehabVerve wordmark: REHAB (cyan) + VERVE (green)
+    const LOGO = `<span class="home__title-color">REHAB</span>VERVE`;
     RV.logo = LOGO;
 
     const NAV = [
         { id: 'home', href: 'index.html', icon: 'bx-home-alt-2', label: 'Home' },
-        { id: 'professionals', href: 'professionals.html', icon: 'bx-search-alt', label: 'Find care' },
+        { id: 'professionals', href: 'professionals.html', icon: 'bx-search-alt', label: 'Professionals' },
         { id: 'teletherapy', href: 'teletherapy.html', icon: 'bx-video', label: 'Teletherapy' },
-        { id: 'classes', href: 'classes.html', icon: 'bx-book-open', label: 'Kids classes' },
+        { id: 'classes', href: 'classes.html', icon: 'bx-book-open', label: 'Classes' },
         { id: 'centers', href: 'centers.html', icon: 'bx-buildings', label: 'Centers' },
-        { id: 'news', href: 'blogs.html', icon: 'bx-news', label: 'Updates' }
+        { id: 'news', href: 'blogs.html', icon: 'bx-news', label: 'Blogs' }
     ];
     const page = document.body.dataset.page || '';
     const current = id => (id === page ? ' aria-current="page"' : '');
@@ -418,7 +419,7 @@
         <div class="announce" id="rv-announce" hidden></div>
         <header class="site-header">
             <div class="container">
-                <a href="index.html" class="brand" aria-label="RehabVerve home">${LOGO}<span>Rehab<b>Verve</b></span></a>
+                <a href="index.html" class="brand" aria-label="RehabVerve home">${LOGO}</a>
                 <nav class="main-nav" aria-label="Main">${NAV.map(n => `<a href="${n.href}"${current(n.id)}>${n.label}</a>`).join('')}</nav>
                 <div class="header-actions">
                     <a href="assessment.html" class="btn btn-sm btn-ghost hide-md"><i class='bx bx-bot'></i> AI assessment</a>
@@ -431,7 +432,7 @@
         <div class="drawer-backdrop" id="rv-backdrop" hidden></div>
         <aside class="drawer" id="rv-drawer" aria-label="Menu">
             <div class="drawer-head">
-                <span class="brand">${LOGO}<span>Rehab<b>Verve</b></span></span>
+                <span class="brand">${LOGO}</span>
                 <button type="button" class="modal-close" id="rv-drawer-close" aria-label="Close menu"><i class='bx bx-x'></i></button>
             </div>
             <nav>${NAV.map(n => `<a href="${n.href}"${current(n.id)}><i class='bx ${n.icon}'></i>${n.label}</a>`).join('')}
@@ -455,43 +456,43 @@
 
     function footerHTML(cfg) {
         const s = cfg.social || {};
-        const social = [['facebook', 'bxl-facebook'], ['instagram', 'bxl-instagram'], ['x', 'bxl-twitter'], ['linkedin', 'bxl-linkedin']]
+        const social = [['facebook', 'bxl-facebook'], ['x', 'bxl-twitter'], ['instagram', 'bxl-instagram'], ['linkedin', 'bxl-linkedin']]
             .filter(([k]) => RV.safeUrl(s[k]))
             .map(([k, icon]) => `<a href="${RV.esc(RV.safeUrl(s[k]))}" target="_blank" rel="noopener" aria-label="${k}"><i class='bx ${icon}'></i></a>`).join('');
         const wa = RV.waLink(cfg.whatsapp, 'Hello RehabVerve!');
         return `
         <footer class="site-footer">
-            <div class="container">
-                <div class="footer-grid">
-                    <div>
-                        <a href="index.html" class="brand">${LOGO}<span>Rehab<b>Verve</b></span></a>
-                        <p class="muted mt-1">The rehabilitation network for Africa — therapists, rehab centers, mobile rehab, teletherapy and classes for children, in one place.</p>
-                        <div class="socials">${social}${wa ? `<a href="${wa}" target="_blank" rel="noopener" aria-label="WhatsApp"><i class='bx bxl-whatsapp'></i></a>` : ''}</div>
-                    </div>
-                    <div><h4>Find care</h4><ul>
-                        <li><a href="professionals.html">Rehab professionals</a></li>
-                        <li><a href="professionals.html?mode=home">Mobile & home visits</a></li>
-                        <li><a href="centers.html">Rehab centers</a></li>
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>REHABVERVE</h3>
+                    <p>Connecting patients with top healthcare professionals</p>
+                    <div class="social-links">${social}${wa ? `<a href="${wa}" target="_blank" rel="noopener" aria-label="WhatsApp"><i class='bx bxl-whatsapp'></i></a>` : ''}</div>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="professionals.html">Professionals</a></li>
+                        <li><a href="centers.html">Centers</a></li>
                         <li><a href="teletherapy.html">Teletherapy</a></li>
                         <li><a href="classes.html">Classes for children</a></li>
-                    </ul></div>
-                    <div><h4>RehabVerve</h4><ul>
-                        <li><a href="blogs.html">Rehab updates</a></li>
-                        <li><a href="assessment.html">AI assessment</a></li>
-                        <li><a href="registration.html">Join as a professional or center</a></li>
-                        <li><a href="settings.html">My account</a></li>
-                    </ul></div>
-                    <div><h4>Contact</h4><ul>
-                        ${cfg.address ? `<li class="muted">${RV.esc(cfg.address)}</li>` : ''}
-                        ${cfg.phone ? `<li><a href="tel:${RV.esc(RV.digits(cfg.phone) ? '+' + RV.digits(cfg.phone) : '')}">${RV.esc(cfg.phone)}</a></li>` : ''}
-                        ${cfg.email ? `<li><a href="mailto:${RV.esc(cfg.email)}">${RV.esc(cfg.email)}</a></li>` : ''}
-                        ${wa ? `<li><a href="${wa}" target="_blank" rel="noopener">Chat on WhatsApp</a></li>` : ''}
-                    </ul></div>
+                        <li><a href="blogs.html">Health News</a></li>
+                        <li><a href="registration.html">Join our Network</a></li>
+                    </ul>
                 </div>
-                <div class="footer-bottom">
-                    <span>© ${new Date().getFullYear()} RehabVerve</span>
-                    <nav><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav>
+                <div class="footer-column">
+                    <h4>Contact Us</h4>
+                    <div class="contact-info">
+                        ${cfg.address ? `<p><i class='bx bx-map'></i> ${RV.esc(cfg.address)}</p>` : ''}
+                        ${cfg.phone ? `<p><i class='bx bx-phone'></i> <a href="tel:${RV.esc(RV.digits(cfg.phone) ? '+' + RV.digits(cfg.phone) : '')}">${RV.esc(cfg.phone)}</a></p>` : ''}
+                        ${cfg.email ? `<p><i class='bx bx-envelope'></i> <a href="mailto:${RV.esc(cfg.email)}">${RV.esc(cfg.email)}</a></p>` : ''}
+                        ${wa ? `<p><i class='bx bxl-whatsapp'></i> <a href="${wa}" target="_blank" rel="noopener">Chat on WhatsApp</a></p>` : ''}
+                    </div>
                 </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; ${new Date().getFullYear()} REHABVERVE. All rights reserved.</p>
+                <div class="legal-links"><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a></div>
             </div>
         </footer>`;
     }
@@ -596,7 +597,7 @@
         if (!host) return;
         const u = state.user;
         if (!u) {
-            host.innerHTML = `<button type="button" class="btn btn-primary btn-sm" data-signin>Sign in</button>`;
+            host.innerHTML = `<button type="button" class="btn btn-primary btn-sm" data-signin>Login</button>`;
             drawer.innerHTML = `<button type="button" class="btn btn-primary btn-block" data-signin>Sign in or create account</button>
                 <button type="button" class="btn btn-block" data-theme-toggle><i class='bx bx-moon'></i> Light / dark theme</button>
                 <button type="button" class="btn btn-block" data-install hidden><i class='bx bx-download'></i> Install the app</button>`;

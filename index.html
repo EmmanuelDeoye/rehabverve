@@ -17,10 +17,20 @@
     <link rel="manifest" href="manifest.json">
     <script src="assets/js/theme.js"></script>
     <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="assets/css/home.css">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
 </head>
 <body data-page="home">
 <main id="main">
+    <section class="section-sm" id="spotlight-section" hidden>
+        <div class="container">
+            <div class="spotlight">
+                <div class="spotlight-track" id="spotlight"></div>
+                <div class="spotlight-nav"><button type="button" data-dir="-1" aria-label="Previous"><i class='bx bx-chevron-left'></i></button><button type="button" data-dir="1" aria-label="Next"><i class='bx bx-chevron-right'></i></button></div>
+            </div>
+        </div>
+    </section>
+
     <section class="hero">
         <div class="container hero-grid">
             <div>
@@ -58,100 +68,86 @@
         </div>
     </section>
 
-    <section class="section-sm" id="spotlight-section" hidden>
-        <div class="container">
-            <div class="spotlight">
-                <div class="spotlight-track" id="spotlight"></div>
-                <div class="spotlight-nav"><button type="button" data-dir="-1" aria-label="Previous"><i class='bx bx-chevron-left'></i></button><button type="button" data-dir="1" aria-label="Next"><i class='bx bx-chevron-right'></i></button></div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section">
+    <section class="section-sm">
         <div class="container">
             <div class="section-head">
                 <div><span class="eyebrow">The rehab team</span><h2>Who do you need?</h2><p>Every member of the rehabilitation team, in one network.</p></div>
-                <a class="btn btn-sm" href="professionals.html">Browse all <i class='bx bx-right-arrow-alt'></i></a>
             </div>
             <div class="grid grid-sm" id="disciplines"></div>
         </div>
     </section>
 
-    <section class="section section-alt" id="featured-section">
-        <div class="section-head container">
-            <div><span class="eyebrow">Featured</span><h2>Professionals families trust</h2></div>
-            <a class="btn btn-sm" href="professionals.html">See all <i class='bx bx-right-arrow-alt'></i></a>
-        </div>
-        <div class="rail" id="featured"></div>
+    <!-- Featured Professionals -->
+    <section class="home-section" id="featured-professionals">
+        <h4>Featured Professionals</h4>
+        <div class="profiles-container" id="featured"></div>
+        <div class="view-more-container"><a class="view-more-btn" href="professionals.html">Find More Professional</a></div>
     </section>
 
-    <section class="section" id="mobile-section">
-        <div class="section-head container">
-            <div><span class="eyebrow">Mobile rehab</span><h2>Care that comes to your home</h2><p>Therapists and teams who do home visits in your area.</p></div>
-            <a class="btn btn-sm" href="professionals.html?mode=home">See home visits <i class='bx bx-right-arrow-alt'></i></a>
+    <!-- Teletherapy CTA -->
+    <section class="teletherapy-cta">
+        <div class="floating-icons" aria-hidden="true">
+            <i class='bx bx-video'></i><i class='bx bx-message-detail'></i><i class='bx bx-brain'></i>
+            <i class='bx bx-heart-circle'></i><i class='bx bx-group'></i><i class='bx bx-child'></i>
         </div>
-        <div class="rail" id="mobile"></div>
-    </section>
-
-    <section class="section">
-        <div class="container">
-            <div class="banner tint">
-                <div>
-                    <span class="eyebrow">Teletherapy</span>
-                    <h2>Therapy that comes to you</h2>
-                    <p class="lead">Licensed therapists for individuals, couples, families and children — in video sessions from your phone or computer.</p>
-                    <ul>
-                        <li><i class='bx bx-check-shield'></i>Private and confidential</li>
-                        <li><i class='bx bx-calendar-check'></i>Flexible scheduling, including evenings</li>
-                        <li><i class='bx bx-user-check'></i>Matched to the right specialist</li>
-                    </ul>
-                    <a class="btn btn-primary btn-lg" href="teletherapy.html"><i class='bx bx-video'></i> Book teletherapy</a>
-                </div>
-                <div class="banner-art" aria-hidden="true"><i class='bx bx-video'></i></div>
-            </div>
+        <div class="join-container22">
+            <h2>Online Teletherapy</h2>
+            <p>Connect with licensed therapists from the comfort of your home. Individual, family, and child sessions available.</p>
+            <a class="whatsapp-button22 pulse-animation" href="teletherapy.html">Explore Teletherapy</a>
         </div>
     </section>
 
-    <section class="section" id="classes-section" hidden>
-        <div class="container">
-            <div class="section-head">
-                <div><span class="eyebrow">Online classes</span><h2>Classes and tutoring for children</h2><p>Small online classes with assignments — for children at home and abroad.</p></div>
-                <a class="btn btn-sm" href="classes.html">All classes <i class='bx bx-right-arrow-alt'></i></a>
-            </div>
-            <div class="grid" id="home-classes"></div>
+    <!-- Centers -->
+    <section class="home-section" id="center-section">
+        <h4>Find a Center</h4>
+        <div class="centers-container" id="centers"></div>
+        <div class="view-more-container"><a class="view-more-btn" href="centers.html">View More Centers</a></div>
+    </section>
+
+    <!-- Mobile rehab (home visits) -->
+    <section class="home-section" id="mobile-section">
+        <h4>Mobile Rehab Near You</h4>
+        <div class="profiles-container" id="mobile"></div>
+        <div class="view-more-container"><a class="view-more-btn" href="professionals.html?mode=home">See All Home Visits</a></div>
+    </section>
+
+    <!-- Latest Members -->
+    <section class="home-section" id="featured-professionals22">
+        <h4>Latest Members</h4>
+        <div class="profiles-container" id="latest"></div>
+        <div class="view-more-container"><a class="view-more-btn" href="professionals.html">View More Professional</a></div>
+    </section>
+
+    <!-- AI Quick Assessment -->
+    <section class="ai-therapists">
+        <div class="join-container22">
+            <h2>Quick Assessment</h2>
+            <p>Get instant assessment format generated to suit your desired need from our AI-powered therapists</p>
+            <a class="therapists-button" href="assessment.html">Go for it!</a>
         </div>
     </section>
 
-    <section class="section section-alt" id="centers-section">
-        <div class="section-head container">
-            <div><span class="eyebrow">Centers</span><h2>Rehab centers and services</h2><p>Rehabilitation centers, hospitals, special schools, home-care and mobile teams.</p></div>
-            <a class="btn btn-sm" href="centers.html">All centers <i class='bx bx-right-arrow-alt'></i></a>
-        </div>
-        <div class="rail" id="centers"></div>
+    <!-- Classes for children -->
+    <section class="home-section" id="classes-section" hidden>
+        <h4>Classes for Children</h4>
+        <div class="container"><div class="grid" id="home-classes"></div></div>
+        <div class="view-more-container"><a class="view-more-btn" href="classes.html">View All Classes</a></div>
     </section>
 
-    <section class="section" id="news-section">
-        <div class="container">
-            <div class="section-head">
-                <div><span class="eyebrow">Rehab updates</span><h2>Latest from the world of rehabilitation</h2></div>
-                <a class="btn btn-sm" href="blogs.html">All updates <i class='bx bx-right-arrow-alt'></i></a>
-            </div>
-            <div class="grid" id="news"></div>
-            <div class="ad-slot mt-3" data-ad-slot="home"></div>
-        </div>
+    <!-- Trending News -->
+    <section class="home-section" id="news-section">
+        <h4>Trending News</h4>
+        <div class="blogs-container" id="news"></div>
+        <div class="view-more-container"><a class="view-more-btn" href="blogs.html">View More</a></div>
+        <div class="container"><div class="ad-slot mt-3" data-ad-slot="home"></div></div>
     </section>
 
-    <section class="section" id="join-section">
-        <div class="container">
-            <div class="banner">
-                <div>
-                    <span class="eyebrow">For professionals, centers and tutors</span>
-                    <h2>Grow your practice on RehabVerve</h2>
-                    <p class="lead">List your services, fees and the areas you cover. Patients and caregivers find you, book you, and you manage requests in one place.</p>
-                    <div class="row"><a class="btn btn-primary btn-lg" href="registration.html">Join the network</a><a class="btn btn-lg" href="classes.html">Teach a class</a></div>
-                </div>
-                <div class="banner-art" aria-hidden="true"><i class='bx bx-network-chart'></i></div>
-            </div>
+    <!-- Join Network -->
+    <section class="join-practitioner22" id="join-section">
+        <div class="join-container22">
+            <h2>Join our Network</h2>
+            <p>Join our network of healthcare professionals, suppliers or centers and reach more patients</p>
+            <a class="whatsapp-button22" href="registration.html">Register now</a>
         </div>
     </section>
 </main>
