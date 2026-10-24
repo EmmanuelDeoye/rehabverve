@@ -29,6 +29,9 @@
         else if (el.name === 'type') { el.value = v === 'All' ? '' : D.centerTypeOf(v).value; }
         else el.value = v;
     });
+    // Open "More filters" when a link already sets one of them
+    const more = $('#more-filters');
+    if (more && Array.from(more.querySelectorAll('[name]')).some(el => el.type === 'checkbox' ? el.checked : el.value && el.name !== 'sort')) more.open = true;
 
     function filters() {
         const f = RV.formValues(form);

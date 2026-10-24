@@ -3,7 +3,7 @@
 .admin-nav { position: sticky; top: calc(var(--header-h) + 12px); display: grid; gap: 2px; padding: 8px; }
 .admin-nav button {
     display: flex; gap: 10px; align-items: center; width: 100%; text-align: left;
-    border: 0; background: none; padding: 10px 12px; border-radius: 10px; font-weight: 650; color: var(--text-2);
+    border: 0; background: none; padding: 10px 12px; border-radius: 12px; font-weight: 650; color: var(--text-2);
 }
 .admin-nav button .bx { font-size: 1.2rem; color: var(--muted); }
 .admin-nav button:hover { background: var(--surface-2); }
@@ -18,7 +18,7 @@
 .kpi span { color: var(--muted); font-size: .9rem; }
 .bars { display: grid; gap: 6px; }
 .bars div { display: grid; grid-template-columns: 90px 1fr 50px; gap: 10px; align-items: center; font-size: .88rem; }
-.bars i { display: block; height: 10px; border-radius: 6px; background: var(--primary); min-width: 2px; }
+.bars i { display: block; height: 10px; border-radius: 6px; background: var(--brand); min-width: 2px; }
 .toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 .toolbar .input { width: auto; min-width: 200px; flex: 1; max-width: 340px; }
 .table td.actions { white-space: nowrap; }
