@@ -59,7 +59,7 @@
         const related = all.filter(p => p.id !== key && p.published !== false && (!post.category || p.category === post.category))
             .sort((a, b) => RV.ts(b.timestamp) - RV.ts(a.timestamp)).slice(0, 3);
         if (related.length) {
-            $('#related').innerHTML = related.map(p => cards.post(p, { full: true })).join('');
+            $('#related').innerHTML = related.map(cards.post).join('');
             $('#related-wrap').hidden = false;
         }
     })().catch(err => { console.error(err); notFound(); });

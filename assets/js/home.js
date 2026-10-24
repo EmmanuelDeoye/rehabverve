@@ -1,5 +1,4 @@
-// home.js — home page: spotlight, disciplines and the original card rows
-// (featured professionals, centers, mobile rehab, latest members, classes, trending news).
+// home.js — home page: disciplines, spotlight, featured and mobile professionals, classes, centers, news.
 (function () {
     'use strict';
     const { $, esc, data: D, cards } = RV;
@@ -8,11 +7,8 @@
     $('#disciplines').innerHTML = D.CATEGORIES.map(c => `
         <a class="card tile clickable" href="professionals.html?category=${c.value}"><i class='bx ${c.icon}'></i><span>${esc(c.short)}</span></a>`).join('');
 
-    // Placeholders sized for the horizontal card rows
-    const rowSkeletons = n => Array.from({ length: n }, () => '<div class="skeleton" style="min-width:220px;margin:8px"></div>').join('');
-    ['#featured', '#mobile', '#latest', '#centers'].forEach(id => { $(id).innerHTML = rowSkeletons(4); });
-    $('#news').innerHTML = rowSkeletons(3);
-    const none = text => `<p class="muted" style="margin:8px auto">${text}</p>`;
+    ['#featured', '#mobile', '#centers'].forEach(id => { $(id).innerHTML = RV.skeletons(4); });
+    $('#news').innerHTML = RV.skeletons(3);
 
     const byPos = (a, b) => (Number(a.pos) || 9999) - (Number(b.pos) || 9999);
     const fb = RV.fb;
@@ -31,19 +27,15 @@
 
         // Featured first, then verified, then the admin's order
         const featured = pros.slice().sort((a, b) => (b.featured === true) - (a.featured === true) || (b.verified === true) - (a.verified === true) || byPos(a, b)).slice(0, 10);
-        $('#featured').innerHTML = featured.length ? featured.map(cards.proMini).join('') : none('No featured professionals found.');
+        $('#featured').innerHTML = featured.length ? featured.map(p => cards.pro(p)).join('') : `<div class="container">${RV.empty('Professionals will appear here soon.')}</div>`;
 
-        // Professionals who do home visits
-        const mobilePros = pros.filter(p => p.serviceModes && p.serviceModes.home).sort(byPos).slice(0, 10);
-        if (mobilePros.length) $('#mobile').innerHTML = mobilePros.map(cards.proMini).join('');
+        const mobilePros = pros.filter(p => p.serviceModes && p.serviceModes.home).sort(byPos);
+        const mobileCenters = centers.filter(c => (c.serviceModes && c.serviceModes.home) || /mobile|home/i.test(c.centerType || ''));
+        const mobile = mobilePros.slice(0, 8).map(p => cards.pro(p)).concat(mobileCenters.slice(0, 4).map(c => cards.center(c)));
+        if (mobile.length) $('#mobile').innerHTML = mobile.join('');
         else $('#mobile-section').hidden = true;
 
-        // Newest members first (original "Latest Members" row)
-        const joined = p => RV.ts(p.timestamp) || RV.ts(p.createdAt) || RV.ts(p.updatedAt);
-        const latest = pros.map((p, i) => ({ p, i })).sort((a, b) => joined(b.p) - joined(a.p) || b.i - a.i).map(x => x.p).slice(0, 10);
-        $('#latest').innerHTML = latest.length ? latest.map(cards.proMini).join('') : none('No featured professionals found.');
-
-        $('#centers').innerHTML = centers.length ? centers.sort(byPos).slice(0, 7).map(c => cards.center(c)).join('') : none('No centers found.');
+        $('#centers').innerHTML = centers.length ? centers.sort(byPos).slice(0, 8).map(cards.center).join('') : `<div class="container">${RV.empty('Centers will appear here soon.', 'bx-buildings')}</div>`;
 
         if (open.length) {
             $('#classes-section').hidden = false;
@@ -52,8 +44,8 @@
     });
 
     get('blogPosts').then(posts => {
-        posts = posts.filter(p => p.published !== false).sort((a, b) => RV.ts(b.timestamp) - RV.ts(a.timestamp)).slice(0, 5);
-        if (posts.length) $('#news').innerHTML = posts.map(p => cards.post(p)).join('');
+        posts = posts.filter(p => p.published !== false).sort((a, b) => RV.ts(b.timestamp) - RV.ts(a.timestamp)).slice(0, 3);
+        if (posts.length) $('#news').innerHTML = posts.map(cards.post).join('');
         else $('#news-section').hidden = true;
     });
 

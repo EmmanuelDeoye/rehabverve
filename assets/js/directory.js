@@ -145,7 +145,7 @@
         const noun = kind === 'pros' ? 'professional' : 'center';
         countEl.innerHTML = `<strong>${list.length}</strong> ${noun}${list.length === 1 ? '' : 's'}${f.loc ? ` for ${esc(f.loc)}` : ''}`;
         results.innerHTML = list.length
-            ? list.map(r => (kind === 'pros' ? cards.pro(r.item, { why: r.why }) : cards.center(r.item, { full: true }))).join('')
+            ? list.map(r => (kind === 'pros' ? cards.pro(r.item, { why: r.why }) : cards.center(r.item))).join('')
             : RV.empty(kind === 'pros'
                 ? 'No one matches every filter yet. Try a nearby area, remove the budget, or choose “Teletherapy” to see people who work online.'
                 : 'No centers match these filters yet. Try a nearby area or another type.');

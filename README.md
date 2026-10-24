@@ -18,8 +18,6 @@ See **[docs/SETUP.md](docs/SETUP.md)** for deployment, the first admin, and the 
 *.html                 pages (one per screen)
 assets/css/app.css     design system, light + dark themes
 assets/css/admin.css   admin console layout
-assets/css/home.css, directory.css, blogs.css, profile.css
-                       original RehabVerve card and page styles (one file per page)
 assets/js/theme.js     sets the theme before first paint
 assets/js/app.js       shared shell: header, sign-in, toasts, safe-HTML helpers, ads, announcements
 assets/js/*.js         one script per page, plus shared cards / booking / listing editor

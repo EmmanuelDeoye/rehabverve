@@ -9,24 +9,20 @@
     const id = RV.params.get('id');
     let autoBooked = false;
 
-    // Full-width messages (not found, signed out…) replace the two-column profile layout
-    const message = html => {
-        head.hidden = true;
-        body.innerHTML = `<div class="container narrow section">${html}</div>`;
-    };
-    const showProfile = () => { head.hidden = false; body.innerHTML = ''; };
-
-    if (!fb) { message(RV.empty('We could not load this profile. Check your connection and refresh.')); return; }
+    if (!fb) { head.innerHTML = RV.empty('We could not load this profile. Check your connection and refresh.'); return; }
 
     RV.onAuth(s => {
         if (!id) {
             if (s.user) location.replace(`users.html?id=${encodeURIComponent(s.user.uid)}`);
-            else message(`<div class="detail-card center"><h1>Your RehabVerve profile</h1><p class="muted">Sign in to see and edit your profile.</p><button class="btn btn-primary" data-signin>Login</button></div>`);
+            else {
+                head.innerHTML = `<div class="card card-pad center"><h1>Your RehabVerve profile</h1><p class="muted">Sign in to see and edit your profile.</p><button class="btn btn-primary" data-signin>Sign in</button></div>`;
+                body.innerHTML = '';
+            }
             return;
         }
         load(s).catch(err => {
             console.error(err);
-            message(RV.empty('We could not load this profile right now. Please refresh to try again.'));
+            head.innerHTML = RV.empty('We could not load this profile right now. Please refresh to try again.');
         });
     });
 
@@ -59,13 +55,15 @@
         if (!kind) {
             if (uid === id) return renderAccountOnly(s);
             document.title = 'Profile not found — RehabVerve';
-            message(`<div class="detail-card center"><h1>Profile not available</h1><p class="muted">This profile is private or no longer listed.</p><a class="btn btn-primary" href="professionals.html">Find a professional</a></div>`);
+            head.innerHTML = `<div class="card card-pad center"><h1>Profile not available</h1><p class="muted">This profile is private or no longer listed.</p><a class="btn btn-primary" href="professionals.html">Find a professional</a></div>`;
+            body.innerHTML = '';
             return;
         }
 
         const owner = !!uid && (kind === 'pros' ? uid === key : uid === L.userId || uid === key);
         if (L.status === 'suspended' && !owner && !s.isAdmin) {
-            message(`<div class="detail-card center"><h1>Profile not available</h1><p class="muted">This listing is currently not active.</p></div>`);
+            head.innerHTML = `<div class="card card-pad center"><h1>Profile not available</h1><p class="muted">This listing is currently not active.</p></div>`;
+            body.innerHTML = '';
             return;
         }
 
@@ -88,28 +86,19 @@
         }
     }
 
-    const infoItem = (icon, label, value, raw) => `
-        <div class="info-item"><i class='bx ${icon}'></i><div><p class="info-label">${esc(label)}</p><p class="info-value">${raw ? value : esc(value)}</p></div></div>`;
-
     function renderAccountOnly(s) {
         const p = s.profile || {};
         document.title = 'My profile — RehabVerve';
-        document.body.classList.remove('center-profile');
-        showProfile();
         head.innerHTML = `
-            <div class="profile-header">
-                <div class="profile-image-container"><img src="${esc(RV.img(p.img))}" class="profile-image" alt="" onerror="this.src='assets/img/profile.png'"><div class="online-status on"></div></div>
-                <h1 class="user-name">${esc(p.name || 'My account')}</h1>
-                <p class="user-title">${esc(s.user.email || '')}</p>
-                <p class="muted">Only you can see this page.</p>
-                <a class="settings-btn" href="settings.html"><i class='bx bx-cog'></i> Settings</a>
-            </div>
-            <div class="profile-details">
-                <div class="detail-card">
-                    <h2 class="section-title">Are you a rehab professional, center or tutor?</h2>
-                    <p class="bio-text">Create a public listing with your fees and the areas you cover so patients can find and book you.</p>
-                    <a class="btn btn-primary" href="registration.html">Apply to join</a>
-                </div>
+            <div class="card profile-card">
+                <img class="photo" src="${esc(RV.img(p.img))}" alt="" onerror="this.src='assets/img/profile.png'">
+                <div><h1>${esc(p.name || 'My account')}</h1><p class="sub">${esc(s.user.email || '')}</p><p class="muted mb-0">Only you can see this page.</p></div>
+                <div class="profile-actions"><a class="btn" href="settings.html"><i class='bx bx-cog'></i> Settings</a></div>
+            </div>`;
+        body.innerHTML = `
+            <div class="banner mt-3">
+                <div><h2>Are you a rehab professional, center or tutor?</h2><p class="lead">Create a public listing with your fees and the areas you cover so patients can find and book you.</p><a class="btn btn-primary" href="registration.html">Apply to join</a></div>
+                <div class="banner-art" aria-hidden="true"><i class='bx bx-id-card'></i></div>
             </div>`;
     }
 
@@ -126,138 +115,96 @@
         const website = /^https:\/\//i.test(L.website || '') ? RV.safeUrl(L.website) : '';
         const modesLabels = isPro ? D.PRO_MODES : D.CENTER_MODES;
         const price = RV.priceRange(L);
-        const photo = RV.img(L.img || L.ing, isCenter ? 'assets/img/center.jpg' : 'assets/img/profile.png');
         document.title = `${name || 'Profile'} — RehabVerve`;
-        document.body.classList.toggle('center-profile', isCenter);
-        showProfile();
 
-        const c = L.coverage || {};
-        const modes = RV.modeBadges(L.serviceModes, modesLabels);
-        const feesCard = kind === 'supplier' ? '' : `
-            <div class="detail-card">
-                <h2 class="section-title">Fees &amp; Coverage</h2>
-                ${infoItem('bx-wallet', 'Fees', price || 'On request')}
-                ${infoItem('bx-clinic', 'Sees clients', modes || esc('Not specified'), true)}
-                ${c.states ? infoItem('bx-map-alt', 'States covered', c.states) : ''}
-                ${c.areas ? infoItem('bx-current-location', 'Areas covered', c.areas) : ''}
-                ${c.countries ? infoItem('bx-world', 'Also serves', c.countries) : ''}
-                ${c.nationwide ? infoItem('bx-video', 'Online', 'Takes clients from anywhere online') : ''}
-                ${L.availability ? infoItem('bx-calendar', 'Availability', L.availability) : ''}
-                ${L.languages ? infoItem('bx-conversation', 'Languages', L.languages) : ''}
-            </div>`;
-
-        const ratingText = avg ? `${avg.toFixed(1)}/5 (${reviews.length || Number(L.ratingCount) || 0} review${(reviews.length || Number(L.ratingCount) || 0) === 1 ? '' : 's'})` : 'No ratings';
-        const exp = L.experience !== undefined && L.experience !== '' ? `${L.experience}${/^\d+(\.\d+)?$/.test(String(L.experience)) ? ' years' : ''}` : 'Not specified';
-        let detailsCard;
-        if (isPro) {
-            detailsCard = `
-            <div class="detail-card professional">
-                <h2 class="section-title">Professional Details</h2>
-                <div class="info-grid">
-                    ${infoItem('bx-briefcase', 'Experience', exp)}
-                    ${infoItem('bx-star', 'Rating', ratingText)}
-                    ${infoItem('bx-graduation', 'Qualification(s)', L.education || 'Not specified')}
-                    ${(D.listingCategory(L) || {}).label ? infoItem('bx-id-card', 'Discipline', D.listingCategory(L).label) : ''}
-                </div>
-                <div class="bio-section"><h3>Professional Bio</h3><div class="bio-text">${RV.formatText(L.bio) || '<p>No bio available</p>'}</div></div>
-            </div>`;
-        } else if (isCenter) {
-            detailsCard = `
-            <div class="detail-card center">
-                <h2 class="section-title">Center Details</h2>
-                ${infoItem('bx-clinic', 'Center Type', L.centerType || 'Not specified')}
-                ${infoItem('bx-map-pin', 'Address', L.address || 'Not specified')}
-                <div class="info-grid">
-                    ${infoItem('bx-time-five', 'Operating Hours', L.operatingHours || 'Not specified')}
-                    ${infoItem('bx-certification', 'Accreditations', L.accreditations || 'Not specified')}
-                </div>
-                <div class="bio-section"><h3>Center Description</h3><div class="bio-text">${RV.formatText(L.description) || '<p>No description available</p>'}</div></div>
-            </div>`;
-        } else {
-            detailsCard = `
-            <div class="detail-card supplier">
-                <h2 class="section-title">Supplier Details</h2>
-                ${infoItem('bx-buildings', 'Organization', L.orgName || 'Not specified')}
-                ${infoItem('bx-category', 'Products/Services', L.productsOffered || L.products || 'Not specified')}
-                ${L.description ? `<div class="bio-section"><div class="bio-text">${RV.formatText(L.description)}</div></div>` : ''}
-            </div>`;
-        }
-
-        const cvUrl = L.cv && /^https:\/\//i.test(L.cv.url || '') ? RV.safeUrl(L.cv.url) : '';
-        const cvCard = cvUrl ? `
-            <div class="detail-card cv-section">
-                <h2 class="section-title">Curriculum Vitae</h2>
-                <div class="cv-info">
-                    <i class='bx bx-file'></i>
-                    <div class="cv-details">
-                        <h3>${esc(L.cv.name || 'My CV')}</h3>
-                        <p class="cv-meta">${L.cv.uploadedAt ? esc('Uploaded ' + RV.date(L.cv.uploadedAt)) : ''}</p>
-                        <a href="${esc(cvUrl)}" target="_blank" rel="noopener" class="cv-download-btn"><i class='bx bx-download'></i> Download CV</a>
+        head.innerHTML = `
+            <div class="card profile-card">
+                <img class="photo" src="${esc(RV.img(L.img || L.ing, isCenter ? 'assets/img/center.jpg' : 'assets/img/profile.png'))}" alt="" onerror="this.src='assets/img/profile.png'">
+                <div>
+                    <h1>${esc(name || 'RehabVerve member')}${L.verified === true ? `<span class="badge badge-primary"><i class='bx bxs-badge-check'></i>Verified</span>` : ''}${L.status === 'suspended' ? '<span class="badge badge-danger">Suspended</span>' : ''}</h1>
+                    <p class="sub">${esc(title)}${place ? ' · ' + esc(place) : ''}</p>
+                    <div class="row" style="gap:10px">
+                        ${avg ? `<span><span class="stars" aria-hidden="true">${RV.stars(avg)}</span> ${avg.toFixed(1)} (${reviews.length || Number(L.ratingCount) || 0})</span>` : '<span class="muted">No reviews yet</span>'}
+                        <span class="presence${online ? ' on' : ''}"><i></i>${online ? 'Online now' : 'Offline'}</span>
                     </div>
                 </div>
-            </div>` : '';
+                <div class="profile-actions">
+                    ${owner ? `<button class="btn btn-primary" data-edit><i class='bx bx-edit'></i> Edit profile</button>${views != null ? `<span class="badge"><i class='bx bx-show'></i>${Number(views) || 0} views</span>` : ''}`
+                        : kind !== 'supplier' ? `<button class="btn btn-primary" data-book><i class='bx bx-calendar-plus'></i> Book</button>` : ''}
+                    ${wa ? `<a class="btn btn-whatsapp btn-icon" href="${esc(wa)}" target="_blank" rel="noopener" aria-label="WhatsApp"><i class='bx bxl-whatsapp'></i></a>` : ''}
+                    ${RV.digits(phone) ? `<a class="btn btn-icon" href="tel:${esc(phone.replace(/[^\d+]/g, ''))}" aria-label="Call"><i class='bx bx-phone'></i></a>` : ''}
+                    ${email ? `<a class="btn btn-icon" href="mailto:${esc(email)}" aria-label="Email"><i class='bx bx-envelope'></i></a>` : ''}
+                    <button class="btn btn-icon" data-share aria-label="Share profile"><i class='bx bx-share-alt'></i></button>
+                </div>
+            </div>`;
+
+        const c = L.coverage || {};
+        const feesCard = kind === 'supplier' ? '' : `
+            <div class="card card-pad">
+                <h3><i class='bx bx-wallet'></i> Fees and coverage</h3>
+                <dl class="dl">
+                    <dt>Fees</dt><dd class="${price ? 'price' : 'muted'}">${esc(price || 'On request')}</dd>
+                    <dt>Sees clients</dt><dd><div class="chips">${RV.modeBadges(L.serviceModes, modesLabels) || '<span class="muted">Not specified</span>'}</div></dd>
+                    ${c.states ? `<dt>States</dt><dd>${esc(c.states)}</dd>` : ''}
+                    ${c.areas ? `<dt>Areas</dt><dd>${esc(c.areas)}</dd>` : ''}
+                    ${c.countries ? `<dt>Also serves</dt><dd>${esc(c.countries)}</dd>` : ''}
+                    ${c.nationwide ? `<dt>Online</dt><dd>Takes clients from anywhere online</dd>` : ''}
+                    ${L.availability ? `<dt>Availability</dt><dd>${esc(L.availability)}</dd>` : ''}
+                    ${L.operatingHours ? `<dt>Hours</dt><dd>${esc(L.operatingHours)}</dd>` : ''}
+                    ${L.languages ? `<dt>Languages</dt><dd>${esc(L.languages)}</dd>` : ''}
+                </dl>
+            </div>`;
+
+        const about = isPro ? L.bio : isCenter ? L.description : (L.description || L.productsOffered || L.products);
+        const details = isPro ? [['Experience', L.experience !== undefined && L.experience !== '' ? `${L.experience}${/^\d+(\.\d+)?$/.test(String(L.experience)) ? ' years' : ''}` : ''], ['Qualifications', L.education], ['Discipline', (D.listingCategory(L) || {}).label]]
+            : isCenter ? [['Type', L.centerType], ['Address', L.address], ['Accreditations', L.accreditations]]
+            : [['Organisation', L.orgName], ['Products', L.productsOffered || L.products]];
+        const detailRows = details.filter(([, v]) => v).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('');
+        const cvUrl = L.cv && /^https:\/\//i.test(L.cv.url || '') ? RV.safeUrl(L.cv.url) : '';
 
         const canReview = s.user && !owner && kind !== 'supplier';
         const mine = s.user && reviews.find(r => r.id === s.user.uid);
-        const reviewsCard = kind === 'supplier' ? '' : `
-            <div class="detail-card">
-                <h2 class="section-title">Ratings &amp; Reviews</h2>
-                <div id="reviews">${reviews.length ? reviews.slice(0, 20).map(r => `
-                    <div class="review"><div class="row-between"><strong>${esc(r.name || 'RehabVerve member')}</strong><span class="review-stars" aria-label="${r.stars} stars">${RV.stars(r.stars)}</span></div>
-                    ${r.comment ? `<p class="mb-0">${esc(r.comment)}</p>` : ''}<small class="muted">${esc(RV.date(r.createdAt))}</small></div>`).join('') : '<p class="muted">No reviews yet.</p>'}</div>
-                ${canReview ? `
-                <form id="review-form" class="mt-2">
-                    <p class="info-label">${mine ? 'Update your review' : 'Rate this ' + (isCenter ? 'center' : 'professional')}</p>
-                    <div class="rating-stars" role="radiogroup" aria-label="Rating">${[1, 2, 3, 4, 5].map(n => `<button type="button" data-star="${n}" aria-label="${n} star${n > 1 ? 's' : ''}" class="${mine && mine.stars >= n ? 'on' : ''}"><i class='bx bxs-star'></i></button>`).join('')}</div>
-                    <textarea name="comment" rows="3" maxlength="1000" placeholder="Add your review comment...">${esc(mine ? mine.comment || '' : '')}</textarea>
-                    <button type="submit" class="submit-rating">Submit Rating</button>
-                </form>` : (!s.user ? '<p class="muted mb-0"><button class="link-btn" data-signin>Login</button> to leave a review.</p>' : '')}
-            </div>`;
 
-        head.innerHTML = `
-            <div class="profile-header">
-                ${owner ? `<button type="button" class="edit-profile-icon" data-edit aria-label="Edit profile"><i class='bx bx-edit'></i></button>` : ''}
-                <div class="profile-image-container" data-zoom role="button" tabindex="0" aria-label="View photo">
-                    <img src="${esc(photo)}" class="profile-image" alt="${esc(name || '')}" onerror="this.src='assets/img/profile.png'">
-                    <div class="online-status${online ? ' on' : ''}" title="${online ? 'Online now' : 'Offline'}"></div>
+        body.innerHTML = `
+            <div class="profile-grid">
+                <div class="stack">
+                    ${feesCard}
+                    <div class="card card-pad"><h3>About</h3><div class="prose" style="font-size:1rem">${RV.formatText(about) || '<p class="muted">No description yet.</p>'}</div></div>
+                    ${detailRows ? `<div class="card card-pad"><h3>Details</h3><dl class="dl">${detailRows}</dl></div>` : ''}
+                    ${cvUrl ? `<div class="card card-pad row-between"><div><h3 class="mb-0"><i class='bx bx-file'></i> Curriculum vitae</h3><p class="muted mb-0">${esc(L.cv.name || 'CV')}</p></div><a class="btn" href="${esc(cvUrl)}" target="_blank" rel="noopener"><i class='bx bx-download'></i> Open CV</a></div>` : ''}
+                    ${owner ? `<div class="card card-pad" id="requests"><h3><i class='bx bx-calendar-check'></i> Booking requests for you</h3><div id="requests-list"><div class="spinner"></div></div></div>` : ''}
                 </div>
-                <h1 class="user-name">${esc(name || 'RehabVerve member')}${L.verified === true ? ` <i class='bx bxs-badge-check verified' title="Verified by RehabVerve"></i>` : ''}</h1>
-                <p class="user-title">${esc(title)}</p>
-                ${avg ? `<p class="profile-rating"><i class='bx bxs-star'></i> ${avg.toFixed(1)} · ${reviews.length || Number(L.ratingCount) || 0} review${(reviews.length || Number(L.ratingCount) || 0) === 1 ? '' : 's'}</p>` : ''}
-                ${L.status === 'suspended' ? '<p><span class="badge badge-danger">Suspended</span></p>' : ''}
-                <div class="contact-icons">
-                    ${wa ? `<a href="${esc(wa)}" class="contact-icon whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp"><i class='bx bxl-whatsapp'></i></a>` : ''}
-                    ${email ? `<a href="mailto:${esc(email)}" class="contact-icon email" aria-label="Email"><i class='bx bx-envelope'></i></a>` : ''}
-                    ${RV.digits(phone) ? `<a href="tel:${esc(phone.replace(/[^\d+]/g, ''))}" class="contact-icon phone" aria-label="Call"><i class='bx bx-phone'></i></a>` : ''}
-                    <button type="button" class="contact-icon" data-share aria-label="Share profile"><i class='bx bx-share-alt'></i></button>
+                <div class="stack">
+                    <div class="card card-pad">
+                        <h3>Reviews</h3>
+                        <div id="reviews">${reviews.length ? reviews.slice(0, 20).map(r => `
+                            <div class="review"><div class="row-between"><strong>${esc(r.name || 'RehabVerve member')}</strong><span class="stars" aria-label="${r.stars} stars">${RV.stars(r.stars)}</span></div>
+                            ${r.comment ? `<p class="mb-0">${esc(r.comment)}</p>` : ''}<small class="muted">${esc(RV.date(r.createdAt))}</small></div>`).join('') : '<p class="muted">No reviews yet.</p>'}</div>
+                        ${canReview ? `
+                        <form id="review-form" class="stack mt-2">
+                            <span class="label">${mine ? 'Update your review' : 'Leave a review'}</span>
+                            <div class="star-input" role="radiogroup" aria-label="Rating">${[1, 2, 3, 4, 5].map(n => `<button type="button" data-star="${n}" aria-label="${n} star${n > 1 ? 's' : ''}" class="${mine && mine.stars >= n ? 'on' : ''}">★</button>`).join('')}</div>
+                            <textarea class="input" name="comment" rows="3" maxlength="1000" placeholder="How was your experience?">${esc(mine ? mine.comment || '' : '')}</textarea>
+                            <button type="submit" class="btn btn-primary">Post review</button>
+                        </form>` : (!s.user && kind !== 'supplier' ? '<p class="muted mb-0"><button class="link-btn" data-signin>Sign in</button> to leave a review.</p>' : '')}
+                    </div>
+                    <div class="card card-pad">
+                        <h3>Contact</h3>
+                        <dl class="dl">
+                            ${phone ? `<dt>Phone</dt><dd>${esc(phone)}</dd>` : ''}
+                            ${email ? `<dt>Email</dt><dd>${esc(email)}</dd>` : ''}
+                            ${website ? `<dt>Website</dt><dd><a href="${esc(website)}" target="_blank" rel="noopener nofollow">${esc(website.replace(/^https:\/\//, ''))}</a></dd>` : ''}
+                            ${place ? `<dt>Location</dt><dd>${esc(place)}</dd>` : ''}
+                        </dl>
+                        ${!phone && !email ? '<p class="muted mb-0">Contact details are shared after booking.</p>' : ''}
+                    </div>
+                    <div class="ad-slot" data-ad-slot="profile"></div>
                 </div>
-                ${owner ? `${views != null ? `<div class="views-badge"><i class='bx bx-show'></i> Profile Views: <strong>${Number(views) || 0}</strong></div>` : ''}<div><a class="settings-btn" href="settings.html"><i class='bx bx-cog'></i> Settings</a></div>`
-                    : kind !== 'supplier' ? `<button type="button" class="settings-btn" data-book><i class='bx bx-calendar-plus'></i> Book a session</button>` : ''}
-            </div>
-            <div class="profile-details">
-                <div class="detail-card">
-                    <h2 class="section-title">Contact Information</h2>
-                    ${infoItem('bx-envelope', 'Email', email || 'Not available')}
-                    ${infoItem('bx-phone', 'Phone', phone || 'Not provided')}
-                    ${infoItem('bx-map', 'Location', place || 'Not provided')}
-                    ${website ? infoItem('bx-globe', 'Website', `<a href="${esc(website)}" target="_blank" rel="noopener nofollow">${esc(website.replace(/^https:\/\//, ''))}</a>`, true) : ''}
-                </div>
-                ${feesCard}
-                ${detailsCard}
-                ${cvCard}
-                ${owner ? `<div class="detail-card" id="requests"><h2 class="section-title">Booking Requests</h2><div id="requests-list"><div class="spinner"></div></div></div>` : ''}
-                ${reviewsCard}
-                <div class="ad-slot" data-ad-slot="profile"></div>
             </div>`;
         RV.renderAds();
 
-        const bookBtn = head.querySelector('[data-book]');
-        if (bookBtn) bookBtn.addEventListener('click', () => RV.book({ listing: L, listingKind: kind }));
+        head.querySelector('[data-book]') && head.querySelector('[data-book]').addEventListener('click', () => RV.book({ listing: L, listingKind: kind }));
         head.querySelector('[data-share]').addEventListener('click', () => share(name));
-        const zoom = head.querySelector('[data-zoom]');
-        const openPhoto = () => RV.dialog({ title: name || 'Photo', wide: true, body: `<img src="${esc(photo)}" alt="" style="margin:0 auto;max-height:75vh;border-radius:12px;object-fit:contain">` });
-        zoom.addEventListener('click', openPhoto);
-        zoom.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPhoto(); } });
         if (owner) {
             head.querySelector('[data-edit]').addEventListener('click', () => openEditor({ kind, L, key, s }));
             loadRequests(s.user.uid);
