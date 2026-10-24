@@ -1,0 +1,115 @@
+<div class="view">
+    <section class="hero">
+        <div class="container hero-grid">
+            <div>
+                <h1>Rehab care, <span>closer to home.</span></h1>
+                <form class="search-bar" action="#/professionals" method="get" role="search">
+                    <label><i class='bx bx-search'></i><span class="sr-only">Who do you need?</span>
+                        <select name="category" id="home-category"><option value="">Who?</option></select>
+                    </label>
+                    <label><i class='bx bx-map'></i><span class="sr-only">Where?</span>
+                        <input name="loc" placeholder="City or state" autocomplete="address-level2">
+                    </label>
+                    <button type="submit" class="btn btn-primary" aria-label="Find care"><i class='bx bx-right-arrow-alt'></i><span class="hide-sm">Find care</span></button>
+                </form>
+                <div class="chips quick">
+                    <a class="chip" href="#/professionals?mode=home"><i class='bx bx-car'></i>Home visits</a>
+                    <a class="chip" href="#/centers?type=Mobile%20Rehab%20Service"><i class='bx bx-plus-medical'></i>Mobile rehab</a>
+                    <a class="chip" href="#/centers"><i class='bx bx-buildings'></i>Centers</a>
+                    <a class="chip" href="#/updates"><i class='bx bx-news'></i>Updates</a>
+                </div>
+            </div>
+            <nav class="puzzle" aria-label="Services">
+                <a class="pz pz-1" href="#/professionals"><span class="pz-face"><i class='bx bx-search-alt'></i><strong>Find a therapist</strong></span></a>
+                <a class="pz pz-2" href="#/teletherapy"><span class="pz-face"><i class='bx bx-video'></i><strong>Online therapy</strong></span></a>
+                <a class="pz pz-3" href="#/classes"><span class="pz-face"><i class='bx bx-book-open'></i><strong>Kids classes</strong></span></a>
+                <a class="pz pz-4" href="#/assessment"><span class="pz-face"><i class='bx bx-bot'></i><strong>Free AI check</strong></span></a>
+            </nav>
+        </div>
+    </section>
+
+    <section class="section-sm" id="spotlight-section" hidden>
+        <div class="container">
+            <div class="spotlight">
+                <div class="spotlight-track" id="spotlight"></div>
+                <div class="spotlight-nav"><button type="button" data-dir="-1" aria-label="Previous"><i class='bx bx-chevron-left'></i></button><button type="button" data-dir="1" aria-label="Next"><i class='bx bx-chevron-right'></i></button></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-head">
+                <h2>Who do you need?</h2>
+                <a class="see-all" href="#/professionals">All <i class='bx bx-chevron-right'></i></a>
+            </div>
+            <div class="disc-grid" id="disciplines"></div>
+            <button type="button" class="link-btn disc-more" id="disc-more" hidden><i class='bx bx-chevron-down'></i> Show all</button>
+        </div>
+    </section>
+
+    <section class="section section-alt" id="featured-section">
+        <div class="section-head container">
+            <h2>Top professionals</h2>
+            <a class="see-all" href="#/professionals">All <i class='bx bx-chevron-right'></i></a>
+        </div>
+        <div class="rail" id="featured"></div>
+    </section>
+
+    <section class="section" id="mobile-section">
+        <div class="section-head container">
+            <h2>Home visits</h2>
+            <a class="see-all" href="#/professionals?mode=home">All <i class='bx bx-chevron-right'></i></a>
+        </div>
+        <div class="rail" id="mobile"></div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <a class="promo" href="#/teletherapy">
+                <span class="promo-ico"><i class='bx bx-video'></i></span>
+                <span class="promo-text"><strong>Therapy online</strong>
+                    <span class="promo-points"><span><i class='bx bx-lock-alt'></i>Private</span><span><i class='bx bx-time-five'></i>Flexible</span><span><i class='bx bx-user-check'></i>Matched</span></span>
+                </span>
+                <i class='bx bx-chevron-right promo-go'></i>
+            </a>
+        </div>
+    </section>
+
+    <section class="section" id="classes-section" hidden>
+        <div class="section-head container">
+            <h2>Kids classes</h2>
+            <a class="see-all" href="#/classes">All <i class='bx bx-chevron-right'></i></a>
+        </div>
+        <div class="rail" id="home-classes"></div>
+    </section>
+
+    <section class="section section-alt" id="centers-section">
+        <div class="section-head container">
+            <h2>Centers</h2>
+            <a class="see-all" href="#/centers">All <i class='bx bx-chevron-right'></i></a>
+        </div>
+        <div class="rail" id="centers"></div>
+    </section>
+
+    <section class="section" id="news-section">
+        <div class="container">
+            <div class="section-head">
+                <h2>Rehab updates</h2>
+                <a class="see-all" href="#/updates">All <i class='bx bx-chevron-right'></i></a>
+            </div>
+            <div class="grid news-list" id="news"></div>
+            <div class="ad-slot mt-3" data-ad-slot="home"></div>
+        </div>
+    </section>
+
+    <section class="section" id="join-section">
+        <div class="container">
+            <a class="promo promo-green" href="#/join">
+                <span class="promo-ico"><i class='bx bx-extension'></i></span>
+                <span class="promo-text"><strong>Are you a professional?</strong><span>List your practice, center or class</span></span>
+                <i class='bx bx-chevron-right promo-go'></i>
+            </a>
+        </div>
+    </section>
+</div>

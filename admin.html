@@ -4,32 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Admin console — RehabVerve</title>
-    <meta name="robots" content="noindex, nofollow">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
-    <script src="assets/js/theme.js"></script>
-    <link rel="stylesheet" href="assets/css/app.css">
-    <link rel="stylesheet" href="assets/css/admin.css">
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <meta name="robots" content="noindex">
+    <script>
+        // This page moved into the RehabVerve app: keep the query and section, then go there
+        (function () {
+            var sub = (location.hash.match(/^#([\w-]+)$/) || [])[1];
+            location.replace('./#/admin' + (sub ? '/' + sub : '') + location.search);
+        })();
+    </script>
+    <meta http-equiv="refresh" content="1;url=./#/admin">
 </head>
-<body data-page="admin" data-no-footer>
-<main id="main" class="container">
-    <div id="gate" class="section center"><div class="spinner"></div></div>
-    <div class="admin" id="admin" hidden>
-        <nav class="card admin-nav" id="admin-nav" aria-label="Admin sections"></nav>
-        <section class="admin-main" id="admin-main" aria-live="polite"></section>
-    </div>
-</main>
-
-<script src="assets/js/data.js"></script>
-<script src="assets/js/app.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-storage-compat.js"></script>
-<script defer src="assets/js/firebase-init.js"></script>
-<script defer src="assets/js/cards.js"></script>
-<script defer src="assets/js/listing-form.js"></script>
-<script defer src="assets/js/admin.js"></script>
-</body>
+<body><p><a href="./#/admin">Continue to RehabVerve</a></p></body>
 </html>

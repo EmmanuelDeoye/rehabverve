@@ -48,7 +48,7 @@
         if (!s.isAdmin) {
             $('#admin').hidden = true;
             gate.hidden = false;
-            gate.innerHTML = `<div class="card card-pad" style="max-width:480px;margin:0 auto"><h1 style="font-size:1.5rem">No admin access</h1><p class="muted">Your account (${esc(s.user.email || '')}) is not an administrator. An existing admin can grant access from <strong>Users</strong>.</p><a class="btn" href="index.html">Back to the site</a></div>`;
+            gate.innerHTML = `<div class="card card-pad" style="max-width:480px;margin:0 auto"><h1 style="font-size:1.5rem">No admin access</h1><p class="muted">Your account (${esc(s.user.email || '')}) is not an administrator. An existing admin can grant access from <strong>Users</strong>.</p><a class="btn" href="#/">Back to the site</a></div>`;
             return;
         }
         gate.hidden = true;
@@ -60,9 +60,9 @@
         $('#admin-nav').innerHTML = SECTIONS.map(([id, icon, label]) => `<button type="button" data-section="${id}"><i class='bx ${icon}'></i>${label}<span class="count" data-count="${id}"></span></button>`).join('');
         $('#admin-nav').addEventListener('click', e => {
             const b = e.target.closest('[data-section]');
-            if (b) location.hash = b.dataset.section;
+            if (b) RV.go('#/admin/' + b.dataset.section);
         });
-        window.addEventListener('hashchange', route);
+        document.addEventListener('rv:subroute', route);
         route();
         refreshCounts();
         // Make sure the token carries the admin claim (needed for image uploads)
@@ -70,7 +70,7 @@
     }
 
     function route() {
-        const id = (location.hash || '#overview').slice(1);
+        const id = RV.route.sub || 'overview';
         const known = SECTIONS.some(s => s[0] === id) ? id : 'overview';
         $$('#admin-nav [data-section]').forEach(b => b.setAttribute('aria-current', String(b.dataset.section === known)));
         const fresh = main.cloneNode(false);
@@ -124,7 +124,7 @@
             else if (f.type === 'datetime') out[f.k] = raw ? new Date(raw).getTime() : null;
             else if (f.type === 'lines') out[f.k] = raw.split('\n').map(x => x.trim()).filter(Boolean);
             else if (f.type === 'url') {
-                if (raw && !RV.safeUrl(raw)) throw new Error(`${f.label} must be a web link (https://…) or a page like teletherapy.html`);
+                if (raw && !RV.safeUrl(raw)) throw new Error(`${f.label} must be a web link (https://…) or a page like #/teletherapy or teletherapy.html`);
                 out[f.k] = raw || null;
             } else if (f.type === 'image') {
                 const file = form.elements[f.k + '__file'] && form.elements[f.k + '__file'].files[0];
@@ -388,7 +388,7 @@
                 $('[data-table]', main).innerHTML = table(['', 'Name', kind === 'pros' ? 'Discipline' : 'Type', 'Location', 'Fees', 'Flags', ''], shown.map(r => `
                     <tr data-id="${esc(r.id)}">
                         <td><img class="thumb" src="${esc(RV.img(r.img || r.ing, kind === 'pros' ? 'assets/img/profile.png' : 'assets/img/center.jpg'))}" alt="" loading="lazy" onerror="this.src='assets/img/profile.png'"></td>
-                        <td><a href="users.html?id=${encodeURIComponent(r.id)}" target="_blank"><strong>${esc(r.name || r.centerName || '—')}</strong></a><br><small class="muted">${esc(r.email || '')} ${esc(r.phone || '')}</small></td>
+                        <td><a href="#/profile?id=${encodeURIComponent(r.id)}" target="_blank"><strong>${esc(r.name || r.centerName || '—')}</strong></a><br><small class="muted">${esc(r.email || '')} ${esc(r.phone || '')}</small></td>
                         <td>${esc(kind === 'pros' ? ((D.listingCategory(r) || {}).label || r.job || '') : (r.centerType || ''))}</td>
                         <td>${esc(RV.place(r) || r.address || '')}</td>
                         <td>${esc(RV.priceRange(r))}</td>
@@ -476,7 +476,7 @@
                 return `<tr data-id="${esc(u.id)}"><td><strong>${esc(u.name || '—')}</strong><br><small class="muted">${esc(u.email || '')} · <code>${esc(u.id)}</code></small></td>
                     <td>${esc(u.role || 'regular')}</td><td>${esc(RV.date(u.createdAt))}</td>
                     <td>${isAdmin ? '<span class="badge badge-accent">admin</span>' : ''} ${isBlocked ? '<span class="badge badge-danger">blocked</span>' : ''}</td>
-                    <td class="actions"><a class="btn btn-sm" href="users.html?id=${encodeURIComponent(u.id)}" target="_blank">Profile</a>
+                    <td class="actions"><a class="btn btn-sm" href="#/profile?id=${encodeURIComponent(u.id)}" target="_blank">Profile</a>
                     ${u.id !== me ? `<button class="btn btn-sm" data-admin="${isAdmin ? 0 : 1}">${isAdmin ? 'Remove admin' : 'Make admin'}</button>
                     <button class="btn btn-sm ${isBlocked ? '' : 'btn-danger'}" data-block="${isBlocked ? 0 : 1}">${isBlocked ? 'Unblock' : 'Block'}</button>` : '<span class="muted">you</span>'}</td></tr>`;
             }));
@@ -593,7 +593,7 @@
                     <td>${esc(c.tutorName || '—')}</td><td>${esc(c.schedule || '')}</td><td>${esc(RV.money(c.price, c.currency || 'NGN') || 'Free')}</td>
                     <td>${e.filter(x => x.status === 'active').length} enrolled${e.some(x => x.status === 'pending') ? ` · <span class="badge badge-warning">${e.filter(x => x.status === 'pending').length} waiting</span>` : ''}</td>
                     <td>${statusBadge(c.status)}</td>
-                    <td class="actions"><a class="btn btn-sm" href="class.html?id=${encodeURIComponent(c.id)}" target="_blank">Classroom</a> <button class="btn btn-sm" data-edit>Edit</button> <button class="btn btn-sm btn-ghost" data-del aria-label="Delete"><i class='bx bx-trash'></i></button></td></tr>`;
+                    <td class="actions"><a class="btn btn-sm" href="#/class?id=${encodeURIComponent(c.id)}" target="_blank">Classroom</a> <button class="btn btn-sm" data-edit>Edit</button> <button class="btn btn-sm btn-ghost" data-del aria-label="Delete"><i class='bx bx-trash'></i></button></td></tr>`;
             }))}`;
         const tutorOptions = [{ value: '', label: 'No tutor yet' }, ...pros.filter(RV.isLive).map(p => ({ value: p.id, label: `${p.name || 'Unnamed'} — ${(D.listingCategory(p) || {}).short || p.job || ''}` }))];
         const fields = [
@@ -673,7 +673,7 @@
         columns: a => [esc(a.text), esc(a.type || 'info'), esc([RV.dateTime(a.startAt), RV.dateTime(a.endAt)].filter(Boolean).join(' → ') || 'Always'), a.active === false ? '<span class="badge">off</span>' : '<span class="badge badge-success">on</span>'],
         fields: [
             { k: 'text', label: 'Message', required: true, full: true },
-            { k: 'link', label: 'Link (optional)', type: 'url', placeholder: 'teletherapy.html or https://…' },
+            { k: 'link', label: 'Link (optional)', type: 'url', placeholder: '#/teletherapy or https://…' },
             { k: 'linkText', label: 'Link text', placeholder: 'Learn more' },
             { k: 'type', label: 'Style', type: 'select', options: ['info', 'success', 'warning'], def: 'info' },
             { k: 'priority', label: 'Priority (higher shows first)', type: 'number', def: 0 },

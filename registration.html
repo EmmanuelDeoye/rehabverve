@@ -5,88 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Join RehabVerve — professionals, centers and tutors</title>
     <meta name="description" content="List your rehabilitation practice, center, mobile rehab service or tutoring on RehabVerve. Show your fees and coverage areas and receive bookings.">
-    <meta name="theme-color" content="#ffffff">
     <meta property="og:title" content="Join RehabVerve">
     <meta property="og:description" content="Reach patients and families looking for your expertise.">
     <meta property="og:image" content="https://www.rehabverve.com.ng/assets/img/icon-512.png">
     <link rel="canonical" href="https://www.rehabverve.com.ng/registration.html">
-    <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
-    <link rel="manifest" href="manifest.json">
-    <script src="assets/js/theme.js"></script>
-    <link rel="stylesheet" href="assets/css/app.css">
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <meta name="robots" content="noindex">
+    <script>
+        // This page moved into the RehabVerve app: keep the query and section, then go there
+        (function () {
+            var sub = (location.hash.match(/^#([\w-]+)$/) || [])[1];
+            location.replace('./#/join' + (sub ? '/' + sub : '') + location.search);
+        })();
+    </script>
+    <meta http-equiv="refresh" content="1;url=./#/join">
 </head>
-<body data-page="register">
-<main id="main">
-    <section class="page-head">
-        <div class="container narrow">
-            <span class="eyebrow">Join the network</span>
-            <h1>List your practice on RehabVerve</h1>
-            <p class="lead">For every member of the rehab team, rehab centers, mobile rehab services, special educators and tutors, and assistive-device suppliers. Our team reviews each application before it goes live.</p>
-        </div>
-    </section>
-    <section class="container narrow mt-2">
-        <div id="status"></div>
-        <form class="card card-pad" id="apply" novalidate>
-            <div class="steps-bar" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
-
-            <fieldset data-step="1" class="stack" style="border:0;padding:0;margin:0">
-                <legend class="step-title">1. Who are you?</legend>
-                <div class="options" id="roles">
-                    <label><input type="radio" name="role" value="practitioner" checked><span><i class='bx bx-user-voice'></i>Rehab professional or tutor<small>Therapists, nurses, doctors, educators…</small></span></label>
-                    <label><input type="radio" name="role" value="center"><span><i class='bx bx-buildings'></i>Center or mobile service<small>Rehab centers, clinics, home-care teams</small></span></label>
-                    <label><input type="radio" name="role" value="supplier"><span><i class='bx bx-package'></i>Supplier<small>Assistive devices and equipment</small></span></label>
-                </div>
-                <div id="account-new" class="stack">
-                    <p class="muted mb-0">Create your account (or <button type="button" class="link-btn" data-signin>sign in</button> if you already have one).</p>
-                    <div class="form-grid">
-                        <label class="field"><span>Your full name *</span><input name="accName" autocomplete="name" maxlength="120"></label>
-                        <label class="field"><span>Email *</span><input name="accEmail" type="email" autocomplete="email"></label>
-                        <label class="field full"><span>Password *</span><input name="accPassword" type="password" autocomplete="new-password" minlength="6"><em>At least 6 characters. Your password is kept by our sign-in provider and never stored with your application.</em></label>
-                    </div>
-                </div>
-                <div id="account-signed" class="notice" hidden><i class='bx bx-user-check'></i><span>Applying as <strong id="acc-email"></strong></span></div>
-            </fieldset>
-
-            <fieldset data-step="2" hidden style="border:0;padding:0;margin:0">
-                <legend class="step-title">2. Your details, fees and coverage</legend>
-                <div id="pro-extra" class="form-grid mb-0">
-                    <label class="field"><span>Discipline *</span><select name="category"><option value="">Choose…</option></select></label>
-                    <label class="field"><span>Licence / registration number</span><input name="licenseNo" maxlength="120" placeholder="e.g. MRTB, NMCN, NCPs…"></label>
-                </div>
-                <div id="listing-fields"></div>
-                <div id="supplier-fields" class="form-grid" hidden>
-                    <label class="field full"><span>Organisation name *</span><input name="orgName" maxlength="160"></label>
-                    <label class="field"><span>Phone *</span><input name="supPhone" type="tel" maxlength="40"></label>
-                    <label class="field"><span>Location</span><input name="supLocation" maxlength="200"></label>
-                    <label class="field full"><span>Products and services *</span><textarea name="productsOffered" rows="4" maxlength="2000"></textarea></label>
-                </div>
-            </fieldset>
-
-            <fieldset data-step="3" hidden class="stack" style="border:0;padding:0;margin:0">
-                <legend class="step-title">3. Documents</legend>
-                <label class="field" data-for="practitioner center"><span id="doc-label">Licence or practising certificate *</span><input type="file" name="license" accept="application/pdf,image/jpeg,image/png,image/webp,.doc,.docx"><em>PDF, image or Word, up to 5 MB. Only our review team can see it.</em></label>
-                <label class="field"><span>Profile photo or logo</span><input type="file" name="photo" accept="image/jpeg,image/png,image/webp"><em>JPG, PNG or WebP, up to 3 MB. Shown on your public profile.</em></label>
-                <label class="check"><input type="checkbox" name="terms"> I confirm these details are accurate and I agree to the <a href="terms.html" target="_blank">Terms</a> and <a href="privacy.html" target="_blank">Privacy Policy</a>.</label>
-            </fieldset>
-
-            <div class="form-msg error mt-2" hidden></div>
-            <div class="form-actions">
-                <button type="button" class="btn" data-back hidden><i class='bx bx-chevron-left'></i> Back</button>
-                <button type="button" class="btn btn-primary" data-next>Continue <i class='bx bx-right-arrow-alt'></i></button>
-            </div>
-        </form>
-    </section>
-</main>
-
-<script src="assets/js/data.js"></script>
-<script src="assets/js/app.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-storage-compat.js"></script>
-<script defer src="assets/js/firebase-init.js"></script>
-<script defer src="assets/js/listing-form.js"></script>
-<script defer src="assets/js/register.js"></script>
-</body>
+<body><p><a href="./#/join">Continue to RehabVerve</a></p></body>
 </html>

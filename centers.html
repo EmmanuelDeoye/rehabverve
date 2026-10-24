@@ -5,50 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Rehab centers and mobile rehab services — RehabVerve</title>
     <meta name="description" content="Rehabilitation centers, hospitals, special schools, home-care and mobile rehab teams across Africa — compare services, fees and the areas they cover.">
-    <meta name="theme-color" content="#ffffff">
     <meta property="og:title" content="Rehab centers and mobile rehab services — RehabVerve">
     <meta property="og:description" content="Find a center or mobile rehab team near you.">
     <meta property="og:image" content="https://www.rehabverve.com.ng/assets/img/icon-512.png">
     <link rel="canonical" href="https://www.rehabverve.com.ng/centers.html">
-    <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
-    <link rel="manifest" href="manifest.json">
-    <script src="assets/js/theme.js"></script>
-    <link rel="stylesheet" href="assets/css/app.css">
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <meta name="robots" content="noindex">
+    <script>
+        // This page moved into the RehabVerve app: keep the query and section, then go there
+        (function () {
+            var sub = (location.hash.match(/^#([\w-]+)$/) || [])[1];
+            location.replace('./#/centers' + (sub ? '/' + sub : '') + location.search);
+        })();
+    </script>
+    <meta http-equiv="refresh" content="1;url=./#/centers">
 </head>
-<body data-page="centers" data-kind="centers">
-<main id="main">
-    <section class="page-head">
-        <div class="container">
-            <span class="eyebrow">Centers & mobile rehab</span>
-            <h1>Rehab centers and services near you</h1>
-            <p class="lead">Rehabilitation centers, hospitals, special schools, home-care providers and mobile rehab teams that come to you.</p>
-        </div>
-    </section>
-    <section class="container mt-2">
-        <form class="card card-pad" id="filters" role="search">
-            <div class="filters">
-                <label class="field"><span>Type</span><select name="type"><option value="">All types</option></select></label>
-                <label class="field"><span>Location</span><input name="loc" placeholder="City, area or state"></label>
-                <label class="field"><span>Service</span>
-                    <select name="mode"><option value="">Any</option><option value="home">Mobile / home visits</option><option value="onsite">At the center</option><option value="tele">Teletherapy</option></select>
-                </label>
-                <label class="field"><span>Search</span><input name="q" placeholder="Name or service"></label>
-            </div>
-        </form>
-        <div class="result-bar"><span id="count" aria-live="polite">Loading…</span><button type="button" class="link-btn" id="reset">Clear filters</button></div>
-        <div class="grid" id="results"></div>
-        <div class="ad-slot mt-3" data-ad-slot="directory"></div>
-    </section>
-</main>
-
-<script src="assets/js/data.js"></script>
-<script src="assets/js/app.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
-<script defer src="assets/js/firebase-init.js"></script>
-<script defer src="assets/js/cards.js"></script>
-<script defer src="assets/js/directory.js"></script>
-</body>
+<body><p><a href="./#/centers">Continue to RehabVerve</a></p></body>
 </html>

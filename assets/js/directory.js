@@ -4,7 +4,7 @@
 (function () {
     'use strict';
     const { $, esc, lower, data: D, cards } = RV;
-    const kind = document.body.dataset.kind; // 'pros' | 'centers'
+    const kind = RV.route.name === 'centers' ? 'centers' : 'pros';
     const form = $('#filters');
     const results = $('#results');
     const countEl = $('#count');
@@ -25,13 +25,21 @@
         const v = p.get(el.name);
         if (v == null) return;
         if (el.type === 'checkbox') el.checked = v === '1';
+        else if (el.type === 'radio') el.checked = el.value === v;
         else if (el.name === 'category') { const c = D.categoryOf(v); el.value = c ? c.value : ''; }
         else if (el.name === 'type') { el.value = v === 'All' ? '' : D.centerTypeOf(v).value; }
         else el.value = v;
     });
-    // Open "More filters" when a link already sets one of them
+    // The "Filters" button shows how many of its filters are in use
     const more = $('#more-filters');
-    if (more && Array.from(more.querySelectorAll('[name]')).some(el => el.type === 'checkbox' ? el.checked : el.value && el.name !== 'sort')) more.open = true;
+    const countBadge = $('#filter-count');
+    function showFilterCount() {
+        if (!more || !countBadge) return;
+        const n = Array.from(more.querySelectorAll('[name]')).filter(el =>
+            el.type === 'checkbox' ? el.checked : el.value && !(el.name === 'sort' && el.value === 'match') && el.name !== 'cur').length;
+        countBadge.textContent = n;
+        countBadge.hidden = !n;
+    }
 
     function filters() {
         const f = RV.formValues(form);
@@ -40,13 +48,13 @@
     }
 
     function syncURL(f) {
-        const url = new URL(location.href);
-        url.search = '';
+        const query = new URLSearchParams();
         fields.forEach(el => {
+            if (el.type === 'radio' && !el.checked) return;
             const v = el.type === 'checkbox' ? (el.checked ? '1' : '') : el.value;
-            if (v && !(el.name === 'sort' && v === 'match') && !(el.name === 'cur' && v === 'NGN')) url.searchParams.set(el.name, v);
+            if (v && !(el.name === 'sort' && v === 'match') && !(el.name === 'cur' && v === 'NGN')) query.set(el.name, v);
         });
-        history.replaceState(null, '', url);
+        RV.setQuery(query);
         if (!f) return;
     }
 
@@ -143,6 +151,7 @@
         if (!all) return;
         const f = filters();
         syncURL(f);
+        showFilterCount();
         const scored = all.map(x => (kind === 'pros' ? scorePro(x, f) : scoreCenter(x, f))).filter(Boolean);
         const list = sortResults(scored, f.sort);
         const noun = kind === 'pros' ? 'professional' : 'center';

@@ -5,31 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Profile — RehabVerve</title>
     <meta name="description" content="Rehabilitation professional and center profiles on RehabVerve: services, fees, coverage areas and reviews.">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
-    <link rel="manifest" href="manifest.json">
-    <script src="assets/js/theme.js"></script>
-    <link rel="stylesheet" href="assets/css/app.css">
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <meta name="robots" content="noindex">
+    <script>
+        // This page moved into the RehabVerve app: keep the query and section, then go there
+        (function () {
+            var sub = (location.hash.match(/^#([\w-]+)$/) || [])[1];
+            location.replace('./#/profile' + (sub ? '/' + sub : '') + location.search);
+        })();
+    </script>
+    <meta http-equiv="refresh" content="1;url=./#/profile">
 </head>
-<body data-page="profile">
-<main id="main">
-    <section class="profile-hero">
-        <div class="container" id="profile-head"><div class="skeleton" style="min-height:160px"></div></div>
-    </section>
-    <section class="container" id="profile-body"></section>
-</main>
-
-<script src="assets/js/data.js"></script>
-<script src="assets/js/app.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-storage-compat.js"></script>
-<script defer src="assets/js/firebase-init.js"></script>
-<script defer src="assets/js/cards.js"></script>
-<script defer src="assets/js/listing-form.js"></script>
-<script defer src="assets/js/booking.js"></script>
-<script defer src="assets/js/profile.js"></script>
-</body>
+<body><p><a href="./#/profile">Continue to RehabVerve</a></p></body>
 </html>

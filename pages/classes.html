@@ -1,0 +1,49 @@
+<div class="view">
+    <section class="page-head">
+        <div class="container">
+            <h1><span class="ph-ico green"><i class='bx bx-book-open'></i></span>Kids classes</h1>
+            <div class="icon-points"><span><i class='bx bx-video'></i>Live online</span><span><i class='bx bx-task'></i>Assignments</span><span><i class='bx bx-world'></i>Home &amp; abroad</span></div>
+            <div class="action-list mt-2">
+                <a class="action" href="#catalogue"><span class="action-ico green"><i class='bx bx-grid-alt'></i></span><span><strong>Browse classes</strong><small>Small groups</small></span><i class='bx bx-chevron-right'></i></a>
+                <button type="button" class="action" id="request-tutor"><span class="action-ico"><i class='bx bx-chalkboard'></i></span><span><strong>Private tutor</strong><small>One-to-one</small></span><i class='bx bx-chevron-right'></i></button>
+            </div>
+        </div>
+    </section>
+
+    <section class="container mt-3" id="mine" hidden>
+        <div class="section-head"><h2>My classes</h2></div>
+        <div class="list" id="mine-list"></div>
+    </section>
+
+    <section class="container mt-3" id="teaching" hidden>
+        <div class="section-head"><h2>I teach</h2></div>
+        <div class="grid" id="teaching-list"></div>
+    </section>
+
+    <section class="container mt-4" id="catalogue">
+        <div class="section-head"><h2>All classes</h2></div>
+        <div class="filter-bar">
+            <div class="filter-main">
+                <label class="pill-field"><i class='bx bx-category'></i><span class="sr-only">Subject</span><select id="subject"><option value="">All subjects</option></select></label>
+                <label class="pill-field"><i class='bx bx-child'></i><span class="sr-only">Age group</span><select id="age"><option value="">All ages</option></select></label>
+            </div>
+            <div class="filter-main">
+                <label class="pill-field"><i class='bx bx-search'></i><span class="sr-only">Search</span><input id="q" placeholder="Class or tutor"></label>
+                <label class="check pill-check"><input type="checkbox" id="open-only" checked> Enrolling now</label>
+            </div>
+        </div>
+        <div class="result-bar"><span id="count"></span></div>
+        <div class="grid" id="list"></div>
+        <div class="ad-slot mt-3" data-ad-slot="classes"></div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <a class="promo promo-green" href="#/join">
+                <span class="promo-ico"><i class='bx bx-chalkboard'></i></span>
+                <span class="promo-text"><strong>Teach on RehabVerve</strong><span>Run small online classes</span></span>
+                <i class='bx bx-chevron-right promo-go'></i>
+            </a>
+        </div>
+    </section>
+</div>

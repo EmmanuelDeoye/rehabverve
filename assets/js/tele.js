@@ -25,11 +25,9 @@
         const a = AUDIENCES[audience];
         $$('#aud-tabs [role=tab]').forEach(t => t.setAttribute('aria-selected', String(t.dataset.aud === audience)));
         $('#aud-panel').innerHTML = `
-            <div class="grid-2" style="align-items:center">
-                <div><h3>${esc(a.title)}</h3><p class="muted">${esc(a.text)}</p>
-                <button type="button" class="btn btn-primary" data-book data-audience="${esc(a.audience)}"><i class='bx bx-calendar-plus'></i> ${esc(a.cta)}</button></div>
-                <ul class="stack" style="list-style:none;padding:0;margin:0">${a.list.map(x => `<li class="row" style="flex-wrap:nowrap"><i class='bx bx-check-circle' style="color:var(--success);font-size:1.3rem"></i>${esc(x)}</li>`).join('')}</ul>
-            </div>`;
+            <h3>${esc(a.title)}</h3>
+            <ul class="check-list">${a.list.map(x => `<li><i class='bx bx-check-circle'></i>${esc(x)}</li>`).join('')}</ul>
+            <button type="button" class="btn btn-primary" data-book data-audience="${esc(a.audience)}"><i class='bx bx-calendar-plus'></i> ${esc(a.cta)}</button>`;
     }
     $('#aud-tabs').addEventListener('click', e => {
         const t = e.target.closest('[data-aud]');
@@ -37,12 +35,11 @@
     });
     renderAudience();
 
+    // Tap a service to book it; the description shows as a tooltip
     $('#services').innerHTML = SERVICES.map(([icon, name, text]) => `
-        <article class="card card-pad stack">
-            <i class='bx ${icon}' style="font-size:1.8rem;color:var(--primary)"></i>
-            <h3 class="mb-0">${esc(name)}</h3><p class="muted mb-0">${esc(text)}</p>
-            <button type="button" class="btn btn-sm" data-book data-service="${esc(name)}">Book this <i class='bx bx-right-arrow-alt'></i></button>
-        </article>`).join('');
+        <button type="button" class="svc" data-book data-service="${esc(name)}" title="${esc(text)}">
+            <span class="svc-ico"><i class='bx ${icon}'></i></span><span>${esc(name.replace(/ \(15 min\)$/, ''))}</span>
+        </button>`).join('');
 
     RV.config().then(cfg => {
         $('#plans').innerHTML = cfg.plans.map(p => `
@@ -62,5 +59,5 @@
         if (!b) return;
         RV.book({ mode: 'tele', service: b.dataset.service, plan: b.dataset.plan, audience: b.dataset.audience });
     });
-    if (location.hash === '#book') RV.book({ mode: 'tele' });
+    if (RV.route.sub === 'book') RV.book({ mode: 'tele' });
 })();

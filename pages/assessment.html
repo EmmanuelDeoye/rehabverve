@@ -1,0 +1,46 @@
+<div class="view">
+    <section class="page-head no-print"><div class="container"><h1><span class="ph-ico"><i class='bx bx-bot'></i></span>AI check</h1><div class="icon-points"><span><i class='bx bx-gift'></i>Free</span><span><i class='bx bx-time-five'></i>5 minutes</span><span><i class='bx bx-user-check'></i>Referral tips</span></div></div></section>
+    <section class="container mt-2">
+        <div class="profile-grid">
+            <div class="stack">
+                <form class="card card-pad no-print" id="config" novalidate>
+                    <h3>1. About the person</h3>
+                    <div class="form-grid">
+                        <label class="field full"><span>Name or initials</span><input name="name" maxlength="80" placeholder="e.g. A.O."></label>
+                        <label class="field"><span>Age</span><input name="age" type="number" min="0" max="120"></label>
+                        <label class="field"><span>Gender</span><select name="gender"><option>Female</option><option>Male</option><option>Prefer not to say</option></select></label>
+                        <label class="field full"><span>Main concern or diagnosis *</span><input name="condition" maxlength="300" placeholder="e.g. stroke, autism, back pain, speech delay"></label>
+                    </div>
+                    <h3 class="mt-3">2. Assessment</h3>
+                    <div class="form-grid">
+                        <label class="field"><span>Area</span><select name="category"><option>General Health</option><option>Physical Health</option><option>Mental Health</option><option>Emotional Well-being</option><option>Cognitive Function</option><option>Communication</option><option>Child Development</option></select></label>
+                        <label class="field"><span>Examiner</span><select name="examiner"><option>General consultant</option><option>Physiotherapist</option><option>Occupational Therapist</option><option>Speech Therapist</option><option>Psychologist</option><option>Nurse</option><option>Special Educator</option></select></label>
+                        <label class="field full"><span>Number of questions: <strong id="count-val">15</strong></span><input name="questionCount" type="range" min="10" max="30" value="15"></label>
+                    </div>
+                    <div class="form-msg error mt-2" hidden></div>
+                    <button type="submit" class="btn btn-accent btn-lg btn-block mt-2" id="generate"><i class='bx bx-bot'></i> Generate questionnaire</button>
+                    <p class="hint mt-1 mb-0 icon-points" style="margin-top:10px"><span><i class='bx bx-user'></i>Free account</span><span><i class='bx bx-info-circle'></i>Not a diagnosis</span><a href="#/privacy">Privacy</a></p>
+                </form>
+
+                <div id="output" hidden>
+                    <div class="row no-print" style="margin-bottom:12px">
+                        <button class="btn" id="save"><i class='bx bx-save'></i> Save</button>
+                        <button class="btn" id="print"><i class='bx bx-printer'></i> Print / save as PDF</button>
+                        <button class="btn btn-ghost" id="new"><i class='bx bx-plus'></i> New assessment</button>
+                    </div>
+                    <div class="paper" id="paper"></div>
+                    <button class="btn btn-primary btn-lg btn-block mt-2 no-print" id="evaluate"><i class='bx bx-clipboard'></i> Summarise answers and suggest specialists</button>
+                    <div class="paper mt-2" id="report" hidden></div>
+                </div>
+                <div class="card card-pad center" id="loading" hidden><div class="spinner"></div><p class="mb-0" id="loading-text">Creating your questionnaire…</p></div>
+            </div>
+            <aside class="stack no-print">
+                <div class="card card-pad">
+                    <h3>Saved on this device</h3>
+                    <div id="saved" class="list"></div>
+                </div>
+                <div class="notice"><i class='bx bx-info-circle'></i><span>In an emergency, contact your local emergency services or go to the nearest hospital.</span></div>
+            </aside>
+        </div>
+    </section>
+</div>

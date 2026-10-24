@@ -1,0 +1,30 @@
+<div class="view">
+    <section class="page-head">
+        <div class="container">
+            <h1><span class="ph-ico green"><i class='bx bx-buildings'></i></span>Centers</h1>
+        </div>
+    </section>
+    <section class="container mt-2">
+        <form class="filter-bar" id="filters" role="search">
+            <div class="filter-main">
+                <label class="pill-field"><i class='bx bx-category'></i><span class="sr-only">Type</span><select name="type"><option value="">All types</option></select></label>
+                <label class="pill-field"><i class='bx bx-map'></i><span class="sr-only">Location</span><input name="loc" placeholder="Location" autocomplete="address-level2"></label>
+            </div>
+            <div class="mode-pills" role="group" aria-label="Service">
+                <label><input type="radio" name="mode" value="" checked><span><i class='bx bx-grid-alt'></i>All</span></label>
+                <label><input type="radio" name="mode" value="home"><span><i class='bx bx-car'></i>Mobile</span></label>
+                <label><input type="radio" name="mode" value="onsite"><span><i class='bx bx-buildings'></i>On site</span></label>
+                <label><input type="radio" name="mode" value="tele"><span><i class='bx bx-video'></i>Online</span></label>
+            </div>
+            <details class="more-filters" id="more-filters">
+                <summary><i class='bx bx-slider-alt'></i> Filters <span class="badge badge-primary" id="filter-count" hidden></span></summary>
+                <div class="filters">
+                    <label class="field"><span>Keyword</span><input name="q" placeholder="Name or service"></label>
+                </div>
+            </details>
+        </form>
+        <div class="result-bar"><span id="count" aria-live="polite">Loading…</span><button type="button" class="link-btn" id="reset"><i class='bx bx-reset'></i> Clear</button></div>
+        <div class="grid" id="results"></div>
+        <div class="ad-slot mt-3" data-ad-slot="directory"></div>
+    </section>
+</div>

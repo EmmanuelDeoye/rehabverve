@@ -1,6 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /admin.html
-Disallow: /settings.html
 
 Sitemap: https://www.rehabverve.com.ng/sitemap.xml

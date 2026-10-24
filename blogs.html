@@ -5,45 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Rehab updates — RehabVerve</title>
     <meta name="description" content="The latest news, research and practical guides from the world of rehabilitation.">
-    <meta name="theme-color" content="#ffffff">
     <meta property="og:title" content="Rehab updates — RehabVerve">
     <meta property="og:description" content="News, research and guides from the world of rehabilitation.">
     <meta property="og:image" content="https://www.rehabverve.com.ng/assets/img/icon-512.png">
     <link rel="canonical" href="https://www.rehabverve.com.ng/blogs.html">
-    <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
-    <link rel="manifest" href="manifest.json">
-    <script src="assets/js/theme.js"></script>
-    <link rel="stylesheet" href="assets/css/app.css">
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <meta name="robots" content="noindex">
+    <script>
+        // This page moved into the RehabVerve app: keep the query and section, then go there
+        (function () {
+            var sub = (location.hash.match(/^#([\w-]+)$/) || [])[1];
+            location.replace('./#/updates' + (sub ? '/' + sub : '') + location.search);
+        })();
+    </script>
+    <meta http-equiv="refresh" content="1;url=./#/updates">
 </head>
-<body data-page="news">
-<main id="main">
-    <section class="page-head">
-        <div class="container">
-            <span class="eyebrow">Rehab updates</span>
-            <h1>The latest in rehabilitation</h1>
-            <p class="lead">News, research, policy and practical guides for patients, caregivers and professionals.</p>
-        </div>
-    </section>
-    <section class="container mt-2">
-        <div class="row-between">
-            <div class="chips scroll" id="cats" role="group" aria-label="Categories"></div>
-            <label class="field" style="min-width:240px"><span class="sr-only">Search updates</span><input class="input" id="q" type="search" placeholder="Search updates"></label>
-        </div>
-        <div id="featured" class="mt-3"></div>
-        <div class="result-bar"><span id="count"></span></div>
-        <div class="grid" id="posts"></div>
-        <div class="ad-slot mt-3" data-ad-slot="article"></div>
-    </section>
-</main>
-
-<script src="assets/js/data.js"></script>
-<script src="assets/js/app.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
-<script defer src="assets/js/firebase-init.js"></script>
-<script defer src="assets/js/cards.js"></script>
-<script defer src="assets/js/news.js"></script>
-</body>
+<body><p><a href="./#/updates">Continue to RehabVerve</a></p></body>
 </html>

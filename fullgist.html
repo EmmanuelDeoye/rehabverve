@@ -5,31 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Rehab update — RehabVerve</title>
     <meta name="description" content="Read the latest from the world of rehabilitation on RehabVerve.">
-    <meta name="theme-color" content="#ffffff">
     <meta property="og:type" content="article">
     <meta property="og:image" content="https://www.rehabverve.com.ng/assets/img/icon-512.png">
-    <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
-    <link rel="manifest" href="manifest.json">
-    <script src="assets/js/theme.js"></script>
-    <link rel="stylesheet" href="assets/css/app.css">
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <meta name="robots" content="noindex">
+    <script>
+        // This page moved into the RehabVerve app: keep the query and section, then go there
+        (function () {
+            var sub = (location.hash.match(/^#([\w-]+)$/) || [])[1];
+            location.replace('./#/article' + (sub ? '/' + sub : '') + location.search);
+        })();
+    </script>
+    <meta http-equiv="refresh" content="1;url=./#/article">
 </head>
-<body data-page="article">
-<main id="main" class="section">
-    <article class="container narrow" id="article"><div class="skeleton" style="min-height:420px"></div></article>
-    <section class="container mt-4" id="related-wrap" hidden>
-        <div class="section-head"><h2>Related updates</h2><a class="btn btn-sm" href="blogs.html">All updates</a></div>
-        <div class="grid" id="related"></div>
-    </section>
-</main>
-
-<script src="assets/js/data.js"></script>
-<script src="assets/js/app.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
-<script defer src="assets/js/firebase-init.js"></script>
-<script defer src="assets/js/cards.js"></script>
-<script defer src="assets/js/article.js"></script>
-</body>
+<body><p><a href="./#/article">Continue to RehabVerve</a></p></body>
 </html>

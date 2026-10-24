@@ -20,7 +20,7 @@
         fillAccount(s);
         loadBookings(s.user.uid);
         loadListing(s);
-        if (location.hash === '#bookings') setTimeout(() => $('#bookings').scrollIntoView(), 200);
+        if (RV.route.sub === 'bookings') setTimeout(() => $('#bookings').scrollIntoView(), 200);
     });
 
     function fillAccount(s) {
@@ -63,7 +63,7 @@
         fb.db.ref('bookings').orderByChild('userId').equalTo(uid).once('value').then(snap => {
             const list = RV.list(snap.val()).sort((a, b) => RV.ts(b.createdAt) - RV.ts(a.createdAt));
             if (!list.length) {
-                host.innerHTML = `<p class="muted mb-0">No bookings yet. <a href="professionals.html">Find a professional</a> or <a href="teletherapy.html">book teletherapy</a>.</p>`;
+                host.innerHTML = `<p class="muted mb-0">No bookings yet. <a href="#/professionals">Find a professional</a> or <a href="#/teletherapy">book teletherapy</a>.</p>`;
                 return;
             }
             host.innerHTML = list.map(b => {
@@ -105,12 +105,12 @@
         const a = app && app.val();
         if ((pro && pro.exists()) || (center && center.exists())) {
             const key = pro && pro.exists() ? uid : Object.keys(center.val())[0];
-            host.innerHTML = `<p>Your listing is live. Keep your fees, coverage areas and availability up to date so clients can match with you.</p><a class="btn btn-primary" href="users.html?id=${encodeURIComponent(key)}">View and edit my listing</a>`;
+            host.innerHTML = `<p>Your listing is live. Keep your fees, coverage areas and availability up to date so clients can match with you.</p><a class="btn btn-primary" href="#/profile?id=${encodeURIComponent(key)}">View and edit my listing</a>`;
         } else if (a) {
             const label = { pending: 'Under review', rejected: 'Not approved', approved: 'Approved' }[a.status] || a.status;
-            host.innerHTML = `<p>Application status: <strong>${esc(label)}</strong>${a.reviewNote ? ` — ${esc(a.reviewNote)}` : ''}</p><a class="btn" href="registration.html">View or update application</a>`;
+            host.innerHTML = `<p>Application status: <strong>${esc(label)}</strong>${a.reviewNote ? ` — ${esc(a.reviewNote)}` : ''}</p><a class="btn" href="#/join">View or update application</a>`;
         } else {
-            host.innerHTML = `<p class="muted">Are you a rehab professional, center, mobile service or tutor? Get listed so clients can find and book you.</p><a class="btn btn-primary" href="registration.html">Apply to join</a>`;
+            host.innerHTML = `<p class="muted">Are you a rehab professional, center, mobile service or tutor? Get listed so clients can find and book you.</p><a class="btn btn-primary" href="#/join">Apply to join</a>`;
         }
     }
 
@@ -153,7 +153,7 @@
                 await RV.state.user.delete();
                 dlg.close();
                 RV.toast('Your account has been deleted.');
-                setTimeout(() => { location.href = 'index.html'; }, 1200);
+                setTimeout(() => RV.go('#/'), 1200);
             } catch (err) {
                 RV.busy(btn, false);
                 RV.toast(RV.errorMessage(err), 'error');

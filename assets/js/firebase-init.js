@@ -51,5 +51,26 @@
         TIMESTAMP: firebase.database.ServerValue.TIMESTAMP,
         increment: n => firebase.database.ServerValue.increment(n)
     };
+
+    // Storage and Functions load only on the screens that need them (uploads, AI assessment)
+    const SDK = 'https://www.gstatic.com/firebasejs/12.18.0/';
+    const setup = {
+        storage: () => { const s = firebase.storage(); if (useEmulator) s.useEmulator('127.0.0.1', 9199); return s; },
+        functions: () => { const f = app.functions('us-central1'); if (useEmulator) f.useEmulator('127.0.0.1', 5001); return f; }
+    };
+    const loading = {};
+    RV.loadSdk = (names = []) => Promise.all(names.filter(n => setup[n] && !RV.fb[n]).map(n => {
+        if (!loading[n]) {
+            loading[n] = new Promise((resolve, reject) => {
+                const tag = document.createElement('script');
+                tag.src = `${SDK}firebase-${n}-compat.js`;
+                tag.onload = resolve;
+                tag.onerror = () => reject(new Error(`Could not load Firebase ${n}`));
+                document.head.appendChild(tag);
+            }).then(() => { RV.fb[n] = setup[n](); })
+                .catch(err => { delete loading[n]; console.warn(err); });
+        }
+        return loading[n];
+    }));
     done();
 })();

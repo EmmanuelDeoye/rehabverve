@@ -488,7 +488,7 @@
                     <p class="muted">Our clinical team will review your answers and contact you on ${esc(answers.phone)} to match you with the right specialist.</p>
                     <div class="row" style="justify-content:center">
                         <a class="btn btn-whatsapp" href="${esc(RV.waLink(cfg.whatsapp, `Hello RehabVerve! I just completed intake #${refNo}.`))}" target="_blank" rel="noopener"><i class='bx bxl-whatsapp'></i> Message us</a>
-                        <a class="btn btn-primary" href="settings.html#bookings">My bookings</a>
+                        <a class="btn btn-primary" href="#/settings/bookings">My bookings</a>
                     </div>
                 </div>`;
             return '';

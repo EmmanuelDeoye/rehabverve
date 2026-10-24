@@ -17,7 +17,7 @@ The previous version exposed data. In this order:
    settings → Personal access tokens, if it is a GitHub Models token) and create a new one.
 2. **Deploy the new database and storage rules** (section 3). Until you do, the old rules —
    whatever they are — still apply.
-3. **Make yourself an admin** (section 2), open `admin.html` → **Maintenance** and:
+3. **Make yourself an admin** (section 2), open `/#/admin` → **Maintenance** and:
    - *Remove stored passwords* — the old registration form saved passwords inside
      `applications`. After removing them, ask those applicants to reset their passwords
      (or send them reset emails from Firebase Console → Authentication).
@@ -33,7 +33,7 @@ only an existing admin (or you, in the console) can.
 1. Sign up on the website with the account that should be admin.
 2. Firebase Console → Authentication → copy that user’s **User UID**.
 3. Firebase Console → Realtime Database → add the key `admins` → child `<that UID>` with value `true`.
-4. Open `https://www.rehabverve.com.ng/admin.html`. From then on you can make other admins
+4. Open `https://www.rehabverve.com.ng/#/admin`. From then on you can make other admins
    from **Admin → Users**.
 
 ## 3. Deploy rules and functions

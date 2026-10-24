@@ -9,7 +9,7 @@
     const id = RV.params.get('id');
     let klass = null;
 
-    const notFound = () => { head.innerHTML = RV.empty('This class could not be found. <a href="classes.html">See all classes</a>', 'bx-book-open'); body.innerHTML = ''; };
+    const notFound = () => { head.innerHTML = RV.empty('This class could not be found. <a href="#/classes">See all classes</a>', 'bx-book-open'); body.innerHTML = ''; };
     if (!id || !fb || !/^[\w-]+$/.test(id)) { notFound(); return; }
 
     RV.onAuth(s => load(s).catch(err => { console.error(err); notFound(); }));
@@ -27,13 +27,13 @@
 
         const price = RV.money(klass.price, klass.currency || 'NGN');
         head.innerHTML = `
-            <a class="btn btn-sm btn-ghost" href="classes.html"><i class='bx bx-arrow-back'></i> All classes</a>
+            <a class="btn btn-sm btn-ghost" href="#/classes"><i class='bx bx-arrow-back'></i> All classes</a>
             <span class="eyebrow" style="display:block;margin-top:12px">${esc(klass.subject || 'Class')}</span>
             <h1>${esc(klass.title || 'Class')}</h1>
             <div class="row muted">
                 <span><i class='bx bx-child'></i> ${esc(klass.ageGroup || 'All ages')}</span>
                 ${klass.schedule ? `<span><i class='bx bx-time-five'></i> ${esc(klass.schedule)}</span>` : ''}
-                ${klass.tutorName ? `<span><i class='bx bx-chalkboard'></i> ${klass.tutorId ? `<a href="users.html?id=${encodeURIComponent(klass.tutorId)}">${esc(klass.tutorName)}</a>` : esc(klass.tutorName)}</span>` : ''}
+                ${klass.tutorName ? `<span><i class='bx bx-chalkboard'></i> ${klass.tutorId ? `<a href="#/profile?id=${encodeURIComponent(klass.tutorId)}">${esc(klass.tutorName)}</a>` : esc(klass.tutorName)}</span>` : ''}
                 <span class="price">${price ? `${esc(price)}${klass.priceUnit ? ' / ' + esc(D.PRICE_UNITS[klass.priceUnit] || klass.priceUnit) : ''}` : 'Free'}</span>
             </div>`;
 
@@ -68,9 +68,9 @@
                 <div class="form-actions"><button type="button" class="btn btn-danger" data-withdraw>Withdraw request</button></div>`;
         }
         if (e && e.status === 'rejected') {
-            return `<h3>Enrolment not confirmed</h3><p class="muted">The tutor could not confirm this place. Please choose another class or <a href="classes.html">request a private tutor</a>.</p>`;
+            return `<h3>Enrolment not confirmed</h3><p class="muted">The tutor could not confirm this place. Please choose another class or <a href="#/classes">request a private tutor</a>.</p>`;
         }
-        if (klass.status !== 'open') return `<h3>Enrolment is closed</h3><p class="muted mb-0">This class is not taking new students right now. <a href="classes.html">See open classes</a>.</p>`;
+        if (klass.status !== 'open') return `<h3>Enrolment is closed</h3><p class="muted mb-0">This class is not taking new students right now. <a href="#/classes">See open classes</a>.</p>`;
         const p = s.profile || {};
         return `
             <h3>Enrol your child</h3>
@@ -81,7 +81,7 @@
                 <label class="field"><span>Phone / WhatsApp *</span><input name="phone" type="tel" maxlength="40" value="${esc(p.phone || '')}"></label>
                 <label class="field"><span>Country</span><select name="country">${RV.optionList(D.COUNTRIES, 'Nigeria')}</select></label>
                 <label class="field full"><span>Anything the tutor should know? <em>(learning needs, goals)</em></span><textarea name="notes" rows="3" maxlength="1000"></textarea></label>
-                <label class="check full"><input type="checkbox" name="consent"> I am this child’s parent or guardian and I agree to the <a href="privacy.html" target="_blank">Privacy Policy</a>.</label>
+                <label class="check full"><input type="checkbox" name="consent"> I am this child’s parent or guardian and I agree to the <a href="#/privacy" target="_blank">Privacy Policy</a>.</label>
                 <div class="form-msg error full" hidden></div>
                 <div class="form-actions full"><button type="submit" class="btn btn-primary">Request a place</button></div>
             </form>`;

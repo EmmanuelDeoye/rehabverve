@@ -6,7 +6,7 @@
     const host = $('#article');
     const id = RV.params.get('id');
     const notFound = () => {
-        host.innerHTML = `<div class="empty"><i class='bx bx-news'></i><h2>Update not found</h2><p>It may have been moved or removed.</p><a class="btn btn-primary" href="blogs.html">Back to updates</a></div>`;
+        host.innerHTML = `<div class="empty"><i class='bx bx-news'></i><h2>Update not found</h2><p>It may have been moved or removed.</p><a class="btn btn-primary" href="#/updates">Back to updates</a></div>`;
     };
     if (!id || !fb) { notFound(); return; }
 
@@ -34,7 +34,7 @@
         ];
 
         host.innerHTML = `
-            <a href="blogs.html" class="btn btn-sm btn-ghost"><i class='bx bx-arrow-back'></i> Rehab updates</a>
+            <a href="#/updates" class="btn btn-sm btn-ghost"><i class='bx bx-arrow-back'></i> Rehab updates</a>
             ${post.category ? `<span class="eyebrow" style="display:block;margin-top:16px">${esc(post.category)}</span>` : ''}
             <h1>${esc(post.title || 'Untitled')}</h1>
             <p class="muted">${esc(post.author || 'RehabVerve Team')} · ${esc(RV.date(post.timestamp) || 'Recent')} · ${Math.max(1, Math.round(words / 220))} min read</p>

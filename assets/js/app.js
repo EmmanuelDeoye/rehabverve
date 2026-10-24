@@ -28,6 +28,7 @@
         if (/^(mailto|tel):[^\s"'<>]+$/i.test(s)) return s;
         if (/^(\.\/)?(assets\/|[a-z0-9_-]+\.html)[^\s"'<>]*$/i.test(s)) return s;
         if (/^#[\w-]*$/.test(s)) return s;
+        if (/^#\/[\w\-/]*(\?[^\s"'<>#]*)?$/.test(s)) return s;
         return fallback;
     };
     RV.img = (value, fallback = 'assets/img/profile.png') => {
@@ -333,7 +334,12 @@
     const state = { ready: false, user: null, profile: null, isAdmin: false };
     RV.state = state;
     const listeners = [];
-    RV.onAuth = cb => { listeners.push(cb); if (state.ready) cb(state); };
+    // Callbacks added by a screen are dropped when the visitor leaves it (see router.js)
+    RV.onAuth = cb => {
+        listeners.push(cb);
+        if (RV._track) RV._track(() => { const i = listeners.indexOf(cb); if (i >= 0) listeners.splice(i, 1); });
+        if (state.ready) cb(state);
+    };
     const emit = () => listeners.forEach(cb => { try { cb(state); } catch (e) { console.error(e); } });
 
     let pendingAuth = [];
@@ -398,19 +404,18 @@
     /* ================================================================== */
     /* Shell markup                                                         */
     /* ================================================================== */
-    const LOGO = `<svg viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="rv-logo-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00BCD4"/><stop offset="1" stop-color="#28a745"/></linearGradient></defs><rect x="2" y="2" width="36" height="36" rx="11" fill="url(#rv-logo-g)"/><path d="M8 21h5.5l3-7.5 5 15 4-10h6.5" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    const LOGO = `<img src="assets/img/logo-96.png" width="36" height="36" alt="" decoding="async">`;
     RV.logo = LOGO;
+    const BRAND = `${LOGO}<span>Rehab<b>Verve</b></span>`;
 
     const NAV = [
-        { id: 'home', href: 'index.html', icon: 'bx-home-alt-2', label: 'Home' },
-        { id: 'professionals', href: 'professionals.html', icon: 'bx-search-alt', label: 'Find care' },
-        { id: 'teletherapy', href: 'teletherapy.html', icon: 'bx-video', label: 'Teletherapy' },
-        { id: 'classes', href: 'classes.html', icon: 'bx-book-open', label: 'Kids classes' },
-        { id: 'centers', href: 'centers.html', icon: 'bx-buildings', label: 'Centers' },
-        { id: 'news', href: 'blogs.html', icon: 'bx-news', label: 'Updates' }
+        { id: 'professionals', href: '#/professionals', icon: 'bx-search', label: 'Find care' },
+        { id: 'centers', href: '#/centers', icon: 'bx-buildings', label: 'Centers' },
+        { id: 'teletherapy', href: '#/teletherapy', icon: 'bx-video', label: 'Teletherapy' },
+        { id: 'classes', href: '#/classes', icon: 'bx-book-open', label: 'Classes' },
+        { id: 'news', href: '#/updates', icon: 'bx-news', label: 'Updates' }
     ];
-    const page = document.body.dataset.page || '';
-    const current = id => (id === page ? ' aria-current="page"' : '');
+    const navLink = (n, icon) => `<a href="${n.href}" data-nav="${n.id}">${icon ? `<i class='bx ${n.icon}'></i>` : ''}${n.label}</a>`;
 
     function headerHTML() {
         return `
@@ -418,25 +423,25 @@
         <div class="announce" id="rv-announce" hidden></div>
         <header class="site-header">
             <div class="container">
-                <a href="index.html" class="brand" aria-label="RehabVerve home">${LOGO}<span>Rehab<b>Verve</b></span></a>
-                <nav class="main-nav" aria-label="Main">${NAV.map(n => `<a href="${n.href}"${current(n.id)}>${n.label}</a>`).join('')}</nav>
+                <a href="#/" class="brand" aria-label="RehabVerve home">${BRAND}</a>
+                <nav class="main-nav" aria-label="Main">${NAV.map(n => navLink(n)).join('')}</nav>
                 <div class="header-actions">
-                    <a href="assessment.html" class="btn btn-sm btn-ghost hide-md"><i class='bx bx-bot'></i> AI assessment</a>
-                    <button type="button" class="btn btn-icon btn-sm btn-ghost" data-theme-toggle aria-label="Switch light or dark theme"><i class='bx bx-moon'></i></button>
+                    <a href="#/assessment" class="btn btn-icon btn-sm btn-ghost hide-sm" data-nav="assessment" aria-label="AI assessment" title="AI assessment"><i class='bx bx-bot'></i></a>
+                    <button type="button" class="btn btn-icon btn-sm btn-ghost" data-theme-toggle aria-label="Switch light or dark theme" title="Theme"><i class='bx bx-moon'></i></button>
                     <div id="rv-account" class="row" style="gap:8px"></div>
-                    <button type="button" class="btn btn-icon btn-sm btn-ghost menu-toggle" id="rv-menu" aria-label="Open menu" aria-controls="rv-drawer" aria-expanded="false"><i class='bx bx-menu'></i></button>
+                    <button type="button" class="btn btn-icon btn-sm btn-ghost menu-toggle" id="rv-menu" aria-label="Open menu" aria-controls="rv-drawer" aria-expanded="false"><i class='bx bx-menu-alt-right'></i></button>
                 </div>
             </div>
         </header>
         <div class="drawer-backdrop" id="rv-backdrop" hidden></div>
         <aside class="drawer" id="rv-drawer" aria-label="Menu">
             <div class="drawer-head">
-                <span class="brand">${LOGO}<span>Rehab<b>Verve</b></span></span>
+                <span class="brand">${BRAND}</span>
                 <button type="button" class="modal-close" id="rv-drawer-close" aria-label="Close menu"><i class='bx bx-x'></i></button>
             </div>
-            <nav>${NAV.map(n => `<a href="${n.href}"${current(n.id)}><i class='bx ${n.icon}'></i>${n.label}</a>`).join('')}
-                <a href="assessment.html"${current('assessment')}><i class='bx bx-bot'></i>AI assessment</a>
-                <a href="registration.html"${current('register')}><i class='bx bx-user-plus'></i>Join as a professional</a>
+            <nav class="drawer-grid">${[{ id: 'home', href: '#/', icon: 'bx-home-alt-2', label: 'Home' }, ...NAV,
+                { id: 'assessment', href: '#/assessment', icon: 'bx-bot', label: 'AI check' },
+                { id: 'register', href: '#/join', icon: 'bx-user-plus', label: 'Join' }].map(n => navLink(n, true)).join('')}
             </nav>
             <div class="drawer-section" id="rv-drawer-account"></div>
         </aside>`;
@@ -444,14 +449,22 @@
 
     function tabbarHTML() {
         const tabs = [
-            { id: 'home', href: 'index.html', icon: 'bx-home-alt-2', label: 'Home' },
-            { id: 'professionals', href: 'professionals.html', icon: 'bx-search-alt', label: 'Find' },
-            { id: 'teletherapy', href: 'teletherapy.html', icon: 'bx-video', label: 'Teletherapy' },
-            { id: 'classes', href: 'classes.html', icon: 'bx-book-open', label: 'Classes' },
-            { id: 'settings', href: 'settings.html', icon: 'bx-user-circle', label: 'Me' }
+            { id: 'home', href: '#/', icon: 'bx-home-alt-2', label: 'Home' },
+            { id: 'professionals', href: '#/professionals', icon: 'bx-search', label: 'Find' },
+            { id: 'teletherapy', href: '#/teletherapy', icon: 'bx-video', label: 'Online', fab: true },
+            { id: 'classes', href: '#/classes', icon: 'bx-book-open', label: 'Classes' },
+            { id: 'settings', href: '#/settings', icon: 'bx-user', label: 'Me' }
         ];
-        return `<nav class="tabbar" aria-label="Quick links">${tabs.map(t => `<a href="${t.href}"${current(t.id)}><i class='bx ${t.icon}'></i><span>${t.label}</span></a>`).join('')}</nav>`;
+        return `<nav class="tabbar" aria-label="Quick links">${tabs.map(t => `<a href="${t.href}" data-nav="${t.id}"${t.fab ? ' class="fab"' : ''} aria-label="${t.label}"><i class='bx ${t.icon}'></i><span>${t.label}</span></a>`).join('')}</nav>`;
     }
+
+    // Highlights the current screen in the header, drawer and tab bar
+    RV.markNav = (page, footer = true) => {
+        $$('[data-nav]').forEach(a => { if (a.dataset.nav === page) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+        const f = $('.site-footer');
+        if (f) f.hidden = !footer;
+        document.body.dataset.page = page;
+    };
 
     function footerHTML(cfg) {
         const s = cfg.social || {};
@@ -459,38 +472,32 @@
             .filter(([k]) => RV.safeUrl(s[k]))
             .map(([k, icon]) => `<a href="${RV.esc(RV.safeUrl(s[k]))}" target="_blank" rel="noopener" aria-label="${k}"><i class='bx ${icon}'></i></a>`).join('');
         const wa = RV.waLink(cfg.whatsapp, 'Hello RehabVerve!');
+        const phone = RV.digits(cfg.phone) ? '+' + RV.digits(cfg.phone) : '';
         return `
         <footer class="site-footer">
             <div class="container">
                 <div class="footer-grid">
                     <div>
-                        <a href="index.html" class="brand">${LOGO}<span>Rehab<b>Verve</b></span></a>
-                        <p class="muted mt-1">The rehabilitation network for Africa — therapists, rehab centers, mobile rehab, teletherapy and classes for children, in one place.</p>
-                        <div class="socials">${social}${wa ? `<a href="${wa}" target="_blank" rel="noopener" aria-label="WhatsApp"><i class='bx bxl-whatsapp'></i></a>` : ''}</div>
+                        <a href="#/" class="brand">${BRAND}</a>
+                        <p class="muted mt-1 mb-0">Rehab care across Africa.</p>
+                        <div class="socials">${social}${wa ? `<a href="${wa}" target="_blank" rel="noopener" aria-label="WhatsApp"><i class='bx bxl-whatsapp'></i></a>` : ''}${phone ? `<a href="tel:${RV.esc(phone)}" aria-label="Call us"><i class='bx bx-phone'></i></a>` : ''}${cfg.email ? `<a href="mailto:${RV.esc(cfg.email)}" aria-label="Email us"><i class='bx bx-envelope'></i></a>` : ''}</div>
                     </div>
-                    <div><h4>Find care</h4><ul>
-                        <li><a href="professionals.html">Rehab professionals</a></li>
-                        <li><a href="professionals.html?mode=home">Mobile & home visits</a></li>
-                        <li><a href="centers.html">Rehab centers</a></li>
-                        <li><a href="teletherapy.html">Teletherapy</a></li>
-                        <li><a href="classes.html">Classes for children</a></li>
+                    <div class="hide-sm"><h4>Care</h4><ul>
+                        <li><a href="#/professionals">Professionals</a></li>
+                        <li><a href="#/centers">Centers</a></li>
+                        <li><a href="#/teletherapy">Teletherapy</a></li>
+                        <li><a href="#/classes">Classes</a></li>
                     </ul></div>
-                    <div><h4>RehabVerve</h4><ul>
-                        <li><a href="blogs.html">Rehab updates</a></li>
-                        <li><a href="assessment.html">AI assessment</a></li>
-                        <li><a href="registration.html">Join as a professional or center</a></li>
-                        <li><a href="settings.html">My account</a></li>
-                    </ul></div>
-                    <div><h4>Contact</h4><ul>
-                        ${cfg.address ? `<li class="muted">${RV.esc(cfg.address)}</li>` : ''}
-                        ${cfg.phone ? `<li><a href="tel:${RV.esc(RV.digits(cfg.phone) ? '+' + RV.digits(cfg.phone) : '')}">${RV.esc(cfg.phone)}</a></li>` : ''}
-                        ${cfg.email ? `<li><a href="mailto:${RV.esc(cfg.email)}">${RV.esc(cfg.email)}</a></li>` : ''}
-                        ${wa ? `<li><a href="${wa}" target="_blank" rel="noopener">Chat on WhatsApp</a></li>` : ''}
+                    <div class="hide-sm"><h4>RehabVerve</h4><ul>
+                        <li><a href="#/updates">Updates</a></li>
+                        <li><a href="#/assessment">AI check</a></li>
+                        <li><a href="#/join">Join</a></li>
+                        <li><a href="#/settings">Account</a></li>
                     </ul></div>
                 </div>
                 <div class="footer-bottom">
-                    <span>© ${new Date().getFullYear()} RehabVerve</span>
-                    <nav><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav>
+                    <span>© ${new Date().getFullYear()} RehabVerve${cfg.address ? ` · ${RV.esc(cfg.address)}` : ''}</span>
+                    <nav><a href="#/privacy">Privacy</a><a href="#/terms">Terms</a></nav>
                 </div>
             </div>
         </footer>`;
@@ -513,9 +520,9 @@
                     <label class="field"><span>Password</span>
                         <span class="password-wrap"><input name="password" type="password" autocomplete="current-password" minlength="6" required><button type="button" data-peek aria-label="Show password"><i class='bx bx-show'></i></button></span>
                     </label>
-                    <p class="hint mb-0" data-only="signup" hidden>By creating an account you agree to our <a href="terms.html" target="_blank">Terms</a> and <a href="privacy.html" target="_blank">Privacy Policy</a>.</p>
+                    <p class="hint mb-0" data-only="signup" hidden>By creating an account you agree to our <a href="#/terms" target="_blank">Terms</a> and <a href="#/privacy" target="_blank">Privacy Policy</a>.</p>
                     <button type="submit" class="btn btn-primary btn-block" id="rv-auth-submit">Sign in</button>
-                    <p class="center mb-0" data-only="signin"><a href="forgot-password.html">Forgot your password?</a></p>
+                    <p class="center mb-0" data-only="signin"><a href="#/forgot-password">Forgot your password?</a></p>
                 </form>
             </div>
         </dialog>`;
@@ -604,12 +611,12 @@
             const p = state.profile || {};
             const name = p.name || u.displayName || u.email;
             const links = [
-                ['bx-user', 'My profile', `users.html?id=${encodeURIComponent(u.uid)}`],
-                ['bx-calendar-check', 'My bookings', 'settings.html#bookings'],
-                ['bx-book-open', 'My classes', 'classes.html#mine'],
-                ['bx-cog', 'Settings', 'settings.html']
+                ['bx-user', 'My profile', `#/profile?id=${encodeURIComponent(u.uid)}`],
+                ['bx-calendar-check', 'My bookings', '#/settings/bookings'],
+                ['bx-book-open', 'My classes', '#/classes/mine'],
+                ['bx-cog', 'Settings', '#/settings']
             ];
-            if (state.isAdmin) links.unshift(['bx-shield-quarter', 'Admin console', 'admin.html']);
+            if (state.isAdmin) links.unshift(['bx-shield-quarter', 'Admin console', '#/admin']);
             const menuLinks = links.map(([i, l, h]) => `<a href="${h}"><i class='bx ${i}'></i>${l}</a>`).join('');
             host.innerHTML = `
                 <div class="user-menu">
@@ -645,6 +652,7 @@
             toggle.setAttribute('aria-expanded', String(on));
             document.body.style.overflow = on ? 'hidden' : '';
         };
+        RV.closeDrawer = () => { if (drawer.classList.contains('open')) open(false); };
         toggle.addEventListener('click', () => open(true));
         backdrop.addEventListener('click', () => open(false));
         $('#rv-drawer-close').addEventListener('click', () => open(false));
@@ -732,10 +740,11 @@
     });
 
     // Anonymous daily page-view counters (no personal data).
-    function countView() {
-        const key = (page || 'other').replace(/[^a-z0-9-]/gi, '').slice(0, 40) || 'other';
+    RV._countView = page => {
+        if (!fb) return;
+        const key = String(page || 'other').replace(/[^a-z0-9-]/gi, '').slice(0, 40) || 'other';
         fb.db.ref('analytics/daily/' + RV.today()).update({ views: fb.increment(1), ['pages/' + key]: fb.increment(1) }).catch(() => {});
-    }
+    };
 
     /* ================================================================== */
     /* PWA                                                                  */
@@ -755,16 +764,13 @@
     /* Boot                                                                 */
     /* ================================================================== */
     document.body.insertAdjacentHTML('afterbegin', headerHTML());
-    if (!document.body.hasAttribute('data-no-footer')) {
-        document.body.insertAdjacentHTML('beforeend', footerHTML(D.DEFAULT_CONFIG));
-        RV.config().then(cfg => { const f = $('.site-footer'); if (f) f.outerHTML = footerHTML(cfg); });
-    }
+    document.body.insertAdjacentHTML('beforeend', footerHTML(D.DEFAULT_CONFIG));
+    RV.config().then(cfg => { const f = $('.site-footer'); if (f) { const hidden = f.hidden; f.outerHTML = footerHTML(cfg); $('.site-footer').hidden = hidden; } });
     document.body.insertAdjacentHTML('beforeend', tabbarHTML() + authDialogHTML());
     wireShell();
     wireAuthDialog();
     renderAccount();
     RV.theme.set(RV.theme.get());
-    RV.renderAds();
 
     RV._fbReady = () => {
         fb = RV.fb;
@@ -777,6 +783,5 @@
         }
         watchAuth();
         loadAnnouncement();
-        countView();
     };
 })();

@@ -5,80 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>My account — RehabVerve</title>
     <meta name="description" content="Manage your RehabVerve account, bookings, classes, theme and security.">
-    <meta name="theme-color" content="#ffffff">
     <meta name="robots" content="noindex">
-    <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
-    <link rel="manifest" href="manifest.json">
-    <script src="assets/js/theme.js"></script>
-    <link rel="stylesheet" href="assets/css/app.css">
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <script>
+        // This page moved into the RehabVerve app: keep the query and section, then go there
+        (function () {
+            var sub = (location.hash.match(/^#([\w-]+)$/) || [])[1];
+            location.replace('./#/settings' + (sub ? '/' + sub : '') + location.search);
+        })();
+    </script>
+    <meta http-equiv="refresh" content="1;url=./#/settings">
 </head>
-<body data-page="settings">
-<main id="main">
-    <section class="page-head"><div class="container narrow"><span class="eyebrow">My account</span><h1>Settings</h1></div></section>
-    <section class="container narrow mt-2 stack" id="settings">
-        <div class="card card-pad" id="signed-out" hidden>
-            <h3>Sign in to manage your account</h3>
-            <p class="muted">See your bookings, classes and profile in one place.</p>
-            <button class="btn btn-primary" data-signin>Sign in or create account</button>
-        </div>
-
-        <div class="card card-pad" data-auth>
-            <h3><i class='bx bx-user'></i> Account</h3>
-            <form id="account-form" class="form-grid">
-                <div class="row full"><img id="acc-photo" class="avatar" style="width:64px;height:64px" src="assets/img/profile.png" alt="" onerror="this.src='assets/img/profile.png'">
-                    <label class="field grow"><span>Photo</span><input type="file" name="photo" accept="image/jpeg,image/png,image/webp"></label></div>
-                <label class="field"><span>Name</span><input name="name" maxlength="120" required></label>
-                <label class="field"><span>Phone / WhatsApp</span><input name="phone" type="tel" maxlength="40"></label>
-                <label class="field"><span>Location</span><input name="location" maxlength="200" placeholder="City, country"></label>
-                <label class="field"><span>Email</span><input name="email" disabled></label>
-                <div class="form-actions full"><button class="btn btn-primary" type="submit">Save</button></div>
-            </form>
-        </div>
-
-        <div class="card card-pad">
-            <h3><i class='bx bx-palette'></i> Appearance</h3>
-            <div class="checks" id="theme-choice">
-                <label><input type="radio" name="theme" value="system"> <i class='bx bx-desktop'></i>Match my device</label>
-                <label><input type="radio" name="theme" value="light"> <i class='bx bx-sun'></i>Light</label>
-                <label><input type="radio" name="theme" value="dark"> <i class='bx bx-moon'></i>Dark</label>
-            </div>
-            <div class="mt-2"><button class="btn btn-sm" data-install hidden><i class='bx bx-download'></i> Install RehabVerve on this device</button></div>
-        </div>
-
-        <div class="card card-pad" data-auth id="bookings">
-            <div class="row-between"><h3 class="mb-0"><i class='bx bx-calendar-check'></i> My bookings</h3><a class="btn btn-sm" href="teletherapy.html#book">New booking</a></div>
-            <div id="bookings-list" class="list mt-2"><div class="spinner"></div></div>
-        </div>
-
-        <div class="card card-pad" data-auth>
-            <h3><i class='bx bx-briefcase'></i> Professional listing</h3>
-            <div id="pro-status"><div class="spinner"></div></div>
-        </div>
-
-        <div class="card card-pad" data-auth>
-            <h3><i class='bx bx-lock-alt'></i> Security</h3>
-            <form id="password-form" class="form-grid">
-                <label class="field"><span>Current password</span><input name="current" type="password" autocomplete="current-password"></label>
-                <label class="field"><span>New password</span><input name="next" type="password" autocomplete="new-password" minlength="6"></label>
-                <div class="form-actions full"><button class="btn" type="submit">Change password</button></div>
-            </form>
-            <hr>
-            <div class="row-between">
-                <button class="btn" data-signout><i class='bx bx-log-out'></i> Sign out</button>
-                <button class="btn btn-danger" id="delete-account"><i class='bx bx-trash'></i> Delete my account</button>
-            </div>
-        </div>
-    </section>
-</main>
-
-<script src="assets/js/data.js"></script>
-<script src="assets/js/app.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-storage-compat.js"></script>
-<script defer src="assets/js/firebase-init.js"></script>
-<script defer src="assets/js/settings.js"></script>
-</body>
+<body><p><a href="./#/settings">Continue to RehabVerve</a></p></body>
 </html>

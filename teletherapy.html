@@ -5,129 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Teletherapy — RehabVerve</title>
     <meta name="description" content="Online therapy with licensed professionals — speech, occupational, physiotherapy, counselling, behaviour and family therapy. Book a video session in minutes.">
-    <meta name="theme-color" content="#ffffff">
     <meta property="og:title" content="Teletherapy — RehabVerve">
     <meta property="og:description" content="Secure video sessions with licensed rehab professionals, from anywhere.">
     <meta property="og:image" content="https://www.rehabverve.com.ng/assets/img/icon-512.png">
     <link rel="canonical" href="https://www.rehabverve.com.ng/teletherapy.html">
-    <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
-    <link rel="manifest" href="manifest.json">
-    <script src="assets/js/theme.js"></script>
-    <link rel="stylesheet" href="assets/css/app.css">
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <meta name="robots" content="noindex">
+    <script>
+        // This page moved into the RehabVerve app: keep the query and section, then go there
+        (function () {
+            var sub = (location.hash.match(/^#([\w-]+)$/) || [])[1];
+            location.replace('./#/teletherapy' + (sub ? '/' + sub : '') + location.search);
+        })();
+    </script>
+    <meta http-equiv="refresh" content="1;url=./#/teletherapy">
 </head>
-<body data-page="teletherapy">
-<main id="main">
-    <section class="hero">
-        <div class="container hero-grid">
-            <div>
-                <span class="eyebrow">Online teletherapy</span>
-                <h1>Don’t let distance delay <span>the help you deserve.</span></h1>
-                <p class="lead">Licensed therapists for individuals, couples, families and children — in video sessions from your phone, tablet or computer, wherever you are in Africa or abroad.</p>
-                <div class="row mt-3">
-                    <button type="button" class="btn btn-primary btn-lg" data-book><i class='bx bx-calendar-plus'></i> Book a session</button>
-                    <a class="btn btn-lg" href="form.html"><i class='bx bx-file'></i> Start a free intake</a>
-                </div>
-                <div class="row mt-2 muted" style="gap:18px">
-                    <span><i class='bx bx-check-shield'></i> Private &amp; confidential</span>
-                    <span><i class='bx bx-calendar'></i> Evenings &amp; weekends</span>
-                    <span><i class='bx bx-world'></i> Clients near and abroad</span>
-                </div>
-            </div>
-            <div class="card card-pad">
-                <h3>How would you like to start?</h3>
-                <div class="list mt-2">
-                    <button type="button" class="card list-item clickable" data-book data-service="Instant consultation (15 min)" style="text-align:left;width:100%;color:inherit"><div><h4>Quick consultation</h4><p>A 15-minute call to understand your needs</p></div><i class='bx bx-chevron-right'></i></button>
-                    <a class="card list-item clickable" href="professionals.html?mode=tele" style="color:inherit"><div><h4>Choose a therapist yourself</h4><p>Browse professionals who work online</p></div><i class='bx bx-chevron-right'></i></a>
-                    <a class="card list-item clickable" href="form.html" style="color:inherit"><div><h4>Answer a few questions</h4><p>We match you with the right specialist</p></div><i class='bx bx-chevron-right'></i></a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="container">
-            <div class="section-head"><div><span class="eyebrow">Care for every stage of life</span><h2>Who is teletherapy for?</h2></div></div>
-            <div class="tabs" role="tablist" id="aud-tabs">
-                <button role="tab" aria-selected="true" data-aud="individual">Individuals</button>
-                <button role="tab" aria-selected="false" data-aud="couple">Couples</button>
-                <button role="tab" aria-selected="false" data-aud="family">Families</button>
-                <button role="tab" aria-selected="false" data-aud="child">Children</button>
-            </div>
-            <div class="card card-pad mt-2" id="aud-panel" role="tabpanel"></div>
-        </div>
-    </section>
-
-    <section class="section section-alt">
-        <div class="container">
-            <div class="section-head"><div><span class="eyebrow">How it works</span><h2>Structured, personal, professional</h2></div></div>
-            <ol class="steps-list">
-                <li class="card"><h3>Tell us what you need</h3><p class="muted mb-0">Share your goals and concerns in a short, confidential intake — or book directly.</p></li>
-                <li class="card"><h3>We match you</h3><p class="muted mb-0">Our clinical team matches you with the right specialist, or a team for complex needs.</p></li>
-                <li class="card"><h3>Meet online</h3><p class="muted mb-0">Attend scheduled video sessions from home on any device.</p></li>
-                <li class="card"><h3>Track progress</h3><p class="muted mb-0">Therapy plans, home programmes and follow-up between sessions.</p></li>
-            </ol>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="container">
-            <div class="section-head"><div><span class="eyebrow">Services</span><h2>Teletherapy and rehabilitation services</h2></div></div>
-            <div class="grid" id="services"></div>
-        </div>
-    </section>
-
-    <section class="section section-alt" id="pricing">
-        <div class="container">
-            <div class="section-head"><div><span class="eyebrow">Plans</span><h2>Simple, transparent pricing</h2><p>Pay per session or choose a monthly package. Ask about family and long-term discounts.</p></div></div>
-            <div class="grid-3" id="plans"></div>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="container">
-            <div class="section-head"><div><span class="eyebrow">Stories</span><h2>What families say</h2></div></div>
-            <div class="grid">
-                <figure class="card quote"><blockquote>“I finally feel supported and understood. The therapist matched with us truly listens and cares.”</blockquote><figcaption>A.M. · Parent of a 6-year-old</figcaption></figure>
-                <figure class="card quote"><blockquote>“Our child’s progress has been amazing — we finally see results.”</blockquote><figcaption>T.K. · Parent of a 4-year-old</figcaption></figure>
-                <figure class="card quote"><blockquote>“Professional, caring, and always available. I didn’t have to travel — the sessions came to us.”</blockquote><figcaption>R.J. · Adult client</figcaption></figure>
-                <figure class="card quote"><blockquote>“The multidisciplinary team approach made all the difference.”</blockquote><figcaption>M.N. · Family caregiver</figcaption></figure>
-            </div>
-        </div>
-    </section>
-
-    <section class="section section-alt">
-        <div class="container narrow">
-            <div class="section-head"><div><span class="eyebrow">FAQ</span><h2>Your questions, answered</h2></div></div>
-            <details class="faq"><summary>Is teletherapy as effective as in-person sessions?</summary><p>For many needs — speech and language, counselling, parent coaching, behaviour support and many exercise programmes — online sessions work very well. Your therapist will tell you if part of your care needs to be in person, and can refer you to a clinic or home-visit service nearby.</p></details>
-            <details class="faq"><summary>Who will I be matched with?</summary><p>Our clinical team reviews your request and assigns a suitable licensed specialist — or a multidisciplinary team when that helps. You can also pick a professional yourself from the directory.</p></details>
-            <details class="faq"><summary>How do I know the professionals are qualified?</summary><p>Every professional applies with their licence or registration, which our team reviews. Listings we have checked show a “Verified” badge.</p></details>
-            <details class="faq"><summary>Is my information confidential?</summary><p>Yes. Your booking details are only visible to you, the RehabVerve care team and the professional you book. See our <a href="privacy.html">Privacy Policy</a>.</p></details>
-            <details class="faq"><summary>Can I join from outside Nigeria?</summary><p>Yes — clients join from across Africa and abroad. Tell us your time zone in the booking notes.</p></details>
-            <details class="faq"><summary>How do payments work?</summary><p>Our team confirms your plan and how to pay when we confirm your booking. There are no hidden fees.</p></details>
-            <details class="faq"><summary>What if I need to reschedule?</summary><p>Message us or your therapist — continuity of your care is our priority. You can also cancel a request from <a href="settings.html#bookings">My bookings</a>.</p></details>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="container">
-            <div class="banner tint">
-                <div><h2>Start your journey today</h2><p class="lead">Book a session for yourself, your child or your family.</p>
-                    <div class="row"><button type="button" class="btn btn-primary btn-lg" data-book><i class='bx bx-calendar-plus'></i> Book a session</button><a class="btn btn-lg" id="wa-cta" href="#" target="_blank" rel="noopener"><i class='bx bxl-whatsapp'></i> Ask on WhatsApp</a></div>
-                </div>
-                <div class="banner-art" aria-hidden="true"><i class='bx bx-heart-circle'></i></div>
-            </div>
-        </div>
-    </section>
-</main>
-
-<script src="assets/js/data.js"></script>
-<script src="assets/js/app.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
-<script defer src="assets/js/firebase-init.js"></script>
-<script defer src="assets/js/booking.js"></script>
-<script defer src="assets/js/tele.js"></script>
-</body>
+<body><p><a href="./#/teletherapy">Continue to RehabVerve</a></p></body>
 </html>

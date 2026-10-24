@@ -153,7 +153,7 @@
                         <p class="muted">Our care team will confirm your specialist and time shortly. You can follow this booking under <strong>My bookings</strong>.</p>
                         <div class="row" style="justify-content:center">
                             <a class="btn btn-whatsapp" href="${esc(RV.waLink(cfg.whatsapp, lines))}" target="_blank" rel="noopener"><i class='bx bxl-whatsapp'></i> Also message us</a>
-                            <a class="btn btn-primary" href="settings.html#bookings">My bookings</a>
+                            <a class="btn btn-primary" href="#/settings/bookings">My bookings</a>
                         </div>
                     </div>`;
             } catch (err) {

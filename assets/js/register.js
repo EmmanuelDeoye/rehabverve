@@ -162,7 +162,7 @@
                 <i class='bx bx-check-circle' style="font-size:3.5rem;color:var(--success)"></i>
                 <h2>Application received</h2>
                 <p class="muted">Thank you! Our team reviews applications within a few working days. We will contact you at <strong>${esc(user.email || '')}</strong>. Once approved, your profile goes live with your fees and coverage areas.</p>
-                <div class="row" style="justify-content:center"><a class="btn btn-primary" href="index.html">Back to home</a><a class="btn" href="settings.html">My account</a></div>
+                <div class="row" style="justify-content:center"><a class="btn btn-primary" href="#/">Back to home</a><a class="btn" href="#/settings">My account</a></div>
             </div>`;
         window.scrollTo({ top: 0 });
     }
@@ -181,7 +181,7 @@
         const status = $('#status');
         if (existing && existing.status === 'approved' || (proSnap && proSnap.exists())) {
             form.hidden = true;
-            status.innerHTML = `<div class="card card-pad center stack"><i class='bx bx-badge-check' style="font-size:3rem;color:var(--primary)"></i><h2>You are listed on RehabVerve</h2><p class="muted">Update your fees, coverage and details from your profile.</p><a class="btn btn-primary" href="users.html?id=${encodeURIComponent(s.user.uid)}">Go to my profile</a></div>`;
+            status.innerHTML = `<div class="card card-pad center stack"><i class='bx bx-badge-check' style="font-size:3rem;color:var(--primary)"></i><h2>You are listed on RehabVerve</h2><p class="muted">Update your fees, coverage and details from your profile.</p><a class="btn btn-primary" href="#/profile?id=${encodeURIComponent(s.user.uid)}">Go to my profile</a></div>`;
             return;
         }
         form.hidden = false;

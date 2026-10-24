@@ -37,7 +37,7 @@
         const teaching = classes.filter(c => c.tutorId === s.user.uid);
         if (teaching.length) {
             $('#teaching').hidden = false;
-            $('#teaching-list').innerHTML = teaching.map(c => cards.klass(c, { action: `<a class="btn btn-sm btn-primary" href="class.html?id=${encodeURIComponent(c.id)}">Manage</a>` })).join('');
+            $('#teaching-list').innerHTML = teaching.map(c => cards.klass(c, { action: `<a class="btn btn-sm btn-primary" href="#/class?id=${encodeURIComponent(c.id)}">Manage</a>` })).join('');
         }
         const mine = RV.list((await fb.db.ref('userEnrollments/' + s.user.uid).once('value').catch(() => null))?.val());
         if (!mine.length) return;
@@ -47,10 +47,10 @@
             const e = statuses[i] || {};
             const c = classes.find(x => x.id === m.id) || {};
             const badge = e.status === 'active' ? 'badge-success' : e.status === 'rejected' ? 'badge-danger' : 'badge-warning';
-            return `<a class="card list-item clickable" href="class.html?id=${encodeURIComponent(m.id)}" style="color:inherit">
+            return `<a class="card list-item clickable" href="#/class?id=${encodeURIComponent(m.id)}" style="color:inherit">
                 <div><h4>${esc(c.title || m.title || 'Class')}</h4><p>${esc(e.childName || '')}${c.schedule ? ' · ' + esc(c.schedule) : ''}</p></div>
                 <span class="badge ${badge}">${esc(e.status === 'active' ? 'Enrolled' : e.status || 'Removed')}</span></a>`;
         }).join('');
-        if (location.hash === '#mine') $('#mine').scrollIntoView();
+        if (RV.route.sub === 'mine') $('#mine').scrollIntoView();
     });
 })();

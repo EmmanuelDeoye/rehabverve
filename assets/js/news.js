@@ -12,10 +12,9 @@
             (!q || lower(p.title).includes(q) || lower(p.description).includes(q) || lower(p.content).includes(q)));
         const feature = cat === 'All' && !q ? list[0] : null;
         $('#featured').innerHTML = feature ? `
-            <a class="card banner clickable" href="fullgist.html?id=${encodeURIComponent(cards.postId(feature))}" style="color:inherit;text-decoration:none">
-                <div><span class="eyebrow">${esc(feature.category || 'Latest')}</span><h2>${esc(feature.title || '')}</h2>
-                <p class="lead">${esc(String(feature.description || '').slice(0, 220))}</p><span class="muted">${esc(RV.date(feature.timestamp))}</span></div>
-                <img src="${esc(RV.img(feature.img, 'assets/img/blog-placeholder.jpg'))}" alt="" style="border-radius:14px;aspect-ratio:4/3;object-fit:cover;width:100%" onerror="this.src='assets/img/blog-placeholder.jpg'">
+            <a class="card feature-post clickable" href="#/article?id=${encodeURIComponent(cards.postId(feature))}">
+                <img src="${esc(RV.img(feature.img, 'assets/img/blog-placeholder.jpg'))}" alt="" onerror="this.src='assets/img/blog-placeholder.jpg'">
+                <div class="feature-copy"><span class="tag">${esc(feature.category || 'Latest')}</span><h2>${esc(feature.title || '')}</h2><span>${esc(RV.date(feature.timestamp))}</span></div>
             </a>` : '';
         const rest = feature ? list.slice(1) : list;
         $('#count').textContent = `${list.length} update${list.length === 1 ? '' : 's'}`;

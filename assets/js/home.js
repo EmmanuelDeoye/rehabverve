@@ -5,7 +5,11 @@
 
     $('#home-category').insertAdjacentHTML('beforeend', RV.optionList(D.CATEGORIES.map(c => ({ value: c.value, label: c.label }))));
     $('#disciplines').innerHTML = D.CATEGORIES.map(c => `
-        <a class="card tile clickable" href="professionals.html?category=${c.value}"><i class='bx ${c.icon}'></i><span>${esc(c.short)}</span></a>`).join('');
+        <a class="disc" href="#/professionals?category=${c.value}"><i class='bx ${c.icon}'></i><span>${esc(c.short.replace(/ & .*/, ''))}</span></a>`).join('');
+    // Phones show the first eight; the rest open on request
+    const more = $('#disc-more');
+    more.hidden = D.CATEGORIES.length <= 8;
+    more.addEventListener('click', () => { $('#disciplines').classList.add('open'); more.hidden = true; });
 
     ['#featured', '#mobile', '#centers'].forEach(id => { $(id).innerHTML = RV.skeletons(4); });
     $('#news').innerHTML = RV.skeletons(3);
@@ -19,11 +23,6 @@
         pros = pros.filter(RV.isLive);
         centers = centers.filter(RV.isLive);
         const open = classes.filter(c => c.status === 'open');
-
-        $('#stat-pros').textContent = pros.length.toLocaleString();
-        $('#stat-centers').textContent = centers.length.toLocaleString();
-        $('#stat-classes').textContent = open.length.toLocaleString();
-        $('#home-stats').hidden = pros.length + centers.length === 0;
 
         // Featured first, then verified, then the admin's order
         const featured = pros.slice().sort((a, b) => (b.featured === true) - (a.featured === true) || (b.verified === true) - (a.verified === true) || byPos(a, b)).slice(0, 10);

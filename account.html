@@ -5,57 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Sign in — RehabVerve</title>
     <meta name="description" content="Sign in or create a free RehabVerve account to book care, enrol in classes and follow your requests.">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
-    <link rel="manifest" href="manifest.json">
-    <script src="assets/js/theme.js"></script>
-    <link rel="stylesheet" href="assets/css/app.css">
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <meta name="robots" content="noindex">
+    <script>
+        // This page moved into the RehabVerve app: keep the query and section, then go there
+        (function () {
+            var sub = (location.hash.match(/^#([\w-]+)$/) || [])[1];
+            location.replace('./#/signin' + (sub ? '/' + sub : '') + location.search);
+        })();
+    </script>
+    <meta http-equiv="refresh" content="1;url=./#/signin">
 </head>
-<body data-page="account">
-<main id="main" class="section">
-    <div class="container narrow">
-        <div class="grid-2" style="align-items:center">
-            <div>
-                <span class="eyebrow">Your RehabVerve account</span>
-                <h1>One account for all your care</h1>
-                <ul class="stack" style="list-style:none;padding:0">
-                    <li class="row"><i class='bx bx-calendar-check' style="color:var(--primary);font-size:1.4rem"></i>Book and track sessions and home visits</li>
-                    <li class="row"><i class='bx bx-book-open' style="color:var(--primary);font-size:1.4rem"></i>Enrol your child in classes and hand in assignments</li>
-                    <li class="row"><i class='bx bx-bot' style="color:var(--primary);font-size:1.4rem"></i>Use the free AI assessment</li>
-                    <li class="row"><i class='bx bx-star' style="color:var(--primary);font-size:1.4rem"></i>Review the professionals you see</li>
-                </ul>
-            </div>
-            <div class="card card-pad stack" id="box">
-                <h3>Get started</h3>
-                <button class="btn btn-primary btn-block" data-open="signup">Create a free account</button>
-                <button class="btn btn-block" data-open="signin">I already have an account</button>
-                <p class="hint mb-0">Professional, center or tutor? <a href="registration.html">Apply to be listed</a>.</p>
-            </div>
-        </div>
-    </div>
-</main>
-
-<script src="assets/js/data.js"></script>
-<script src="assets/js/app.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
-<script defer src="assets/js/firebase-init.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Only same-site pages are allowed as the place to return to
-        var next = new URLSearchParams(location.search).get('next') || '';
-        if (!/^[a-z0-9_-]+\.html([?#][^<>"']*)?$/i.test(next)) next = 'settings.html';
-        document.querySelectorAll('[data-open]').forEach(function (b) {
-            b.addEventListener('click', function () { RV.openAuth(b.dataset.open); });
-        });
-        var first = true;
-        RV.onAuth(function (s) {
-            if (s.user) { location.replace(next); return; }
-            if (first) { first = false; RV.openAuth(new URLSearchParams(location.search).get('mode') === 'signin' ? 'signin' : 'signup'); }
-        });
-    });
-</script>
-</body>
+<body><p><a href="./#/signin">Continue to RehabVerve</a></p></body>
 </html>

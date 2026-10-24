@@ -13,7 +13,7 @@
 
     RV.onAuth(s => {
         if (!id) {
-            if (s.user) location.replace(`users.html?id=${encodeURIComponent(s.user.uid)}`);
+            if (s.user) RV.go(`#/profile?id=${encodeURIComponent(s.user.uid)}`, { replace: true });
             else {
                 head.innerHTML = `<div class="card card-pad center"><h1>Your RehabVerve profile</h1><p class="muted">Sign in to see and edit your profile.</p><button class="btn btn-primary" data-signin>Sign in</button></div>`;
                 body.innerHTML = '';
@@ -55,7 +55,7 @@
         if (!kind) {
             if (uid === id) return renderAccountOnly(s);
             document.title = 'Profile not found — RehabVerve';
-            head.innerHTML = `<div class="card card-pad center"><h1>Profile not available</h1><p class="muted">This profile is private or no longer listed.</p><a class="btn btn-primary" href="professionals.html">Find a professional</a></div>`;
+            head.innerHTML = `<div class="card card-pad center"><h1>Profile not available</h1><p class="muted">This profile is private or no longer listed.</p><a class="btn btn-primary" href="#/professionals">Find a professional</a></div>`;
             body.innerHTML = '';
             return;
         }
@@ -92,14 +92,15 @@
         head.innerHTML = `
             <div class="card profile-card">
                 <img class="photo" src="${esc(RV.img(p.img))}" alt="" onerror="this.src='assets/img/profile.png'">
-                <div><h1>${esc(p.name || 'My account')}</h1><p class="sub">${esc(s.user.email || '')}</p><p class="muted mb-0">Only you can see this page.</p></div>
-                <div class="profile-actions"><a class="btn" href="settings.html"><i class='bx bx-cog'></i> Settings</a></div>
+                <div><h1>${esc(p.name || 'My account')}</h1><p class="sub">${esc(s.user.email || '')}</p><p class="muted mb-0"><i class='bx bx-lock-alt'></i> Only you</p></div>
+                <div class="profile-actions"><a class="btn" href="#/settings"><i class='bx bx-cog'></i> Settings</a></div>
             </div>`;
         body.innerHTML = `
-            <div class="banner mt-3">
-                <div><h2>Are you a rehab professional, center or tutor?</h2><p class="lead">Create a public listing with your fees and the areas you cover so patients can find and book you.</p><a class="btn btn-primary" href="registration.html">Apply to join</a></div>
-                <div class="banner-art" aria-hidden="true"><i class='bx bx-id-card'></i></div>
-            </div>`;
+            <a class="promo promo-green mt-3" href="#/join">
+                <span class="promo-ico"><i class='bx bx-extension'></i></span>
+                <span class="promo-text"><strong>Get listed</strong><span>For professionals, centers and tutors</span></span>
+                <i class='bx bx-chevron-right promo-go'></i>
+            </a>`;
     }
 
     function render({ kind, L, key, owner, reviews, online, views, s }) {
