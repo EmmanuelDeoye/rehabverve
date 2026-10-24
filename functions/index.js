@@ -136,6 +136,13 @@ exports.aiAssist = onCall({ timeoutSeconds: 120, memory: '256MiB' }, async reque
 });
 
 exports.careChat = require('./care').careChat;
+
+// Admin-only health check for the AI features (used by Admin → AI newsroom → Check AI setup)
+exports.aiStatus = onCall({ timeoutSeconds: 30 }, async request => {
+    if (!request.auth) throw new HttpsError('unauthenticated', 'Please sign in.');
+    if ((await getDatabase().ref(`admins/${request.auth.uid}`).get()).val() !== true) throw new HttpsError('permission-denied', 'Admins only.');
+    return require('./ai').checkSetup();
+});
 exports.aiNewsroom = require('./newsroom').aiNewsroom;
 
 exports.syncAdminClaim = onValueWritten({ ref: '/admins/{uid}' }, async event => {

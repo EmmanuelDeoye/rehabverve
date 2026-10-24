@@ -269,6 +269,10 @@
             'storage/unauthorized': 'That file type or size is not allowed.'
         };
         if (map[code]) return map[code];
+        // The browser could not reach a Cloud Function at all (not deployed, blocked or offline)
+        if ((code === 'functions/internal' && /^internal( \[\d+\])?$/i.test((err && err.message) || '')) || code === 'functions/not-found') {
+            return 'We could not reach our AI service. Please try again in a moment.';
+        }
         if (/permission_denied/i.test((err && err.message) || '')) return map.PERMISSION_DENIED;
         return (err && err.message) || 'Something went wrong. Please try again.';
     };
@@ -426,10 +430,9 @@
                 <a href="#/" class="brand" aria-label="RehabVerve home">${BRAND}</a>
                 <nav class="main-nav" aria-label="Main">${NAV.map(n => navLink(n)).join('')}</nav>
                 <div class="header-actions">
-                    <a href="#/assessment" class="btn btn-icon btn-sm btn-ghost hide-sm" data-nav="assessment" aria-label="AI assessment" title="AI assessment"><i class='bx bx-bot'></i></a>
-                    <button type="button" class="btn btn-icon btn-sm btn-ghost" data-theme-toggle aria-label="Switch light or dark theme" title="Theme"><i class='bx bx-moon'></i></button>
-                    <div id="rv-account" class="row" style="gap:8px"></div>
-                    <button type="button" class="btn btn-icon btn-sm btn-ghost menu-toggle" id="rv-menu" aria-label="Open menu" aria-controls="rv-drawer" aria-expanded="false"><i class='bx bx-menu-alt-right'></i></button>
+                    <a href="#/assessment" class="hdr-btn hide-md" data-nav="assessment" aria-label="AI check" title="AI check"><i class='bx bx-bot'></i></a>
+                    <div id="rv-account" class="hdr-account"></div>
+                    <button type="button" class="hdr-btn menu-toggle" id="rv-menu" aria-label="Open menu" aria-controls="rv-drawer" aria-expanded="false"><i class='bx bx-menu-alt-right'></i></button>
                 </div>
             </div>
         </header>
@@ -497,7 +500,7 @@
                 </div>
                 <div class="footer-bottom">
                     <span>© ${new Date().getFullYear()} RehabVerve${cfg.address ? ` · ${RV.esc(cfg.address)}` : ''}</span>
-                    <nav><a href="#/privacy">Privacy</a><a href="#/terms">Terms</a></nav>
+                    <nav><a href="#/privacy">Privacy</a><a href="#/terms">Terms</a><button type="button" class="link-btn" data-theme-toggle><i class='bx bx-moon'></i> Theme</button></nav>
                 </div>
             </div>
         </footer>`;
@@ -603,7 +606,8 @@
         if (!host) return;
         const u = state.user;
         if (!u) {
-            host.innerHTML = `<button type="button" class="btn btn-primary btn-sm" data-signin>Sign in</button>`;
+            document.body.classList.remove('signed-in');
+            host.innerHTML = `<button type="button" class="btn btn-primary btn-sm hdr-signin" data-signin><i class='bx bx-log-in'></i>Sign in</button>`;
             drawer.innerHTML = `<button type="button" class="btn btn-primary btn-block" data-signin>Sign in or create account</button>
                 <button type="button" class="btn btn-block" data-theme-toggle><i class='bx bx-moon'></i> Light / dark theme</button>
                 <button type="button" class="btn btn-block" data-install hidden><i class='bx bx-download'></i> Install the app</button>`;
@@ -618,24 +622,30 @@
             ];
             if (state.isAdmin) links.unshift(['bx-shield-quarter', 'Admin console', '#/admin']);
             const menuLinks = links.map(([i, l, h]) => `<a href="${h}"><i class='bx ${i}'></i>${l}</a>`).join('');
+            const photo = RV.esc(RV.img(p.img));
+            document.body.classList.add('signed-in');
+            // On phones and tablets the photo opens the menu drawer; on wide screens, the account menu
             host.innerHTML = `
                 <div class="user-menu">
-                    <button type="button" class="avatar-btn" id="rv-user-btn" aria-haspopup="true" aria-expanded="false" aria-label="Account menu">
-                        <img class="avatar" src="${RV.esc(RV.img(p.img))}" alt="" onerror="this.src='assets/img/profile.png'">
+                    <button type="button" class="avatar-btn" id="rv-user-btn" aria-haspopup="true" aria-expanded="false" aria-label="Menu and account">
+                        <img class="avatar" src="${photo}" alt="" onerror="this.src='assets/img/profile.png'"><span class="avatar-menu" aria-hidden="true"><i class='bx bx-menu'></i></span>
                     </button>
                     <div class="user-menu-panel" id="rv-user-panel" hidden>
                         <div class="menu-head"><strong>${RV.esc(name)}</strong><small>${RV.esc(u.email || '')}</small></div>
                         ${menuLinks}
+                        <button type="button" data-theme-toggle><i class='bx bx-moon'></i>Light / dark theme</button>
                         <button type="button" data-signout><i class='bx bx-log-out'></i>Sign out</button>
                     </div>
                 </div>`;
-            drawer.innerHTML = `${links.map(([i, l, h]) => `<a class="btn btn-block" href="${h}"><i class='bx ${i}'></i> ${l}</a>`).join('')}
+            drawer.innerHTML = `<div class="drawer-user"><img src="${photo}" alt="" onerror="this.src='assets/img/profile.png'"><span><strong>${RV.esc(name)}</strong><small>${RV.esc(u.email || '')}</small></span></div>
+                ${links.map(([i, l, h]) => `<a class="btn btn-block" href="${h}"><i class='bx ${i}'></i> ${l}</a>`).join('')}
                 <button type="button" class="btn btn-block" data-theme-toggle><i class='bx bx-moon'></i> Light / dark theme</button>
                 <button type="button" class="btn btn-block" data-install hidden><i class='bx bx-download'></i> Install the app</button>
                 <button type="button" class="btn btn-block" data-signout><i class='bx bx-log-out'></i> Sign out</button>`;
             const btn = $('#rv-user-btn'), panel = $('#rv-user-panel');
             btn.addEventListener('click', e => {
                 e.stopPropagation();
+                if (matchMedia('(max-width: 960px)').matches) { RV.openDrawer(); return; }
                 panel.hidden = !panel.hidden;
                 btn.setAttribute('aria-expanded', String(!panel.hidden));
             });
@@ -653,6 +663,7 @@
             document.body.style.overflow = on ? 'hidden' : '';
         };
         RV.closeDrawer = () => { if (drawer.classList.contains('open')) open(false); };
+        RV.openDrawer = () => open(true);
         toggle.addEventListener('click', () => open(true));
         backdrop.addEventListener('click', () => open(false));
         $('#rv-drawer-close').addEventListener('click', () => open(false));

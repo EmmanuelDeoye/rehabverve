@@ -19,7 +19,7 @@
     };
     const aiError = err => {
         const code = String((err && err.code) || '').replace(/^functions\//, '');
-        if (code === 'resource-exhausted' || code === 'unauthenticated' || code === 'invalid-argument' || code === 'permission-denied') return err.message;
+        if (['resource-exhausted', 'unauthenticated', 'invalid-argument', 'permission-denied', 'failed-precondition'].includes(code)) return err.message;
         if (/cancelled/i.test((err && err.message) || '')) return 'Please sign in to continue.';
         return 'The AI service is busy or unreachable. Please try again in a minute.';
     };

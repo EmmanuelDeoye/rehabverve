@@ -79,9 +79,19 @@ private browser window. It must say **Permission denied**. If it shows `{"api_ke
 the new rules are not deployed yet — deploy them (above) and then replace the key at
 platform.deepseek.com, because it was readable.
 
-```bash
-npm run deploy:functions
-```
+**Deploying, step by step (Windows, macOS or Linux):**
+
+1. Firebase Console → ⚙ Project settings → *Usage and billing* → switch the project to the
+   **Blaze** plan (functions cannot be deployed on the free plan).
+2. Install Node.js 22 from nodejs.org, then open a terminal in the repository folder.
+3. `npm install -g firebase-tools` then `firebase login` (sign in with the project owner's Google account).
+4. `cd functions` → `npm install` → `cd ..`
+5. `firebase deploy --only database,storage,functions --project tolexars-ac868`
+6. Open the website → **Admin → AI newsroom → Check AI setup**. All rows must be green.
+
+If the check says the functions cannot be reached, step 5 did not finish — run it again and
+read the last lines it prints. A plain **“internal [0]”** error anywhere on the site means the
+same thing: the browser could not reach the functions at all.
 
 Settings live in `functions/.env`:
 

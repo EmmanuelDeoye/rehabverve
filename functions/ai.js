@@ -11,6 +11,7 @@ const { getDatabase } = require('firebase-admin/database');
 const AI_ENDPOINT = defineString('AI_ENDPOINT', { default: 'https://api.deepseek.com' });
 const AI_MODEL = defineString('AI_MODEL', { default: 'deepseek-chat' });
 const KEY_PATH = 'tokens/deepseek/api_key';
+const readKey = raw => (typeof raw === 'string' ? raw.trim().replace(/^["'\s]+|["'\s]+$/g, '') : '');
 
 const clean = (value, max) => String(value == null ? '' : value)
     .replace(/[\u0000-\u0008\u000b-\u001f\u007f]/g, ' ')
@@ -22,8 +23,7 @@ const today = () => new Date().toISOString().slice(0, 10);
 let cachedKey = { value: '', at: 0 };
 async function apiKey() {
     if (cachedKey.value && Date.now() - cachedKey.at < 10 * 60 * 1000) return cachedKey.value;
-    const raw = (await getDatabase().ref(KEY_PATH).get()).val();
-    const value = typeof raw === 'string' ? raw.trim() : '';
+    const value = readKey((await getDatabase().ref(KEY_PATH).get()).val());
     if (!value) {
         console.error(`No AI key at /${KEY_PATH}`);
         throw new HttpsError('failed-precondition', 'The AI service is not set up yet.');
@@ -68,4 +68,28 @@ async function useQuota(path, limit) {
     return result.committed;
 }
 
-module.exports = { callAI, clean, today, useQuota };
+// For the admin "Check AI setup" button: is the key there, and does the AI service accept it?
+// Never returns the key itself.
+async function checkSetup() {
+    cachedKey = { value: '', at: 0 };
+    const key = readKey((await getDatabase().ref(KEY_PATH).get()).val());
+    const out = { key: !!key, keyLooksRight: /^sk-[A-Za-z0-9]{16,}$/.test(key), endpoint: AI_ENDPOINT.value(), model: AI_MODEL.value(), ai: 'not checked' };
+    if (!key) return out;
+    try {
+        // A one-word reply costs almost nothing and also shows an empty account balance (402)
+        const res = await fetch(`${AI_ENDPOINT.value().replace(/\/$/, '')}/chat/completions`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
+            body: JSON.stringify({ model: AI_MODEL.value(), messages: [{ role: 'user', content: 'Reply with OK.' }], max_tokens: 2 }),
+            signal: AbortSignal.timeout(20000)
+        });
+        out.ai = res.ok ? 'ok' : res.status === 401 || res.status === 403 ? 'key rejected — check or replace the key'
+            : res.status === 402 ? 'the DeepSeek account has no balance — top up at platform.deepseek.com'
+                : res.status === 429 ? 'rate limited — try again in a minute' : `error ${res.status}`;
+    } catch (err) {
+        out.ai = 'unreachable';
+    }
+    return out;
+}
+
+module.exports = { callAI, clean, today, useQuota, checkSetup };

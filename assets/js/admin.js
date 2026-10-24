@@ -689,7 +689,8 @@
     VIEWS.newsroom = async () => {
         let drafts = loadDrafts();
         main.innerHTML = `
-            <div class="row-between"><h2><i class='bx bx-bot'></i> AI newsroom</h2><a class="btn btn-sm" href="#/admin/news"><i class='bx bx-news'></i> Published posts</a></div>
+            <div class="row-between"><h2><i class='bx bx-bot'></i> AI newsroom</h2><div class="row" style="gap:8px"><button class="btn btn-sm" data-check><i class='bx bx-pulse'></i> Check AI setup</button><a class="btn btn-sm" href="#/admin/news"><i class='bx bx-news'></i> Published posts</a></div></div>
+            <div data-status hidden></div>
             <div class="card card-pad stack">
                 <div class="mode-pills" role="group" aria-label="What to write">
                     <label><input type="radio" name="nr-mode" value="mix" checked><span><i class='bx bx-shuffle'></i>Mix</span></label>
@@ -739,10 +740,38 @@
                 draw();
                 ok(`${fresh.length} draft${fresh.length === 1 ? '' : 's'} ready to review`);
             } catch (err) {
-                fail(err);
+                if (/^functions\/(internal|not-found)$/.test((err && err.code) || '') && /^(internal|not[ -]found)( \[\d+\])?$/i.test((err && err.message) || '')) {
+                    RV.toast('The AI newsroom could not be reached. Tap “Check AI setup” to see why.', 'error', 8000);
+                } else fail(err);
             } finally {
                 RV.busy(btn, false);
             }
+        });
+
+        // Health check: is the function deployed, is the key there, does DeepSeek accept it?
+        $('[data-check]', main).addEventListener('click', async e => {
+            const btn = e.currentTarget, box = $('[data-status]', main);
+            const row = (good, text) => `<li><i class='bx ${good ? 'bx-check-circle' : 'bx-x-circle'}' style="color:var(--${good ? 'success' : 'danger'})"></i>${text}</li>`;
+            RV.busy(btn, true, 'Checking…');
+            let html;
+            try {
+                await RV.loadSdk(['functions']);
+                if (!fb.functions) throw Object.assign(new Error('internal'), { code: 'functions/internal' });
+                const r = (await fb.functions.httpsCallable('aiStatus', { timeout: 30000 })()).data || {};
+                html = row(true, 'Cloud Functions are deployed and reachable')
+                    + row(r.key, r.key ? 'AI key found at <code>tokens/deepseek/api_key</code>' : 'No AI key at <code>tokens/deepseek/api_key</code> — add it in Firebase Console → Realtime Database')
+                    + (r.key && r.ai !== 'ok' ? row(r.keyLooksRight, r.keyLooksRight ? 'Key format looks right' : 'The key does not look like a DeepSeek key (it should start with <code>sk-</code>, with no spaces or quotes)') : '')
+                    + (r.key ? row(r.ai === 'ok', r.ai === 'ok' ? `DeepSeek accepts the key (${esc(r.model)})` : `DeepSeek: ${esc(r.ai)}`) : '');
+            } catch (err) {
+                const code = (err && err.code) || '';
+                html = /internal|not-found|unavailable/.test(code)
+                    ? row(false, 'The Cloud Functions cannot be reached. They are probably not deployed yet: run <code>firebase deploy --only functions</code> (needs the Blaze plan). See docs/SETUP.md.')
+                    : row(false, esc(RV.errorMessage(err)));
+            } finally {
+                RV.busy(btn, false);
+            }
+            box.innerHTML = `<div class="card card-pad"><ul class="check-list mb-0">${html}</ul></div>`;
+            box.hidden = false;
         });
 
         main.addEventListener('click', async e => {
