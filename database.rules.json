@@ -790,6 +790,12 @@
       ".read": false,
       ".write": "(auth != null && root.child('admins/' + auth.uid).val() === true)"
     },
+    "aiChat": {
+      ".read": "(auth != null && root.child('admins/' + auth.uid).val() === true)"
+    },
+    "aiNewsroom": {
+      ".read": "(auth != null && root.child('admins/' + auth.uid).val() === true)"
+    },
     "products": {
       ".read": true,
       ".write": "(auth != null && root.child('admins/' + auth.uid).val() === true)"

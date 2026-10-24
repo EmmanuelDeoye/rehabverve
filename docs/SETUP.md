@@ -22,7 +22,8 @@ The previous version exposed data. In this order:
      `applications`. After removing them, ask those applicants to reset their passwords
      (or send them reset emails from Firebase Console → Authentication).
    - *Delete old visit logs* — the old tracker stored visitors’ e-mail addresses.
-   - *Delete the old AI key record* (after step 1).
+   - *Delete the old AI key record* (after step 1). This deletes only `tokens/openAI`;
+     the DeepSeek key at `tokens/deepseek` is never touched.
    - *Verify existing listings* — only if you checked those professionals when you added them.
 
 ## 2. Make the first admin
@@ -62,29 +63,50 @@ npm run deploy:rules   # deploys database + storage rules
 > *Realtime Database → Rules* tab for nodes that other app needs before deploying, or
 > better, move RehabVerve to its own Firebase project.
 
-### Cloud Functions (AI assessment, admin claim, rating totals)
+### Cloud Functions (AI check, care chat, AI newsroom, admin claim, rating totals)
 
-Cloud Functions need the Firebase **Blaze** (pay-as-you-go) plan. Usage at RehabVerve’s
-size normally stays within the free allowance.
+Cloud Functions need the Firebase **Blaze** (pay-as-you-go) plan; the AI newsroom also needs it
+to reach news sites. Usage at RehabVerve’s size normally stays within the free allowance.
+
+**The AI key (DeepSeek).** Put the key in the Realtime Database at `tokens/deepseek/api_key`
+(a plain text value). The database rules deny every browser read of `tokens` — even admins —
+and only the Cloud Functions read it. To change the key, overwrite that value; the functions
+pick it up within 10 minutes (immediately if the old key is rejected).
+
+Check that the key is private: open
+`https://tolexars-ac868-default-rtdb.firebaseio.com/tokens/deepseek.json?shallow=true` in a
+private browser window. It must say **Permission denied**. If it shows `{"api_key":true}`,
+the new rules are not deployed yet — deploy them (above) and then replace the key at
+platform.deepseek.com, because it was readable.
 
 ```bash
-npx firebase functions:secrets:set AI_TOKEN      # paste the NEW AI key
 npm run deploy:functions
 ```
 
-Non-secret settings live in `functions/.env`:
+Settings live in `functions/.env`:
 
-| Setting          | Default                              | Meaning                              |
-|------------------|--------------------------------------|--------------------------------------|
-| `AI_ENDPOINT`    | `https://models.github.ai/inference` | OpenAI-compatible chat endpoint      |
-| `AI_MODEL`       | `openai/gpt-4.1`                     | Model name for that endpoint         |
-| `AI_DAILY_LIMIT` | `20`                                 | AI requests per user per day         |
+| Setting             | Default                    | Meaning                                       |
+|---------------------|----------------------------|-----------------------------------------------|
+| `AI_ENDPOINT`       | `https://api.deepseek.com` | OpenAI-compatible chat endpoint               |
+| `AI_MODEL`          | `deepseek-chat`            | Model name                                    |
+| `AI_DAILY_LIMIT`    | `20`                       | AI check requests per user per day            |
+| `CHAT_DAILY_LIMIT`  | `40`                       | Care-chat messages per visitor per day        |
+| `CHAT_GLOBAL_LIMIT` | `3000`                     | Care-chat messages for the whole site per day |
 
 Functions deployed:
 
-- `aiAssist` — creates questionnaires and summaries. Signed-in users only, with the daily
-  limit. The key never reaches the browser, and prompts are built on the server, so the
-  endpoint cannot be used as a general-purpose AI proxy.
+- `aiAssist` — creates AI check questionnaires and summaries. Signed-in users only, with the
+  daily limit. Prompts are built on the server, so it cannot be used as a general AI proxy.
+- `careChat` — the **RehabVerve Care** chat button on every screen. Open to visitors (no
+  account needed), limited per visitor and per day for the whole site. It knows the app’s
+  screens and how-tos (`functions/care.js` → `GUIDE`; update it when the app changes) and a
+  public summary of listings (no phone numbers or e-mails), refreshed every 5 minutes. It hands
+  people to WhatsApp customer care (+234 813 291 2880) when needed.
+- `aiNewsroom` — **Admin → AI newsroom**. Admins only, 30 runs a day. Reads recent headlines
+  from Google News and new abstracts from PubMed, drafts posts (or evergreen articles on
+  conditions, therapy approaches and frames of reference), and finds an openly licensed cover
+  photo for each on Wikimedia Commons or Openverse, checking that the image loads and adding
+  its credit. Nothing is published until an admin taps **Publish**.
 - `syncAdminClaim` — copies `admins/{uid}` into an `admin` sign-in claim, which the storage
   rules use for admin image uploads.
 - `aggregateRatings` — keeps `rating` and `ratingCount` on listings up to date.
@@ -106,7 +128,9 @@ python3 -m http.server 8000          # in another terminal, from the repository 
 
 Open `http://localhost:8000/index.html?emulator=1`. The page then talks to the local
 emulators instead of the live project, and remembers this until you open a page with
-`?emulator=0`. For the AI assistant locally, put `AI_TOKEN=…` in `functions/.secret.local`.
+`?emulator=0`. For the AI features locally, put a key at `tokens/deepseek/api_key` in the
+emulator database, and point `AI_ENDPOINT` (and the newsroom sources) at local test servers in
+`functions/.env.local` if you do not want to call the real services.
 
 ## 6. Data model (Realtime Database)
 
@@ -128,7 +152,9 @@ emulators instead of the live project, and remembers this until you open a page 
 | `submissions/{classId}/{aid}/{uid}` | student, tutor, admins | student hands in; tutor grades |
 | `blogPosts`, `slider`, `announcements`, `ads`, `siteConfig` | everyone | admins |
 | `analytics/daily`, `adStats` | admins | anyone, +1 only (no personal data) |
-| `tokens`, `visits` | nobody / admins | admins (delete only) |
+| `tokens` (AI key) | nobody — Cloud Functions only | admins |
+| `visits` | admins | admins (delete only) |
+| `aiChat`, `aiNewsroom`, `aiUsage` (daily counters) | admins | Cloud Functions only |
 
 Listing fields used for matching: `priceMin`, `priceMax`, `priceUnit`, `currency`,
 `serviceModes` (`clinic` / `home` / `tele`; centers use `onsite` / `home` / `tele`),

@@ -34,7 +34,7 @@ beforeEach(async () => {
             enrollments: { k1: { student: { childName: 'Tobi', status: 'active', createdAt: 1 } } },
             assignments: { k1: { a1: { title: 'Read', createdAt: 1 } } },
             bookings: { b1: { userId: 'alice', proId: 'pro', type: 'teletherapy', status: 'new', createdAt: 1 } },
-            tokens: { openAI: { openai_token: 'secret' } },
+            tokens: { openAI: { openai_token: 'secret' }, deepseek: { api_key: 'sk-secret' } },
             ads: { ad1: { title: 'Ad' } }
         });
     });
@@ -45,6 +45,13 @@ const as = uid => (uid ? env.authenticatedContext(uid) : env.unauthenticatedCont
 test('the old AI key and other people’s data are not readable', async () => {
     await assertFails(as(null).ref('tokens').once('value'));
     await assertFails(as('alice').ref('tokens').once('value'));
+    // The DeepSeek key: not even admins can read it from a browser; only Cloud Functions use it
+    await assertFails(as(null).ref('tokens/deepseek/api_key').once('value'));
+    await assertFails(as('boss').ref('tokens/deepseek').once('value'));
+    await assertFails(as('alice').ref('tokens/deepseek/api_key').set('sk-attacker'));
+    // AI usage counters are written only by Cloud Functions
+    await assertFails(as('alice').ref('aiChat/2026-01-01/v_x').set(0));
+    await assertFails(as(null).ref('aiNewsroom').once('value'));
     await assertFails(as('alice').ref('userdata').once('value'));
     await assertFails(as('alice').ref('userdata/pro').once('value'));
     await assertSucceeds(as('alice').ref('userdata/alice').once('value'));

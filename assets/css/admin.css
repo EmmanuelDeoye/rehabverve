@@ -32,3 +32,4 @@
     .admin-nav button { width: auto; white-space: nowrap; }
     .kv { grid-template-columns: 1fr; }
 }
+.nr-actions { display: flex; gap: 6px; flex-wrap: nowrap; }

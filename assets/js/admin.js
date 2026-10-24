@@ -17,6 +17,7 @@
         ['bookings', 'bx-calendar-check', 'Bookings'],
         ['classes', 'bx-book-open', 'Classes'],
         ['news', 'bx-news', 'News'],
+        ['newsroom', 'bx-bot', 'AI newsroom'],
         ['announcements', 'bx-bell', 'Announcements'],
         ['spotlight', 'bx-slideshow', 'Spotlight'],
         ['ads', 'bx-purchase-tag', 'Ads'],
@@ -223,7 +224,7 @@
         const views = days.map(d => (analytics && analytics[d] && analytics[d].views) || 0);
         const max = Math.max(1, ...views);
         const today = (analytics && analytics[RV.today()] && analytics[RV.today()].pages) || {};
-        const kpi = (n, label, href) => `<a class="card kpi clickable" href="#${href}" style="color:inherit;text-decoration:none"><strong>${n}</strong><span>${label}</span></a>`;
+        const kpi = (n, label, href) => `<a class="card kpi clickable" href="#/admin/${href}" style="color:inherit;text-decoration:none"><strong>${n}</strong><span>${label}</span></a>`;
         main.innerHTML = `
             <h2>Overview</h2>
             <div class="kpis">
@@ -647,24 +648,142 @@
     };
 
     /* ---------- content ---------- */
+    const NEWS_FIELDS = [
+        { k: 'title', label: 'Title', required: true, full: true },
+        { k: 'category', label: 'Category', placeholder: 'Research, Policy, Guides, Events…' },
+        { k: 'author', label: 'Author', def: 'RehabVerve Team' },
+        { k: 'timestamp', label: 'Publish date', type: 'datetime', hint: 'Leave empty for now' },
+        { k: 'published', label: 'Published (untick to keep as a draft)', type: 'checkbox', def: true },
+        { k: 'img', label: 'Cover image', type: 'image', full: true },
+        { k: 'description', label: 'Short summary', type: 'textarea', rows: 2, full: true },
+        { k: 'content', label: 'Article', type: 'textarea', rows: 14, full: true }
+    ];
     VIEWS.news = contentView({
         node: 'blogPosts', title: 'News — Rehab updates', singular: 'post',
         intro: 'Write in plain text (**bold**, *italic*, blank line for a new paragraph, links are detected) or paste simple HTML.',
         head: ['Title', 'Category', 'Date', 'Visible'],
         sort: (a, b) => RV.ts(b.timestamp) - RV.ts(a.timestamp),
         columns: p => [`<strong>${esc(p.title)}</strong>`, esc(p.category || ''), esc(RV.date(p.timestamp)), p.published === false ? '<span class="badge">draft</span>' : '<span class="badge badge-success">published</span>'],
-        fields: [
-            { k: 'title', label: 'Title', required: true, full: true },
-            { k: 'category', label: 'Category', placeholder: 'Research, Policy, Guides, Events…' },
-            { k: 'author', label: 'Author', def: 'RehabVerve Team' },
-            { k: 'timestamp', label: 'Publish date', type: 'datetime', hint: 'Leave empty for now' },
-            { k: 'published', label: 'Published (untick to keep as a draft)', type: 'checkbox', def: true },
-            { k: 'img', label: 'Cover image', type: 'image', full: true },
-            { k: 'description', label: 'Short summary', type: 'textarea', rows: 2, full: true },
-            { k: 'content', label: 'Article', type: 'textarea', rows: 14, full: true }
-        ],
+        fields: NEWS_FIELDS,
         prepare: v => ({ ...v, timestamp: v.timestamp || Date.now() })
     });
+
+    /* ---------- AI newsroom ---------- */
+    // Drafts are kept for this browser tab so they survive moving between sections.
+    const DRAFTS_KEY = 'rv-newsroom-drafts';
+    const loadDrafts = () => { try { return JSON.parse(sessionStorage.getItem(DRAFTS_KEY) || '[]'); } catch (e) { return []; } };
+    const saveDrafts = d => { try { sessionStorage.setItem(DRAFTS_KEY, JSON.stringify(d)); } catch (e) { /* storage full or blocked */ } };
+    const KIND_ICON = { news: 'bx-news', research: 'bx-test-tube', education: 'bx-book-open' };
+
+    async function publishDraft(d, overrides = {}) {
+        const post = {
+            title: d.title, category: d.category, author: 'RehabVerve Team',
+            description: d.description || '', content: d.content, img: d.img || null,
+            published: true, timestamp: Date.now(), createdAt: fb.TIMESTAMP,
+            aiGenerated: true, source: d.source || null, sourceUrl: d.sourceUrl || null, imgCredit: d.imgCredit || null,
+            ...overrides
+        };
+        await db.ref('blogPosts').push(post);
+    }
+
+    VIEWS.newsroom = async () => {
+        let drafts = loadDrafts();
+        main.innerHTML = `
+            <div class="row-between"><h2><i class='bx bx-bot'></i> AI newsroom</h2><a class="btn btn-sm" href="#/admin/news"><i class='bx bx-news'></i> Published posts</a></div>
+            <div class="card card-pad stack">
+                <div class="mode-pills" role="group" aria-label="What to write">
+                    <label><input type="radio" name="nr-mode" value="mix" checked><span><i class='bx bx-shuffle'></i>Mix</span></label>
+                    <label><input type="radio" name="nr-mode" value="news"><span><i class='bx bx-news'></i>Latest news</span></label>
+                    <label><input type="radio" name="nr-mode" value="research"><span><i class='bx bx-test-tube'></i>New research</span></label>
+                    <label><input type="radio" name="nr-mode" value="education"><span><i class='bx bx-book-open'></i>Topics</span></label>
+                </div>
+                <div class="row">
+                    <label class="pill-field" style="flex:0 0 auto"><i class='bx bx-layer'></i><span class="sr-only">How many</span>
+                        <select data-count>${[1, 2, 3, 4, 5].map(n => `<option value="${n}"${n === 3 ? ' selected' : ''}>${n} post${n === 1 ? '' : 's'}</option>`).join('')}</select></label>
+                    <button class="btn btn-primary btn-lg grow" data-run><i class='bx bxs-magic-wand'></i> Generate posts</button>
+                </div>
+                <p class="hint mb-0 icon-points"><span><i class='bx bx-globe'></i>Google News + PubMed</span><span><i class='bx bx-image'></i>Real licensed covers</span><span><i class='bx bx-check-shield'></i>You review before posting</span></p>
+            </div>
+            <div class="row-between" data-bar hidden><strong data-n></strong><div class="row"><button class="btn btn-sm btn-ghost" data-clear><i class='bx bx-trash'></i> Discard all</button><button class="btn btn-sm btn-primary" data-all><i class='bx bx-send'></i> Publish all</button></div></div>
+            <div class="grid" data-drafts></div>`;
+
+        const host = $('[data-drafts]', main);
+        const draw = () => {
+            saveDrafts(drafts);
+            $('[data-bar]', main).hidden = !drafts.length;
+            $('[data-n]', main).textContent = `${drafts.length} draft${drafts.length === 1 ? '' : 's'} to review`;
+            host.innerHTML = drafts.map((d, i) => `
+                <article class="card media-card" data-i="${i}">
+                    <div class="media"><img src="${esc(RV.img(d.img, 'assets/img/blog-placeholder.jpg'))}" alt="" onerror="this.src='assets/img/blog-placeholder.jpg'"><span class="tag"><i class='bx ${KIND_ICON[d.kind] || 'bx-news'}'></i>${esc(d.category)}</span></div>
+                    <div class="body">
+                        <h3>${esc(d.title)}</h3>
+                        <p>${esc(d.description)}</p>
+                        ${d.sourceUrl && RV.safeUrl(d.sourceUrl) ? `<div class="meta"><i class='bx bx-link-external'></i><a href="${esc(RV.safeUrl(d.sourceUrl))}" target="_blank" rel="noopener">${esc(d.source || 'Source')}</a></div>` : ''}
+                        ${d.imgCredit ? `<div class="meta"><i class='bx bx-image'></i>${esc(d.imgCredit.creator)}${d.imgCredit.license ? ' · ' + esc(d.imgCredit.license) : ''}</div>` : '<div class="meta"><i class="bx bx-image"></i>No cover found — add one when editing</div>'}
+                        <div class="foot"><button class="btn btn-sm btn-ghost" data-drop aria-label="Discard"><i class='bx bx-trash'></i></button><span class="nr-actions"><button class="btn btn-sm" data-view><i class='bx bx-show'></i> Review</button><button class="btn btn-sm btn-primary" data-pub><i class='bx bx-send'></i> Publish</button></span></div>
+                    </div>
+                </article>`).join('') || RV.empty('Tap <strong>Generate posts</strong> to draft fresh rehab updates.', 'bx-bot');
+        };
+        draw();
+
+        $('[data-run]', main).addEventListener('click', async e => {
+            const btn = e.currentTarget;
+            RV.busy(btn, true, 'Searching and writing… about a minute');
+            try {
+                await RV.loadSdk(['functions']);
+                if (!fb.functions) throw new Error('The AI service is not available right now.');
+                const mode = (main.querySelector('[name=nr-mode]:checked') || {}).value || 'mix';
+                const res = await fb.functions.httpsCallable('aiNewsroom', { timeout: 300000 })({ mode, count: Number($('[data-count]', main).value) });
+                const fresh = (res.data && res.data.posts) || [];
+                drafts = fresh.concat(drafts).slice(0, 20);
+                draw();
+                ok(`${fresh.length} draft${fresh.length === 1 ? '' : 's'} ready to review`);
+            } catch (err) {
+                fail(err);
+            } finally {
+                RV.busy(btn, false);
+            }
+        });
+
+        main.addEventListener('click', async e => {
+            if (e.target.closest('[data-clear]')) {
+                if (await RV.confirm('Discard all drafts?', { ok: 'Discard', danger: true })) { drafts = []; draw(); }
+                return;
+            }
+            if (e.target.closest('[data-all]')) {
+                if (!await RV.confirm(`Publish ${drafts.length} post(s) to Rehab updates?`, { ok: 'Publish all' })) return;
+                try {
+                    for (const d of drafts.slice()) { await publishDraft(d); drafts.shift(); }
+                    draw(); ok('Published');
+                } catch (err) { draw(); fail(err); }
+                return;
+            }
+            const card = e.target.closest('[data-i]');
+            if (!card) return;
+            const i = Number(card.dataset.i);
+            const d = drafts[i];
+            if (!d) return;
+            if (e.target.closest('[data-drop]')) { drafts.splice(i, 1); draw(); return; }
+            if (e.target.closest('[data-pub]')) {
+                const btn = e.target.closest('[data-pub]');
+                RV.busy(btn, true, 'Publishing…');
+                try { await publishDraft(d); drafts.splice(i, 1); draw(); ok('Published'); } catch (err) { RV.busy(btn, false); fail(err); }
+                return;
+            }
+            if (e.target.closest('[data-view]')) {
+                editor({
+                    title: 'Review draft',
+                    fields: NEWS_FIELDS,
+                    data: { ...d, author: 'RehabVerve Team', published: true },
+                    extra: `<div class="card card-pad mt-2"><strong>Preview</strong><div class="prose mt-1">${RV.richText(d.content)}</div></div>`,
+                    onSave: async values => {
+                        await publishDraft(d, { ...values, timestamp: values.timestamp || Date.now() });
+                        drafts.splice(i, 1); draw();
+                    }
+                });
+            }
+        });
+    };
 
     VIEWS.announcements = contentView({
         node: 'announcements', title: 'Announcements', singular: 'announcement',
@@ -781,7 +900,7 @@
 
     /* ---------- maintenance ---------- */
     VIEWS.maintenance = async () => {
-        const [apps, visits, tokens, pros, centers] = await Promise.all([get('applications'), get('visits').catch(() => null), get('tokens').catch(() => 'locked'), list('professionals'), list('centers')]);
+        const [apps, visits, pros, centers] = await Promise.all([get('applications'), get('visits').catch(() => null), list('professionals'), list('centers')]);
         const withPw = Object.entries(apps || {}).filter(([, a]) => a && Object.keys(a).some(k => /password/i.test(k)));
         const visitCount = visits ? Object.keys(visits).length : 0;
         const unverified = pros.filter(p => p.verified === undefined).length + centers.filter(c => c.verified === undefined).length;
@@ -791,7 +910,7 @@
             <p class="muted">One-time clean-up tasks after the security upgrade.</p>
             ${card('Remove stored passwords', `The old registration form saved passwords inside applications. <strong>${withPw.length}</strong> application(s) still contain one. Remove them, then ask those people to reset their passwords.`, 'Remove passwords', 'data-task="pw"' + (withPw.length ? '' : ' disabled'), true)}
             ${card('Delete old visit logs', `The old tracker stored visitors’ email addresses on every page view (<strong>${visitCount}</strong> records). Page views are now counted anonymously.`, 'Delete visit logs', 'data-task="visits"' + (visitCount ? '' : ' disabled'), true)}
-            ${card('Delete the old AI key record', 'The AI key used to be readable by anyone in <code>tokens</code>. Revoke that key with your AI provider first, then delete the record. The new key lives in a Cloud Functions secret.', 'Delete tokens', 'data-task="tokens"', true)}
+            ${card('Delete the old AI key record', 'The old key at <code>tokens/openAI</code> was readable by anyone. Revoke it with that provider, then delete the record. Your DeepSeek key at <code>tokens/deepseek</code> is not touched.', 'Delete old key', 'data-task="tokens"', true)}
             ${card('Verify existing listings', `<strong>${unverified}</strong> listing(s) were published before verification badges existed. Mark them all verified only if you reviewed them when you added them; otherwise verify them one by one.`, 'Mark all verified', 'data-task="verify"' + (unverified ? '' : ' disabled'))}
             ${card('Refresh my admin access', 'If image uploads say you do not have permission, refresh your sign-in so it includes admin rights.', 'Refresh', 'data-task="claim"')}`;
         main.addEventListener('click', async e => {
@@ -806,8 +925,8 @@
                     ok('Passwords removed');
                 } else if (task === 'visits' && await RV.confirm('Delete all old visit logs?', { ok: 'Delete', danger: true })) {
                     await db.ref('visits').remove(); ok('Visit logs deleted');
-                } else if (task === 'tokens' && await RV.confirm('Have you revoked the old key? Delete the tokens record?', { ok: 'Delete', danger: true })) {
-                    await db.ref('tokens').remove(); ok('Tokens deleted');
+                } else if (task === 'tokens' && await RV.confirm('Have you revoked the old key? Delete tokens/openAI? (tokens/deepseek stays.)', { ok: 'Delete', danger: true })) {
+                    await db.ref('tokens/openAI').remove(); ok('Old key record deleted');
                 } else if (task === 'verify' && await RV.confirm(`Mark ${unverified} existing listing(s) as verified?`, { ok: 'Verify all' })) {
                     const updates = {};
                     pros.filter(p => p.verified === undefined).forEach(p => { updates[`professionals/${p.id}/verified`] = true; });

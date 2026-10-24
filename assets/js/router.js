@@ -27,7 +27,7 @@
         intake: { page: 'teletherapy', js: 'intake', title: 'Teletherapy intake' },
         privacy: { page: 'legal', title: 'Privacy Policy' },
         terms: { page: 'legal', title: 'Terms of Service' },
-        admin: { page: 'admin', libs: ['cards', 'listing-form'], js: 'admin', sdk: ['storage'], footer: false, sticky: true, title: 'Admin console' },
+        admin: { page: 'admin', libs: ['cards', 'listing-form'], js: 'admin', sdk: ['storage', 'functions'], footer: false, sticky: true, title: 'Admin console' },
         404: { page: '404', title: 'Page not found' }
     };
     // Old page files → routes

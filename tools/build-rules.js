@@ -299,8 +299,12 @@ const rules = {
         // `visits` used to store e-mail addresses on every page view. It is no longer
         // written; admins can read it and delete it from the admin console.
         visits: { '.read': ADMIN, '.write': ADMIN },
-        // `tokens` held the AI key. The key now lives in a Cloud Functions secret.
+        // `tokens/deepseek/api_key` holds the AI key. Browsers can never read it; only the
+        // Cloud Functions (which bypass these rules) use it. Admins may replace it.
         tokens: { '.read': false, '.write': ADMIN },
+        // Daily AI use counters, written only by the Cloud Functions
+        aiChat: { '.read': ADMIN },
+        aiNewsroom: { '.read': ADMIN },
         // Nodes left over from an earlier marketplace build.
         products: publicContent({}),
         designs: publicContent({}),
