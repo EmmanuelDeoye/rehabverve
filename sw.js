@@ -1,7 +1,7 @@
 // Service worker: network-first for the site's own files (so updates show immediately),
 // cache-first for icon fonts, and an offline page when there is no connection.
 // Firebase data is never cached here — the SDK talks to Firebase directly.
-const CACHE_NAME = 'rehabverve-v8';
+const CACHE_NAME = 'rehabverve-v9';
 const STATIC_ASSETS = [
     './',
     'index.html',
