@@ -107,13 +107,16 @@
             await RV.loadSdk(['functions']);
             if (!fb.functions) throw new Error('offline');
             const history = messages.filter(m => !m.error).slice(-12).map(m => ({ role: m.role, content: m.content }));
-            const res = await fb.functions.httpsCallable('careChat', { timeout: 60000 })({ messages: history, page: (RV.route && RV.route.name) || 'home' });
+            const res = await fb.functions.httpsCallable('careChat', { timeout: 95000 })({ messages: history, page: (RV.route && RV.route.name) || 'home' });
             messages.push({ role: 'assistant', content: String((res.data && res.data.reply) || '').slice(0, 4000) || 'Sorry, I did not catch that. Could you rephrase?' });
         } catch (err) {
-            const limited = err && /resource-exhausted/.test(err.code || '');
+            // Show the server's own message when it sent one; "internal [0]" means it could not be reached
+            const raw = String((err && err.message) || '');
+            const msg = raw.replace(/ \[\d+\]$/, ''); // Firebase adds the HTTP status, e.g. " [429]"
+            const own = msg && !/^(internal|INTERNAL|offline|not[ -]found)( \[\d+\])?$/.test(raw) && !/^(functions\/)?(unavailable|deadline-exceeded)$/.test(msg);
             messages.push({
                 role: 'assistant', error: true,
-                content: (limited && err.message) ? `${err.message}\n[Chat on WhatsApp](${WA})`
+                content: own ? `${msg}\n[Chat on WhatsApp](${WA})`
                     : `I can’t reply right now. Please try again, or [chat with our team on WhatsApp](${WA}).`
             });
         } finally {

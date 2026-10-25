@@ -134,7 +134,14 @@ ${GUIDE}
 ${dir}`;
 }
 
-exports.careChat = onCall({ timeoutSeconds: 60, memory: '256MiB' }, async request => {
+// The listings can be large (older records may hold embedded photos), so the chat gets room to read them.
+exports.careChat = onCall({ timeoutSeconds: 90, memory: '1GiB' }, request => careChat(request).catch(err => {
+    if (err instanceof HttpsError) throw err;
+    console.error('careChat failed', err);
+    throw new HttpsError('internal', 'Our assistant hit a problem. Please try again, or chat with us on WhatsApp.');
+}));
+
+async function careChat(request) {
     const data = request.data || {};
     const history = (Array.isArray(data.messages) ? data.messages : []).slice(-12)
         .map(m => ({ role: m && m.role === 'assistant' ? 'assistant' : 'user', content: clean(m && m.content, 1200) }))
@@ -160,7 +167,9 @@ exports.careChat = onCall({ timeoutSeconds: 60, memory: '256MiB' }, async reques
         throw new HttpsError('resource-exhausted', 'You have reached today’s chat limit. Please continue on WhatsApp.');
     }
 
-    const messages = [{ role: 'system', content: systemPrompt(await directorySummary(), clean(data.page, 40), !!uid) }, ...history];
+    // If the listings cannot be read, still answer from the built-in knowledge of the app
+    const dir = await directorySummary().catch(err => { console.error('Directory summary failed', err); return 'DIRECTORY: (not available right now — suggest a filtered search link instead)'; });
+    const messages = [{ role: 'system', content: systemPrompt(dir, clean(data.page, 40), !!uid) }, ...history];
     const reply = await callAI(messages, { temperature: 0.4, maxTokens: 700, timeoutMs: 45000 });
     return { reply: reply.slice(0, 4000) };
-});
+}

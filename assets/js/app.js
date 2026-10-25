@@ -276,7 +276,8 @@
             return 'We could not reach our AI service. Please try again in a moment.';
         }
         if (/permission_denied/i.test((err && err.message) || '')) return map.PERMISSION_DENIED;
-        return (err && err.message) || 'Something went wrong. Please try again.';
+        // Firebase Functions add the HTTP status to messages ("… [429]"); people do not need it
+        return String((err && err.message) || 'Something went wrong. Please try again.').replace(/ \[\d+\]$/, '');
     };
 
     // Upload a file to Firebase Storage and return its download URL.
