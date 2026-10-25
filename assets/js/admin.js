@@ -771,8 +771,11 @@
                 draw();
                 ok(`${fresh.length} draft${fresh.length === 1 ? '' : 's'} ready to review`);
             } catch (err) {
-                if (/^functions\/(internal|not-found)$/.test((err && err.code) || '') && /^(internal|not[ -]found)( \[\d+\])?$/i.test((err && err.message) || '')) {
+                // "[0]" = no answer at all (not deployed / offline); anything else is a message from the server
+                if (/^functions\/(internal|not-found)$/.test((err && err.code) || '') && /^(internal|not[ -]found) \[0\]$/i.test((err && err.message) || '')) {
                     RV.toast('The AI newsroom could not be reached. Tap “Check AI setup” to see why.', 'error', 8000);
+                } else if (/^INTERNAL$/.test((err && err.message) || '')) {
+                    RV.toast('The newsroom hit a problem on the server. Please try again, or try “Topics”.', 'error', 8000);
                 } else fail(err);
             } finally {
                 RV.busy(btn, false);

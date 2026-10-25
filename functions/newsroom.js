@@ -194,7 +194,13 @@ async function findImage(queries, used) {
 }
 
 /* ---------- the callable ---------- */
-exports.aiNewsroom = onCall({ timeoutSeconds: 300, memory: '512MiB' }, async request => {
+exports.aiNewsroom = onCall({ timeoutSeconds: 300, memory: '512MiB' }, request => newsroom(request).catch(err => {
+    if (err instanceof HttpsError) throw err;
+    console.error('aiNewsroom failed', err);
+    throw new HttpsError('internal', `The newsroom hit a problem: ${String((err && err.message) || err).slice(0, 200)}`);
+}));
+
+async function newsroom(request) {
     if (!request.auth) throw new HttpsError('unauthenticated', 'Please sign in.');
     const uid = request.auth.uid;
     const db = getDatabase();
@@ -208,7 +214,10 @@ exports.aiNewsroom = onCall({ timeoutSeconds: 300, memory: '512MiB' }, async req
     }
 
     // Skip stories that were already posted
-    const recent = Object.values((await db.ref('blogPosts').orderByChild('timestamp').limitToLast(80).get()).val() || {});
+    // Read without a sorted query, so no database index is needed (the live rules may not have one)
+    const allPosts = await db.ref('blogPosts').get().then(s => Object.values(s.val() || {}), err => { console.warn('Could not read blogPosts', err.message); return []; });
+    const ts = p => { const n = Number(p && p.timestamp); return n > 0 ? n : Date.parse(p && p.timestamp) || 0; };
+    const recent = allPosts.filter(p => p && typeof p === 'object').sort((a, b) => ts(a) - ts(b)).slice(-80);
     const postedUrls = new Set(recent.map(p => p && p.sourceUrl).filter(Boolean));
     const recentTitles = recent.map(p => clean(p && p.title, 120)).filter(Boolean).reverse();
 
@@ -256,4 +265,4 @@ exports.aiNewsroom = onCall({ timeoutSeconds: 300, memory: '512MiB' }, async req
     }
     if (!posts.length) throw new HttpsError('internal', 'The drafts did not pass our checks. Please try again.');
     return { posts, found: { news: news.length, research: research.length } };
-});
+}
