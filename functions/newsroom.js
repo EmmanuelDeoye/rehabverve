@@ -194,7 +194,7 @@ async function findImage(queries, used) {
 }
 
 /* ---------- the callable ---------- */
-exports.aiNewsroom = onCall({ timeoutSeconds: 300, memory: '512MiB' }, request => newsroom(request).catch(err => {
+exports.aiNewsroom = onCall({ invoker: 'public', timeoutSeconds: 300, memory: '512MiB' }, request => newsroom(request).catch(err => {
     if (err instanceof HttpsError) throw err;
     console.error('aiNewsroom failed', err);
     throw new HttpsError('internal', `The newsroom hit a problem: ${String((err && err.message) || err).slice(0, 200)}`);

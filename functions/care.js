@@ -135,7 +135,7 @@ ${dir}`;
 }
 
 // The listings can be large (older records may hold embedded photos), so the chat gets room to read them.
-exports.careChat = onCall({ timeoutSeconds: 90, memory: '1GiB' }, request => careChat(request).catch(err => {
+exports.careChat = onCall({ invoker: 'public', timeoutSeconds: 90, memory: '1GiB' }, request => careChat(request).catch(err => {
     if (err instanceof HttpsError) throw err;
     console.error('careChat failed', err);
     throw new HttpsError('internal', 'Our assistant hit a problem. Please try again, or chat with us on WhatsApp.');

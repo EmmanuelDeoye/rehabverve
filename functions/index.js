@@ -99,7 +99,7 @@ Allowed tags only: h3, p, ul, li, strong, em, a, br. Return the HTML only — no
     ];
 }
 
-exports.aiAssist = onCall({ timeoutSeconds: 120, memory: '256MiB' }, async request => {
+exports.aiAssist = onCall({ invoker: 'public', timeoutSeconds: 120, memory: '256MiB' }, async request => {
     if (!request.auth) {
         throw new HttpsError('unauthenticated', 'Please sign in to use the AI assessment.');
     }
@@ -138,7 +138,7 @@ exports.aiAssist = onCall({ timeoutSeconds: 120, memory: '256MiB' }, async reque
 exports.careChat = require('./care').careChat;
 
 // Admin-only health check for the AI features (used by Admin → AI newsroom → Check AI setup)
-exports.aiStatus = onCall({ timeoutSeconds: 30 }, async request => {
+exports.aiStatus = onCall({ invoker: 'public', timeoutSeconds: 30 }, async request => {
     if (!request.auth) throw new HttpsError('unauthenticated', 'Please sign in.');
     if ((await getDatabase().ref(`admins/${request.auth.uid}`).get()).val() !== true) throw new HttpsError('permission-denied', 'Admins only.');
     return require('./ai').checkSetup();
